@@ -5,7 +5,7 @@
 #  Local home directory
 dotfiles_user_home: "{{ '~' | expanduser }}"
 # Where your dotfiles live. Probably don't need to change this.
-dotfiles_home: "{{dotfiles_user_home}}/ansible-dotfiles"
+dotfiles_home: "{{dotfiles_user_home}}/dotfiles"
 
 # Name used in commit messages
 full_name: Helmut Januschka
