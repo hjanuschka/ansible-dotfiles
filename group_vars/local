@@ -93,4 +93,5 @@ npm_global_packages:
   - yarn
 
 ruby_global_gems:
-  - travis
+  - fastlane
+  - tmuxinator

@@ -3,7 +3,7 @@
   when: ansible_os_family == "Darwin"
 
 - name: Install global ruby gems
-  gem: name={{item}} state=present
+  gem: name={{item}} state=present executable=/Users/hja/.rvm/rubies/ruby-2.4.0/bin/gem
   with_items: '{{ruby_global_gems}}'
 
 # TODO: Install rvm

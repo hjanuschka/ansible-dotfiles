@@ -11,6 +11,7 @@
         rvm1_rubies: ['ruby-2.4.0'],
         rvm1_bundler_install: true
       }
+    - ruby
     - bash
     - git
     - {role: package_manager, tags: ['bootstrap']}
