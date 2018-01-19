@@ -45,14 +45,14 @@ osx_homebrew_packages:
 # Mac Apps to be installed with homebrew-cask
 osx_cask_packages:
   # Browsers
-  - google-chrome
+  #- google-chrome
   # Utilities
   - iterm2
   # Vagrant/Virtualbox
   - vagrant
   - virtualbox
   # Docker
-  - docker
+  #- docker
   # chat
   - slack
   # Video conferencing
