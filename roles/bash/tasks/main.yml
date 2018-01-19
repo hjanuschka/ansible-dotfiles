@@ -19,5 +19,5 @@
     state: link
 
 - name: Powerline shell
-  pip: name=powerline-shell state=latest
+  pip: name=powerline-shell state=latest executable=pip3
 
