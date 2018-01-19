@@ -46,13 +46,6 @@
 
         remote-branches = "!f() { git ls-remote --heads ${1:origin} | sed 's?.*refs/heads/??'; }; f "
 
-        # Git flow
-        feature = flow feature start
-        finfeature = flow feature finish
-        fix = flow hotfix start
-        finfix = flow hotfix finish
-        release = flow release start
-        finrelease = flow release finish
 
         sub = submodule
 [color]
@@ -79,5 +72,5 @@
         user = {{ git_user }}
 {% if git_signing_key %}
 [commit]
-        gpgsign = true
+        gpgsign = false
 {% endif %}

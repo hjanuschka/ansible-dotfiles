@@ -5,26 +5,26 @@
 #  Local home directory
 dotfiles_user_home: "{{ '~' | expanduser }}"
 # Where your dotfiles live. Probably don't need to change this.
-dotfiles_home: "{{dotfiles_user_home}}/dotfiles"
+dotfiles_home: "{{dotfiles_user_home}}/ansible-dotfiles"
 
 # Name used in commit messages
-full_name: Steven Loria
+full_name: Helmut Januschka
 # Git
 # Github username
-git_user: sloria
+git_user: hjanuschka
 # If you use github, this should be the same as the email
 #  used on Github
-git_email: sloria1@gmail.com
+git_email: helmut@januschka.com
 
 # GPG Key ID used to sign git commits
 # See https://github.com/pstadler/keybase-gpg-github setup instructions
-git_signing_key: 631262B829DDB506
+git_signing_key: 
 
 # Vim
 
 # Whether to install plugins automatically. If not, just run
 # :PlugInstall while in vim.
-vim_install_plugins: no
+vim_install_plugins: yes
 
 # Utilities that don't get installed by a role
 osx_homebrew_packages:
@@ -33,81 +33,51 @@ osx_homebrew_packages:
   - highlight
   - terminal-notifier
   - wifi-password
-  - youtube-dl
   - htop-osx
   - httpie
   - postgresql
   - redis
   - diff-so-fancy
-  - docker-clean
   - gpg
   - ctop
-  - fwknop  # for COS vpn
   - heroku/brew/heroku
-  - tldr
-  - wifi-password
 
 # Mac Apps to be installed with homebrew-cask
 osx_cask_packages:
   # Browsers
-  - firefox-beta
   - google-chrome
   # Utilities
-  - bettertouchtool
   - iterm2
-  - keepingyouawake  # maintained caffeinate wrapper
-  - flux
-  - appcleaner
-  - daisydisk
   # Vagrant/Virtualbox
   - vagrant
   - virtualbox
   # Docker
   - docker
   # chat
-  - limechat
-  - flowdock
   - slack
-  - keybase
   # Video conferencing
-  - zoomus
   # Password manager
-  - 1password
   # Backup/storage
-  - dropbox
   # Media/Music
-  - spotify
-  - iina
-  - google-play-music-desktop-player
   # Images
   - imageoptim  # optimizing images
   # Notetaking
-  - evernote
-  - nvalt  # for my commonplace book
-  - notion # slowly replacing evernote
   # Fonts
-  - font-ubuntu
-  - font-cousine
   # Databases
   - datagrip  # RDBMS client
   # VPN
-  - tunnelblick
   # Docs
-  - dash
   # Text expansion
-  - typinator
   # Bibliography
-  - bibdesk
   # Stay focused
-  - selfcontrol
 
 # Mac-App-Store-only apps to be installed with mas
 # Use App IDs found with `mas search <name>`
 osx_mas_packages:
-  - 585829637  # Todoist
-  - 540348655  # Monosnap
-  - 409203825  # Numbers
-  - 847496013  # Deckset
+#  - 585829637  # Todoist
+#  - 540348655  # Monosnap
+#  - 409203825  # Numbers
+#  - 847496013  # Deckset
   # - 668208984  # Giphy capture
 
 # Node utilities
@@ -118,7 +88,7 @@ npm_global_packages:
   - eslint-plugin-react
   - babel-eslint
   - np
+  - yarn
 
 ruby_global_gems:
-  - lunchy
   - travis

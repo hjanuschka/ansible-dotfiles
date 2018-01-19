@@ -1,302 +1,372 @@
-" Spacebar is a much better leader than \ or ,
-let mapleader = "\<Space>"
 
-""""" PLUGINS """""
-call plug#begin()
-" ESSENTIALS
-Plug 'tpope/vim-sensible' " Sensible defaults
-Plug 'rstacruz/vim-opinion' " More sensible defaults
-Plug 'ervandew/supertab' " Tab complete everything
-Plug 'ctrlpvim/ctrlp.vim' " Fuzzy-matching go-to file
-nnoremap <C-b> :CtrlPBuffer<CR>
-map <C-t> :CtrlPBufTag<CR>
-" Make ctrlp faster
-let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
-if has('python') ||  has('python3')
-  " Faster and more accurate fuzzy-matching
-  Plug 'felikz/ctrlp-py-matcher'
-  let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
-endif
-Plug 'dyng/ctrlsf.vim'  " ag-powered search with in-place editing
-let g:ctrlsf_ackprg = 'rg'
-nmap     <C-f>f :CtrlSF ''<Left>
-nmap     <C-f>n <Plug>CtrlSFCwordPath
-nnoremap <C-f>t :CtrlSFToggle<CR>
-Plug 'tpope/vim-rsi'  " unix keybindings in insert mode
-Plug 'tpope/vim-repeat'  " make more actions repeatable with .
-Plug 'machakann/vim-sandwich' " motions for handling surrounding characters
-Plug 'tpope/vim-unimpaired'  " useful bracket maps and option toggling
-Plug 'tomtom/tcomment_vim'  " for code comments
-" Toggle comment with space-/
-nmap <leader>/ <Plug>TComment_<c-_><c-_>
-vmap <leader>/ <Plug>TComment_<c-_><c-_>
-" Buffers
-Plug 'moll/vim-bbye'  " delete buffer without closing window
-nnoremap X :Bdelete<CR>
-Plug 'vim-scripts/BufOnly.vim'  " delete all but current buffer
+" vim-sublime - A minimal Sublime Text - like vim experience bundle
+"               http://github.com/grigio/vim-sublime
+" Best view with a 256 color terminal and Powerline fonts
+" Updated by Dorian Neto (https://github.com/dorianneto)"
 
-Plug 'scrooloose/nerdtree'
-nnoremap <leader>d :NERDTreeToggle<CR>
-nnoremap <leader>D :NERDTreeFind<CR>
-let g:NERDTreeRespectWildIgnore = 1
+" Share ClipBoard
+set clipboard=unnamed
+set t_Co=256  " vim-monokai now only support 256 colours in terminal.
+"
 
-Plug 'w0rp/ale'  " Async linting
-nmap <silent> [s <Plug>(ale_previous_wrap)
-nmap <silent> ]s <Plug>(ale_next_wrap)
-nmap <leader>= <Plug>(ale_fix)
-let g:ale_pattern_options = {
-\   '.*\.md$': {'ale_enabled': 0},
-\   '.*\.rst$': {'ale_enabled': 0},
-\   '.*\.txt$': {'ale_enabled': 0},
-\}
-nmap <leader>+ :let b:ale_enabled=1<cr>
-" Quickly open the loclist to see syntax errors
-nmap <leader>' :lopen<CR>
-let g:ale_maximum_file_size = 500000  " Don't lint large files (> 500KB), it can slow things down
-let g:ale_linters = {}
-let g:ale_linters.javascript = ['eslint', 'xo']
-let g:ale_linters.python = ['flake8']
-let g:ale_linters.html = []
-let g:ale_fixers = {}
-let g:ale_fixers.javascript = ['prettier']
-let g:ale_fixers.python = ['isort']
-let g:ale_fixers.css = ['prettier']
-" Make prettier play nicely with xo + my custom rules
-let g:ale_javascript_prettier_options = ' --single-quote --trailing-comma es5 --no-bracket-spacing'
+let g:monokai_term_italic = 1
+let g:monokai_gui_italic = 1
 
-" NICE TO HAVE
-Plug 'AndrewRadev/splitjoin.vim'
-Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes'
-let g:airline_left_sep=''
-let g:airline_right_sep=''
-let g:airline_theme='tomorrow'
-" Explicitly specify which extensions to use
-let g:airline_extensions = ['branch', 'ctrlp', 'tabline', 'ale', 'whitespace']
-Plug 'christoomey/vim-tmux-navigator'
-Plug 'jszakmeister/vim-togglecursor'  " change cursor shape when entering insert mode
-" Snippets
-if version >= 704 && has('python') || has('python3') | Plug 'SirVer/ultisnips' | endif
-let g:UltiSnipsJumpForwardTrigger="<c-j>"
-let g:UltiSnipsJumpBackwardTrigger="<c-k>"
-Plug 'honza/vim-snippets'
-Plug 'fcpg/vim-spotlightify'  " Highlight and show number of matches when searching
-Plug 'majutsushi/tagbar', {'on': 'Tagbar'}
-" Open tagbar
-map <leader>\ :Tagbar<CR>
-let g:tagbar_autofocus = 1
-Plug 'wellle/targets.vim'  " because cin), etc. is awesome
-Plug 'tpope/vim-dispatch' " So we can run tests asynchronously
-Plug 'janko-m/vim-test'  " For running tests
-let test#python#runner = 'pytest'
-nmap <silent> <leader>tt :TestNearest<CR>
-nmap <silent> <leader>tf :TestFile<CR>
-nmap <silent> <leader>tl :TestLast<CR>
-let test#strategy = "dispatch"
-" -s for ipdb support; disable cacheprovider so we don't break 'py.test --lf'
-let test#python#pytest#options = '-s -p no:cacheprovider'
+set re=1
+set ttyfast
+set lazyredraw
+set nofsync
 
-Plug 'mattn/emmet-vim'  " Write HTML fast
-" When in javascript, expand to 'className' (for jsx support)
-let g:user_emmet_settings = {
-  \    'javascript': {'extends': 'jsx'},
-  \    'javascript.jsx': {'extends': 'jsx'}
-  \ }
-let g:user_emmet_leader_key = ','
-Plug 'jiangmiao/auto-pairs' " autoclose parens, quotes, etc.
-if has('mac')
-  Plug 'junegunn/vim-xmark', { 'do': 'make' }  " Live markdown preview
-endif
-Plug 'mtth/scratch.vim'
-let g:scratch_no_mappings = 1
-let g:scratch_height = 20
-let g:scratch_filetype = 'markdown'
-let g:scratch_persistence_file = '.scratch'
-" Open scratch buffer with space-tab (automatically set syntax to python)
-nnoremap <silent> <leader><tab> :Scratch<cr>
-Plug 'tpope/vim-sleuth'  " Detect indent settings
-Plug 'machakann/vim-highlightedyank'  " Highlight yank
-map y <Plug>(highlightedyank)
 
-" GIT
+
+
+
+set nocompatible
+filetype off
+
+set directory^=$HOME/tmp/hjvim
+set backupdir^=$HOME/tmp/hjvim
+"let g:loaded_matchparen = 1
+
+
+let g:DisableAutoPHPFolding = 1
+let php_folding = 0
+
+call plug#begin('~/.vim/plugged')
+" ------Plugins-------
+Plug 'iberianpig/tig-explorer.vim'
+Plug 'tmux-plugins/vim-tmux-focus-events'
+Plug 'w0rp/ale'
+Plug 'ryanoasis/vim-devicons'
+Plug 'crusoexia/vim-monokai'
+Plug 'tpope/vim-endwise'
+Plug 'rhysd/vim-clang-format'
+Plug 'stephpy/vim-php-cs-fixer'
+Plug 'marijnh/tern_for_vim'
+Plug 'empanda/vim-varnish'
+Plug 'tpope/vim-surround'
+Plug 'gcmt/breeze.vim'
+Plug 'osyo-manga/vim-over'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'tomtom/tcomment_vim'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 Plug 'airblade/vim-gitgutter'
-" Set gitgutter's bindings manually to avoid clashes
-let g:gitgutter_map_keys = 0
-nmap <leader>gh <Plug>GitGutterStageHunk
-nmap <leader>gH <Plug>GitGutterUndoHunk
-nmap [h <Plug>GitGutterPrevHunk
-nmap ]h <Plug>GitGutterNextHunk
-Plug 'tpope/vim-fugitive'  " git integration
-Plug 'tpope/vim-rhubarb'  " For :Gbrowse
-map <leader>gs :Gstatus<CR>
-map <leader>gb :Gblame<CR>
-" Open current file on Github
-map <leader>gB :Gbrowse -<CR>
-" Open currently selected lines on Github
-vmap <leader>gB :Gbrowse -<CR>
-map <leader>gr :Gread<CR>
-map <leader>gw :Gwrite<CR>
-noremap <Leader>gp :Gpush<CR>
-Plug 'mattn/webapi-vim' | Plug 'mattn/gist-vim', {'on': 'Gist'}
-" Make gists private by default
-let g:gist_post_private = 1
-" Browse to gist after posting it
-let g:gist_open_browser_after_post = 1
+Plug 'davidhalter/jedi-vim'
+Plug 'pangloss/vim-javascript'
+Plug 'mxw/vim-jsx'
 
-" COLOR
-Plug 'NLKNguyen/papercolor-theme'
-Plug 'sloria/vim-hybrid'  " hybrid with easier-to-read line numbers
-Plug 'nightsense/night-and-day'  " switch colorschemes based on time of day
-" PaperColor in the day, hybrid-sl at night
-let g:nd_themes = [
-  \ ['6:00',  'PaperColor', 'light' ],
-  \ ['17:00', 'hybrid-sl', 'dark' ],
-  \ ]
+Plug 'terryma/vim-multiple-cursors'
+Plug 'jiangmiao/auto-pairs'
+Plug 'jelera/vim-javascript-syntax'
 
-" LANGUAGE-SPECIFIC
-Plug 'sheerun/vim-polyglot'  " syntax files for most languages
-let g:polyglot_disabled = ['python'] " Use python-syntax
-let g:jsx_ext_required = 0
-let g:markdown_fenced_languages = ['javascript', 'python', 'clojure', 'ruby']
-" --- Python ---
-Plug 'vim-python/python-syntax'  " Improved python syntax
-let g:python_highlight_all = 1
-Plug 'Vimjas/vim-python-pep8-indent'  " Proper python indenting
-
-if has('python') ||  has('python3') | Plug 'davidhalter/jedi-vim' | endif
-" Just let me type!
-let g:jedi#popup_select_first = 0
-let g:jedi#popup_on_dot = 0
-let g:jedi#smart_auto_mappings = 0  " don't autoadd 'import'
-let g:jedi#show_call_signatures = 0  " Call sigs slow things down for large projects
-let g:jedi#goto_assignments_command = "gd"
-let g:jedi#goto_command = "gD"  " goto still has problems, so giving it a 2nd-class mapping
-let g:jedi#usages_command = "gu"
-let g:jedi#rename_command = "<C-c>r"
-" --- Javascript ---
-Plug 'lfilho/cosco.vim'  " Quick insertion of commas and semicolons
-augroup cosco
-  autocmd!
-  autocmd FileType javascript,css nmap <silent> <Leader>; <Plug>(cosco-commaOrSemiColon)
-augroup END
-Plug 'heavenshell/vim-jsdoc'  " For making JS docstrings
-let g:jsdoc_default_mapping = 0
-map <C-c>j <Plug>(jsdoc)
-" --- CSS ---
-Plug 'chrisbra/Colorizer'  " Highlight CSS colors
-let g:colorizer_auto_filetype='css,html'
+Plug 'leshill/vim-json'
+Plug 'maksimr/vim-jsbeautify'
+"Plug 'tpope/vim-fugitive'
+Plug 'beyondwords/vim-twig'
+Plug 'mileszs/ack.vim'
+Plug 'scrooloose/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'jistr/vim-nerdtree-tabs'
+Plug 'milch/vim-fastlane'
+Plug 'hjanuschka/vim-danger'
+Plug 'mhinz/vim-startify'
+Plug 'othree/javascript-libraries-syntax.vim'
+Plug 'nathanaelkane/vim-indent-guides'
+Plug 'davidegx/ctrlp-smarttabs'
+Plug 'Shougo/neosnippet'
+Plug 'Shougo/neosnippet-snippets'
+Plug 'dyng/ctrlsf.vim'
+Plug 'Shougo/neocomplete'
 
 call plug#end()
-filetype plugin indent on
-""" end plugins """
 
-""" BASE CUSTOMIZATIONS """
-" NOTE: Many base customizations come from vim-sensible and vim-opinion
-set encoding=utf-8
-set relativenumber
-set autoread " reload files when changed on disk, i.e. via `git checkout`
-set clipboard^=unnamedplus,unnamed " Make "yanks" work with system clipboard
+let g:ale_linters = {
+\   'javascript': ['eslint'],
+\   'php': ['phpcs'],
+\}
+let g:ale_fixers = {
+\   'javascript': ['eslint', 'remove_trailing_lines', 'trim_whitespace'],
+\   'ruby': ['rubocop', 'remove_trailing_lines', 'trim_whitespace'],
+\   'php': ['phpcbf', 'remove_trailing_lines', 'trim_whitespace'],
+\   'sh': ['shmft', 'remove_trailing_lines', 'trim_whitespace'],
+\}
+let g:ale_php_phpcs_standard = "PSR2"
+let g:ale_php_phpcbf_standard = 'PSR2'
 
-" Indents
-set autoindent
-set expandtab " expand tabs by default (overloadable per file type later)
-set tabstop=4 softtabstop=4 shiftwidth=4
-set shiftround " use multiple of shiftwidth when indenting with '<' and '>'
+" JS as JSX
+let g:jsx_ext_required = 0
+ 
 
-" No bells
-set noerrorbells visualbell t_vb=
+let g:php_cs_fixer_rules = "@PSR2"          " options: --rules (default:@PSR2)
+let g:php_cs_fixer_cache = "/tmp/.php_cs.cache" " options: --cache-file
 
-""" VISUAL SETTINGS """
-if &term =~ '256color' | set t_ut= | endif
-" NOTE: colorscheme will be set by night-and-day. This will only
-" be in effect if night-and-day is disabled
-set background=dark | colorscheme hybrid-sl
+let g:ctrlp_extensions = ['smarttabs']
 
-" Show trailing whitespace
-set list listchars=tab:▸\ ,trail:▫
+" ALT+P on my keyboard
+nnoremap π :CtrlPSmartTabs<CR> " Altgr+p to open SmartTabs
 
-set cursorline  " have a line indicate cursor location
-set previewheight=25  " Larger preview height
 
-" Set minimum window size to 79x5.
-set winwidth=79 winheight=5 winminheight=5
+imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+smap <C-k>     <Plug>(neosnippet_expand_or_jump)
 
-" Patterns to ignore for expand(), ctrlp, etc.
-set wildignore+=*.zip,*.tar.gz,*.tar.bz2,*.rar,*.tar.xz,*.swp,*~,._*,*.pyc,*__pycache__*,*.egg-info
-
-" Persistent undo (can use undos after exiting and restarting)
-if exists("+undofile")
-  if isdirectory($HOME . '/.vim/undo') == 0
-    :silent !mkdir -p ~/.vim/undo > /dev/null 2>&1
+"NEOCOMPLETE
+"
+" Called once right before you start selecting multiple cursors
+function! Multiple_cursors_before()
+  if exists(':NeoCompleteLock')==2
+    exe 'NeoCompleteLock'
   endif
-  set undodir=./.vim-undo// undodir+=~/.vim/undo// undofile
+endfunction
+
+" Called once only when the multiple selection is canceled (default <Esc>)
+function! Multiple_cursors_after()
+  if exists(':NeoCompleteUnlock')==2
+    exe 'NeoCompleteUnlock'
+  endif
+endfunction
+
+
+let g:acp_enableAtStartup = 0
+" Use neocomplete.
+let g:neocomplete#enable_at_startup = 1
+" Use smartcase.
+let g:neocomplete#enable_smart_case = 1
+" Set minimum syntax keyword length.
+let g:neocomplete#sources#syntax#min_keyword_length = 3
+
+" Define dictionary.
+let g:neocomplete#sources#dictionary#dictionaries = {
+    \ 'default' : '',
+    \ 'vimshell' : $HOME.'/.vimshell_hist',
+    \ 'scheme' : $HOME.'/.gosh_completions'
+        \ }
+"define Keyword
+
+if !exists('g:neocomplete#keyword_patterns')
+    let g:neocomplete#keyword_patterns = {}
+endif
+let g:neocomplete#keyword_patterns['default'] = '\h\w*'
+
+
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
+
+
+"inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+
+"NEO SNIPPETS
+"imap <expr><C-k> (pumvisible() ? "\<C-y>":"")."\<Plug>(neosnippet_expand_or_jump)"
+"
+
+
+"""""""
+
+map \ :
+let mapleader = ','
+
+
+
+
+
+" Nerdtree
+map <C-j> :NERDTreeTabsToggle<CR>
+
+
+" Color Themes
+
+colorscheme monokai
+
+let g:clang_format#style_options = {
+            \ "AccessModifierOffset" : -4,
+            \ "AllowShortIfStatementsOnASingleLine" : "true",
+            \ "AlwaysBreakTemplateDeclarations" : "true",
+            \ "Standard" : "C++11",
+            \ "BreakBeforeBraces" : "Stroustrup"}
+
+
+" Beatufiy
+map <c-f> :call JsBeautify()<cr>
+autocmd FileType javascript noremap <buffer>  <c-f> :call JsBeautify()<cr>
+autocmd FileType json noremap <buffer> <c-f> :call JsonBeautify()<cr>
+autocmd FileType jsx noremap <buffer> <c-f> :call JsxBeautify()<cr>
+autocmd FileType html noremap <buffer> <c-f> :call HtmlBeautify()<cr>
+autocmd FileType css noremap <buffer> <c-f> :call CSSBeautify()<cr>
+autocmd FileType php noremap <buffer> <c-f> :call PhpCsFixerFixFile()<cr>
+autocmd FileType c,cpp,objc noremap <buffer> <c-f> :<C-u>ClangFormat<CR>
+
+
+filetype plugin indent on
+
+""""""""
+if has('autocmd')
+  filetype plugin indent on
+endif
+if has('syntax') && !exists('g:syntax_on')
+  syntax enable
 endif
 
-""" SHORTCUTS """
-" Quickly edit vimrc
-nmap <leader>, :e $MYVIMRC<CR>
-" Reload vimrc
-noremap <silent> <leader>V :source $MYVIMRC<cr>
-" Search and replace, using : as a separator instead of /
-noremap <leader>sr :%s:::cg<Left><Left><Left><Left>
-" Switch between files
-nnoremap <leader>b :e#<CR>
-" Remove trailing whitespace with Backspace
-nnoremap <BS> :%s/\s\+$//<cr>:let @/=''<CR>
-" select last pasted text
-nnoremap gp `[v`]
-" Easy syntax switching
-nnoremap <leader>Tp :set ft=python<CR>
-nnoremap <leader>Tj :set ft=javascript<CR>
-nnoremap <leader>Tm :set ft=markdown<CR>
-" Quickly write/quit
-nnoremap <leader>w :w<CR>
-nnoremap <leader>q :q<CR>
-" Quickly open netrw
-nnoremap <leader>e :e.<CR>
-" Quick split
-nnoremap <Leader>v <C-w>v<C-w>w
-" Quick select whole file
-map <leader>a ggVG
-" Make D delete to end of line
-nnoremap D d$
-" Make Y yank to end of line
-nnoremap Y y$
-" Go to beginning/end of line
-noremap <leader>h ^
-noremap <leader>l $
-" Execute macro
-nnoremap Q @q
-" Move vertically over wrapped lines
-nmap j gj
-nmap k gk
-" Set cwd to current file
-nnoremap <leader>cd :lcd %:p:h<CR>
-" Split lines (opposite of J)
-nnoremap S i<CR><Esc>
-nnoremap <leader>N "=strftime("%F")<CR>P
-inoremap <C-r>n <C-R>=strftime("%F")<CR>
+" Use :help 'option' to see the documentation for the given option.
+set autoindent
+set backspace=indent,eol,start
+set showmatch
+set showmode
+"set smarttab
 
-augroup configgroup
-  autocmd!
-  " Make sure Vim returns to the same line when you reopen a file.
-  autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | execute 'normal! g`"zvzz' | endif
+set nrformats-=octal
+set shiftround
 
-  " Automatically adjust quickfix window depending on how much text there is
-  autocmd FileType qf call AdjustWindowHeight(3, 20)
-  function! AdjustWindowHeight(minheight, maxheight)
-    exe max([min([line("$"), a:maxheight]), a:minheight]) . "wincmd _"
-  endfunction
+set ttimeout
+set ttimeoutlen=50
 
-  """ Languages
-  " prose (hard wrap and autoformat paragraphs)
-  autocmd BufRead,BufNewFile jrnl*.txt,editor*.txt set filetype=markdown
-  autocmd BufRead,BufNewFile jrnl*.txt,editor*.txt,*.md,*.rst setlocal nolist formatoptions+=ntl textwidth=72 wrapmargin=0
-  autocmd BufRead,BufNewFile .eslintrc set filetype=json
-  " commit messages
-  autocmd Filetype gitcommit setlocal nolist textwidth=72
-augroup END
+set incsearch
+" Use <C-L> to clear the highlighting of :set hlsearch.
+if maparg('<C-L>', 'n') ==# ''
+  nnoremap <silent> <C-L> :nohlsearch<CR><C-L>
+endif
 
-" GUI settings, e.g. MacVim
-set guifont=Ubuntu\ Mono:h14
-" Hide scrollbars and menu
-set guioptions-=T guioptions-=R guioptions-=r guioptions-=m guioptions-=l guioptions-=L
+set laststatus=2
+set ruler
+set showcmd
+set wildmenu
+
+set autoread
+
+set encoding=utf-8  " The encoding displayed.
+set fileencoding=utf-8  " The encoding written to file.
+
+set tabstop=2 shiftwidth=2 expandtab
+set listchars=tab:▒░,trail:▓
+set list
+
+inoremap <C-U> <C-G>u<C-U>
+
+"set relativenumber
+set number
+set hlsearch
+set ignorecase
+set smartcase
+
+" Don't use Ex mode, use Q for formatting
+map Q gq
+
+" In many terminal emulators the mouse works just fine, thus enable it.
+if has('mouse')
+  set mouse=a
+endif
+
+" do not history when leavy buffer
+set hidden
+
+" FIXME: (broken) ctrl s to save
+noremap  <C-S> :update<CR>
+vnoremap <C-S> <C-C>:update<CR>
+inoremap <C-S> <Esc>:update<CR>
+
+set nobackup
+set nowritebackup
+set noswapfile
+set fileformats=unix,dos,mac
+
+" exit insert mode
+inoremap <C-c> <Esc>
+
+
+
+
+"
+" Plugins config
+"
+
+" CtrlP
+set wildignore+=*/.git/*,*/.hg/*,*/.svn/*
+let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
+let g:ctrlp_regexp = 1
+let g:ctrlp_prompt_mappings = {
+    \ 'AcceptSelection("e")': ['<c-t>'],
+    \ 'AcceptSelection("t")': ['<cr>', '<2-LeftMouse>'],
+    \ }
+
+
+" vim-airline
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#show_buffers = 0
+let g:airline#extensions#tabline#show_splits = 0
+let g:airline#extensions#tabline#show_tabs = 1
+let g:airline#extensions#tabline#show_tab_nr = 0
+let g:airline#extensions#tabline#show_tab_type = 0
+let g:airline#extensions#tabline#close_symbol = '×'
+let g:airline#extensions#tabline#show_close_button = 0
+
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#formatter = 'default'
+let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
+let g:airline#extensions#tabline#fnamemod = ':t'
+
+
+"
+" Basic shortcuts definitions
+"  most in visual mode / selection (v or ⇧ v)
+"
+
+" indent / deindent after selecting the text with (⇧ v), (.) to repeat.
+vnoremap <Tab> >
+vnoremap <S-Tab> <
+" comment / decomment & normal comment behavior
+vmap <C-m> gc
+" Disable tComment to escape some entities
+let g:tcomment#replacements_xml={}
+" Text wrap simpler, then type the open tag or ',"
+vmap <C-w> S
+" Cut, Paste, Copy
+vmap <C-x> d
+vmap <C-v> p
+vmap <C-c> y
+" Undo, Redo (broken)
+nnoremap <C-z>  :undo<CR>
+inoremap <C-z>  <Esc>:undo<CR>
+nnoremap <C-y>  :redo<CR>
+inoremap <C-y>  <Esc>:redo<CR>
+" Tabs
+let g:airline_theme='badwolf'
+let g:airline#extensions#tabline#enabled = 1
+
+nnoremap <C-a> <esc>ggVG<CR>
+
+
+nnoremap <C-x>  :tabprevious<CR>
+inoremap <C-x>  <Esc>:tabprevious<CR>i
+nnoremap <C-y>  :tabnext<CR>
+inoremap <C-y>  <Esc>:tabnext<CR>i
+nnoremap <C-t>  :tabnew<CR>
+inoremap <C-t>  <Esc>:tabnew<CR>i
+"nnoremap <C-k>  :tabclose<CR>
+"inoremap <C-k>  <Esc>:tabclose<CR>i
+
+" lazy ':'
+
+nnoremap <Leader>p :set paste<CR>
+nnoremap <Leader>o :set nopaste<CR>
+noremap  <Leader>g :GitGutterToggle<CR>
+
+
+
+
+" TAB NAV
+"nnoremap <silent> <A-Left> :execute 'silent! tabmove ' . (tabpagenr()-2)<CR>
+"nnoremap <silent> <A-Right> :execute 'silent! tabmove ' . (tabpagenr()+1)<CR>
+
+
+" this machine config
+if filereadable(expand("~/.vimrc.local"))
+  source ~/.vimrc.local
+endif
+
+
+
