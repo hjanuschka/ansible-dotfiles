@@ -42,7 +42,7 @@ osx_homebrew_packages:
   - ctop
   - heroku/brew/heroku
   - tty-clock
-  - tmuxinator
+  #- tmuxinator
 
 # Mac Apps to be installed with homebrew-cask
 osx_cask_packages:
