@@ -28,6 +28,7 @@ vim_install_plugins: yes
 
 # Utilities that don't get installed by a role
 osx_homebrew_packages:
+  - python
   - curl
   - wget
   - highlight

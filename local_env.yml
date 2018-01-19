@@ -9,7 +9,7 @@
     - {role: package_manager, tags: ['bootstrap']}
     - vim
     - node
-    - ruby
+    #- ruby
     - hub
     - ccat
     - tmux

@@ -6,9 +6,6 @@
 
 # TODO: Fedora
 
-- name: Install tmuxp
-  pip: name=tmuxp state=latest
-  when: tmux_install_tmuxp
 
 - name: Install tpm
   git:
