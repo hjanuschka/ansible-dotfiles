@@ -5,6 +5,12 @@
 - name: Set up local development environment
   hosts: local
   roles:
+    - { role: rvm_io.ruby,
+        tags: ruby,
+        rvm1_user: hja,
+        rvm1_rubies: ['ruby-2.4.0'],
+        rvm1_bundler_install: true
+      }
     - bash
     - git
     - {role: package_manager, tags: ['bootstrap']}
