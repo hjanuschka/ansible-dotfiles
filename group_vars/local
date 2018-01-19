@@ -63,13 +63,15 @@ osx_cask_packages:
   - imageoptim  # optimizing images
   # Notetaking
   # Fonts
+  - font-meslo-nerd-font
   # Databases
-  - datagrip  # RDBMS client
   # VPN
   # Docs
   # Text expansion
   # Bibliography
   # Stay focused
+  - tty-clock
+  - tmuxinator
 
 # Mac-App-Store-only apps to be installed with mas
 # Use App IDs found with `mas search <name>`
