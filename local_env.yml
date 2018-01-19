@@ -5,6 +5,7 @@
 - name: Set up local development environment
   hosts: local
   roles:
+    - bash
     - git
     - {role: package_manager, tags: ['bootstrap']}
     - vim

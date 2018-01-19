@@ -41,6 +41,8 @@ osx_homebrew_packages:
   - gpg
   - ctop
   - heroku/brew/heroku
+  - tty-clock
+  - tmuxinator
 
 # Mac Apps to be installed with homebrew-cask
 osx_cask_packages:
@@ -54,7 +56,6 @@ osx_cask_packages:
   # Docker
   #- docker
   # chat
-  - slack
   # Video conferencing
   # Password manager
   # Backup/storage
@@ -70,8 +71,7 @@ osx_cask_packages:
   # Text expansion
   # Bibliography
   # Stay focused
-  - tty-clock
-  - tmuxinator
+
 
 # Mac-App-Store-only apps to be installed with mas
 # Use App IDs found with `mas search <name>`
