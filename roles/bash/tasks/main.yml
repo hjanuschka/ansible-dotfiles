@@ -21,3 +21,10 @@
 - name: Powerline shell
   pip: name=powerline-shell state=latest executable=pip3
 
+- name: Symlink powerline-shell.json
+  file:
+    src: "{{ dotfiles_home }}/roles/bash/files/powerline-shell.json"
+    dest: "{{dotfiles_user_home}}/.powerline-shell.json"
+    state: link
+
+
