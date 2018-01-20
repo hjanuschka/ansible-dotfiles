@@ -71,13 +71,13 @@
 		<integer>1</integer>
 	</dict>
 	<key>NSWindow Frame NSFontPanel</key>
-	<string>463 33 1583 710 0 0 2560 1417 </string>
+	<string>356 54 1583 576 0 0 2560 1417 </string>
 	<key>NSWindow Frame Preferences</key>
 	<string>2829 564 606 456 2560 390 1680 1050 </string>
 	<key>NSWindow Frame SUUpdateAlert</key>
 	<string>3090 883 620 392 2560 390 1680 1050 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>586 808 796 473 0 0 2560 1417 </string>
+	<string>586 880 796 473 0 0 2560 1417 </string>
 	<key>NSWindow Frame UKCrashReporter</key>
 	<string>230 833 592 584 0 0 2560 1417 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
@@ -625,7 +625,7 @@
 			<key>Non-ASCII Anti Aliased</key>
 			<true/>
 			<key>Normal Font</key>
-			<string>MesloLGM-RegularForPowerline 16</string>
+			<string>MesloLGSNerdFontC-RegularForPowerline 16</string>
 			<key>Option Key Sends</key>
 			<integer>0</integer>
 			<key>Prompt Before Closing 2</key>
