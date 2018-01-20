@@ -1,0 +1,9 @@
+name: vimde
+#on_project_start: tmux -CC attach
+windows:
+  - editor:
+      layout: a0b0,283x65,0,0{188x65,0,0,0,94x65,189,0[94x55,189,0,1,94x9,189,56,2]}
+      panes:
+        - mvim -v
+        - while true; do clear; curl wttr.in/Vienna?0; sleep 30; done
+        - tty-clock -b -C 2 -s -B -x

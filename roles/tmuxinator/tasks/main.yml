@@ -1,0 +1,9 @@
+# Installation
+
+- name: Symlink .tmuxinator
+  file:
+    src: "{{ dotfiles_home }}/roles/tmuxinator/files/tmuxinator"
+    dest: "{{dotfiles_user_home}}/.tmuxinator"
+    state: link
+
+
