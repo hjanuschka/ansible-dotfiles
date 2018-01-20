@@ -22,3 +22,4 @@
     - ccat
     - tmux
     - {role: osx, when: ansible_os_family == "Darwin"}
+    - tig
