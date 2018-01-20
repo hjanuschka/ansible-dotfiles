@@ -65,6 +65,7 @@ osx_cask_packages:
   # Notetaking
   # Fonts
   - font-meslo-nerd-font
+  - font-hack-nerd-font
   # Databases
   # VPN
   # Docs
