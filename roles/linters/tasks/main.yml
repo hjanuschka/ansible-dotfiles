@@ -1,0 +1,12 @@
+- name: install phpcs
+  get_url:
+    url: https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar
+    dest: /usr/local/bin/phpcs
+    mode: 0755
+
+
+- name: install phpcbf
+  get_url:
+    url: https://squizlabs.github.io/PHP_CodeSniffer/phpcbf.phar
+    dest: /usr/local/bin/phpcbf
+    mode: 0755

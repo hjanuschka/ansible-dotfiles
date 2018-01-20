@@ -95,3 +95,4 @@ npm_global_packages:
 ruby_global_gems:
   - fastlane
   - tmuxinator
+  - rubocop
