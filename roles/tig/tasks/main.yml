@@ -1,0 +1,21 @@
+# Installation
+
+# Configuration
+- name: Check if .tigrc
+  stat: path="{{dotfiles_user_home}}/.tigrc"
+  register: tigrc_stat
+  failed_when: False
+
+- name: Backup .tigrc
+  command: mv ~/.tigrc ~/.tigrc.bak
+  args:
+    creates: "{{dotfiles_user_home}}/.tigrc.bak"
+  when: tigrc_stat.stat.exists
+
+- name: Symlink tigrc
+  file:
+    src: "{{ dotfiles_home }}/roles/bash/files/tigrc"
+    dest: "{{dotfiles_user_home}}/.tigrc"
+    state: link
+
+
