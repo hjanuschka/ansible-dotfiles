@@ -4,6 +4,15 @@
 " Best view with a 256 color terminal and Powerline fonts
 " Updated by Dorian Neto (https://github.com/dorianneto)"
 
+" Enable CTRL
+
+" Allow us to use Ctrl-s and Ctrl-q as keybinds
+silent !stty -ixon
+
+" Restore default behaviour when leaving Vim.
+autocmd VimLeave * silent !stty ixon
+
+
 " Share ClipBoard
 set clipboard=unnamed
 set t_Co=256  " vim-monokai now only support 256 colours in terminal.
@@ -93,6 +102,7 @@ let g:ale_fixers = {
 \}
 let g:ale_php_phpcs_standard = "PSR2"
 let g:ale_php_phpcbf_standard = 'PSR2'
+let g:ale_lint_on_text_changed = 'normal'
 
 " JS as JSX
 let g:jsx_ext_required = 0
@@ -340,10 +350,10 @@ let g:airline#extensions#tabline#enabled = 1
 nnoremap <C-a> <esc>ggVG<CR>
 
 
-nnoremap <C-x>  :tabprevious<CR>
-inoremap <C-x>  <Esc>:tabprevious<CR>i
-nnoremap <C-y>  :tabnext<CR>
-inoremap <C-y>  <Esc>:tabnext<CR>i
+nnoremap <C-q>  :tabprevious<CR>
+inoremap <C-q>  <Esc>:tabprevious<CR>i
+nnoremap <C-w>  :tabnext<CR>
+inoremap <C-w>  <Esc>:tabnext<CR>i
 nnoremap <C-t>  :tabnew<CR>
 inoremap <C-t>  <Esc>:tabnew<CR>i
 "nnoremap <C-k>  :tabclose<CR>
