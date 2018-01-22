@@ -1,0 +1,41 @@
+# Installation
+
+# Configuration
+- name: Symlink kitty.conf
+  file:
+    src: "{{ dotfiles_home }}/roles/kitty/files/kitty"
+    dest: "{{dotfiles_user_home}}/Library/Preferences/kitty"
+    state: link
+
+
+- name: Install harfbuzz with homebrew
+  homebrew: name=harfbuzz state=latest
+
+
+- name: Install optipng with homebrew
+  homebrew: name=optipng state=latest
+
+
+- name: Install librsvg with homebrew
+  homebrew: name=librsvg state=latest
+
+
+- name: "get Kitty Source"
+  git:
+    repo: https://github.com/kovidgoyal/kitty.git
+    dest: "{{ dotfiles_user_home }}/kitty_source"
+    update: yes
+
+- name: "Build Kitty"
+  args:
+    chdir: "{{ dotfiles_user_home }}/kitty_source"
+  shell: |
+    python3 setup.py kitty.app
+
+
+- name: "copy kitty.app"
+  become: true
+  copy:
+    src: "{{ dotfiles_user_home }}/kitty_source/kitty.app"
+    dest: "/Applications/"
+    mode: 0755
