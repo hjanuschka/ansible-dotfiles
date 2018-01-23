@@ -266,3 +266,5 @@ set -g mouse on
 # move status line to top
 set -g status-position bottom
 set -g focus-events on
+unbind -T copy-mode MouseDragEnd1Pane
+unbind -T copy-mode-vi MouseDragEnd1Pane
