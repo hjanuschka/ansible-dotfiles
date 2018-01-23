@@ -30,6 +30,7 @@
   args:
     chdir: "{{ dotfiles_user_home }}/kitty_source"
   shell: |
+    logo/make.py
     python3 setup.py kitty.app
 
 
