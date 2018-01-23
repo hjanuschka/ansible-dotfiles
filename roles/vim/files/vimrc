@@ -46,6 +46,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'iberianpig/tig-explorer.vim'
 Plug 'tmux-plugins/vim-tmux-focus-events'
 Plug 'w0rp/ale'
+Plug 'christoomey/vim-tmux-navigator'
 Plug 'ryanoasis/vim-devicons'
 Plug 'crusoexia/vim-monokai'
 Plug 'tpope/vim-endwise'
@@ -350,10 +351,10 @@ let g:airline#extensions#tabline#enabled = 1
 nnoremap <C-a> <esc>ggVG<CR>
 
 
-nnoremap <C-q>  :tabprevious<CR>
-inoremap <C-q>  <Esc>:tabprevious<CR>i
-nnoremap <C-w>  :tabnext<CR>
-inoremap <C-w>  <Esc>:tabnext<CR>i
+"nnoremap <C-S-Tab>  :tabprevious<CR>
+"inoremap <C-S-Tab>  <Esc>:tabprevious<CR>i
+"nnoremap <C-Tab>  :tabnext<CR>
+"inoremap <C-Tab>  <Esc>:tabnext<CR>i
 nnoremap <C-t>  :tabnew<CR>
 inoremap <C-t>  <Esc>:tabnew<CR>i
 "nnoremap <C-k>  :tabclose<CR>
@@ -365,7 +366,7 @@ nnoremap <Leader>p :set paste<CR>
 nnoremap <Leader>o :set nopaste<CR>
 noremap  <Leader>g :GitGutterToggle<CR>
 
-
+"""""""
 
 
 " TAB NAV
