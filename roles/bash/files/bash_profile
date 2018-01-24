@@ -39,3 +39,7 @@ alias fl="bundle exec fastlane"
 
 
 export PATH="$HOME/.cargo/bin:$PATH"
+
+
+# Allow us to use Ctrl-s and Ctrl-q as keybinds
+stty -ixon
