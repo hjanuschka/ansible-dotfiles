@@ -39,6 +39,8 @@ let php_folding = 0
 
 call plug#begin('~/.vim/plugged')
 " ------Plugins-------
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
 Plug 'iberianpig/tig-explorer.vim'
 Plug 'tmux-plugins/vim-tmux-focus-events'
 Plug 'w0rp/ale'
