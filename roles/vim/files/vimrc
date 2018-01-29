@@ -95,6 +95,7 @@ let g:ale_linters = {
 \}
 let g:ale_fixers = {
 \   'javascript': ['eslint', 'remove_trailing_lines', 'trim_whitespace'],
+\   'javascript.jsx': ['eslint', 'remove_trailing_lines', 'trim_whitespace'],
 \   'ruby': ['rubocop', 'remove_trailing_lines', 'trim_whitespace'],
 \   'php': ['phpcbf', 'remove_trailing_lines', 'trim_whitespace'],
 \   'sh': ['shmft', 'remove_trailing_lines', 'trim_whitespace'],
@@ -361,6 +362,7 @@ inoremap <C-t>  <Esc>:tabnew<CR>i
 " lazy ':'
 
 nnoremap <Leader>p :set paste<CR>
+nnoremap <Leader>f :ALEFix<CR>
 nnoremap <Leader>o :set nopaste<CR>
 noremap  <Leader>g :GitGutterToggle<CR>
 
