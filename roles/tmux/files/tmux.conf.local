@@ -263,6 +263,9 @@ set -g mouse on
 # set -g prefix C-a
 # bind C-a send-prefix
 
+unbind C-PageUp
+unbind C-PageDown
+
 # move status line to top
 set -g status-position bottom
 set -g focus-events on

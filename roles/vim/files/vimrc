@@ -43,6 +43,7 @@ let php_folding = 0
 call plug#begin('~/.vim/plugged')
 " ------Plugins-------
 Plug 'editorconfig/editorconfig-vim'
+Plug 'chr4/nginx.vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'iberianpig/tig-explorer.vim'
@@ -90,6 +91,9 @@ Plug 'Shougo/neosnippet'
 Plug 'Shougo/neosnippet-snippets'
 Plug 'dyng/ctrlsf.vim'
 Plug 'Shougo/neocomplete'
+
+
+ let g:ctrlsf_ignore_dir = ['bower_components', 'node_modules', 'vendor']
 
 call plug#end()
 
