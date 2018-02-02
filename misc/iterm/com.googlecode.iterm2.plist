@@ -78,14 +78,16 @@
 	<string>356 54 1583 576 0 0 2560 1417 </string>
 	<key>NSWindow Frame Preferences</key>
 	<string>2829 564 606 456 2560 390 1680 1050 </string>
+	<key>NSWindow Frame ProfilesPanel</key>
+	<string>532 957 735 382 0 0 2560 1417 </string>
 	<key>NSWindow Frame SUUpdateAlert</key>
 	<string>3090 883 620 392 2560 390 1680 1050 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>876 933 796 473 0 0 2560 1417 </string>
+	<string>375 811 1018 447 0 0 2560 1417 </string>
 	<key>NSWindow Frame UKCrashReporter</key>
 	<string>230 833 592 584 0 0 2560 1417 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>48 0 2512 1417 0 0 2560 1417 </string>
+	<string>44 0 2516 1417 0 0 2560 1417 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
 	<string>1322 211 810 577 0 0 2560 1417 </string>
 	<key>NSWindow Frame iTerm Window 2</key>
@@ -774,7 +776,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2018-01-21T20:47:43Z</date>
+	<date>2018-02-02T18:48:03Z</date>
 	<key>SUSendProfileInfo</key>
 	<false/>
 	<key>ShowBookmarkName</key>
@@ -794,7 +796,7 @@
 	<key>UseBorder</key>
 	<false/>
 	<key>UseMetal</key>
-	<false/>
+	<true/>
 	<key>WindowNumber</key>
 	<true/>
 	<key>WordCharacters</key>
@@ -802,6 +804,6 @@
 	<key>findMode_iTerm</key>
 	<integer>0</integer>
 	<key>iTerm Version</key>
-	<string>3.2.20180120</string>
+	<string>3.2.20180130-nightly</string>
 </dict>
 </plist>
