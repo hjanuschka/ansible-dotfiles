@@ -42,57 +42,55 @@ let php_folding = 0
 
 call plug#begin('~/.vim/plugged')
 " ------Plugins-------
-Plug 'editorconfig/editorconfig-vim'
+
+
+"Plug 'Shougo/neosnippet'
+"Plug 'Shougo/neosnippet-snippets'
+"Plug 'davidhalter/jedi-vim'
+"Plug 'marijnh/tern_for_vim'
+"Plug 'mileszs/ack.vim'
+"Plug 'nathanaelkane/vim-indent-guides'
+"Plug 'othree/javascript-libraries-syntax.vim'
+"Plug 'stephpy/vim-php-cs-fixer'
+"Plug 'tpope/vim-fugitive'
+Plug 'Shougo/neocomplete'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'airblade/vim-gitgutter'
+Plug 'beyondwords/vim-twig'
 Plug 'chr4/nginx.vim'
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'crusoexia/vim-monokai'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'davidegx/ctrlp-smarttabs'
+Plug 'dyng/ctrlsf.vim'
+Plug 'editorconfig/editorconfig-vim'
+Plug 'empanda/vim-varnish'
+Plug 'gcmt/breeze.vim'
+Plug 'hjanuschka/vim-danger'
+Plug 'iberianpig/tig-explorer.vim'
+Plug 'jelera/vim-javascript-syntax'
+Plug 'jiangmiao/auto-pairs'
+Plug 'jistr/vim-nerdtree-tabs'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-Plug 'iberianpig/tig-explorer.vim'
-Plug 'tmux-plugins/vim-tmux-focus-events'
-Plug 'w0rp/ale'
-Plug 'christoomey/vim-tmux-navigator'
-Plug 'ryanoasis/vim-devicons'
-Plug 'crusoexia/vim-monokai'
-Plug 'tpope/vim-endwise'
-Plug 'rhysd/vim-clang-format'
-Plug 'stephpy/vim-php-cs-fixer'
-Plug 'marijnh/tern_for_vim'
-Plug 'empanda/vim-varnish'
-Plug 'tpope/vim-surround'
-Plug 'gcmt/breeze.vim'
-Plug 'osyo-manga/vim-over'
-Plug 'ctrlpvim/ctrlp.vim'
-Plug 'tomtom/tcomment_vim'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'airblade/vim-gitgutter'
-Plug 'davidhalter/jedi-vim'
-Plug 'pangloss/vim-javascript'
-Plug 'mxw/vim-jsx'
-
-Plug 'terryma/vim-multiple-cursors'
-Plug 'jiangmiao/auto-pairs'
-Plug 'jelera/vim-javascript-syntax'
-
 Plug 'leshill/vim-json'
 Plug 'maksimr/vim-jsbeautify'
-"Plug 'tpope/vim-fugitive'
-Plug 'beyondwords/vim-twig'
-Plug 'mileszs/ack.vim'
-Plug 'scrooloose/nerdtree'
-Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'jistr/vim-nerdtree-tabs'
-Plug 'milch/vim-fastlane'
-Plug 'hjanuschka/vim-danger'
 Plug 'mhinz/vim-startify'
-Plug 'othree/javascript-libraries-syntax.vim'
-Plug 'nathanaelkane/vim-indent-guides'
-Plug 'davidegx/ctrlp-smarttabs'
-Plug 'Shougo/neosnippet'
-Plug 'Shougo/neosnippet-snippets'
-Plug 'dyng/ctrlsf.vim'
-Plug 'Shougo/neocomplete'
-
-
+Plug 'milch/vim-fastlane'
+Plug 'mxw/vim-jsx'
+Plug 'osyo-manga/vim-over'
+Plug 'pangloss/vim-javascript'
+Plug 'rhysd/vim-clang-format'
+Plug 'ryanoasis/vim-devicons'
+Plug 'scrooloose/nerdtree'
+Plug 'terryma/vim-multiple-cursors'
+Plug 'tmux-plugins/vim-tmux-focus-events'
+Plug 'tomtom/tcomment_vim'
+Plug 'tpope/vim-endwise'
+Plug 'tpope/vim-surround'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'w0rp/ale'
  let g:ctrlsf_ignore_dir = ['bower_components', 'node_modules', 'vendor']
 
 call plug#end()
@@ -114,7 +112,7 @@ let g:ale_lint_on_text_changed = 'normal'
 
 " JS as JSX
 let g:jsx_ext_required = 0
- 
+
 
 let g:php_cs_fixer_rules = "@PSR2"          " options: --rules (default:@PSR2)
 let g:php_cs_fixer_cache = "/tmp/.php_cs.cache" " options: --cache-file
@@ -212,12 +210,12 @@ let g:clang_format#style_options = {
 
 " Beatufiy
 map <c-f> :call JsBeautify()<cr>
-autocmd FileType javascript noremap <buffer>  <c-f> :call JsBeautify()<cr>
+autocmd FileType javascript noremap <buffer>  <c-f> :ALEFix<cr>
 autocmd FileType json noremap <buffer> <c-f> :call JsonBeautify()<cr>
-autocmd FileType jsx noremap <buffer> <c-f> :call JsxBeautify()<cr>
+autocmd FileType jsx noremap <buffer> <c-f> :ALEFix<cr>
 autocmd FileType html noremap <buffer> <c-f> :call HtmlBeautify()<cr>
 autocmd FileType css noremap <buffer> <c-f> :call CSSBeautify()<cr>
-autocmd FileType php noremap <buffer> <c-f> :call PhpCsFixerFixFile()<cr>
+autocmd FileType php noremap <buffer> <c-f> :ALEFix<cr>
 autocmd FileType c,cpp,objc noremap <buffer> <c-f> :<C-u>ClangFormat<CR>
 
 
