@@ -53,6 +53,7 @@ call plug#begin('~/.vim/plugged')
 "Plug 'othree/javascript-libraries-syntax.vim'
 "Plug 'stephpy/vim-php-cs-fixer'
 "Plug 'tpope/vim-fugitive'
+Plug 'thiagoalessio/rainbow_levels.vim'
 Plug 'Shougo/neocomplete'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'airblade/vim-gitgutter'
@@ -94,6 +95,17 @@ Plug 'w0rp/ale'
  let g:ctrlsf_ignore_dir = ['bower_components', 'node_modules', 'vendor']
 
 call plug#end()
+
+
+let g:rainbow_levels = [
+    \{'ctermfg': 2, 'guifg': '#a6e22e'},
+    \{'ctermfg': 6, 'guifg': '#66d9ef'},
+    \{'ctermfg': 4, 'guifg': '#ae81ff'},
+    \{'ctermfg': 5, 'guifg': '#f92672'},
+    \{'ctermfg': 1, 'guifg': '#fd971f'},
+    \{'ctermfg': 3, 'guifg': '#f4bf75'},
+    \{'ctermfg': 7, 'guifg': '#f8f8f2'},
+    \{'ctermfg': 0, 'guifg': '#75715e'}]
 
 let g:ale_linters = {
 \   'javascript': ['eslint'],
