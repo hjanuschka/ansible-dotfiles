@@ -99,6 +99,14 @@ Plug 'w0rp/ale'
 
 call plug#end()
 
+" make Esc happen without waiting for timeoutlen
+" fixes Powerline delay
+augroup FastEscape
+  autocmd!
+  au InsertEnter * set timeoutlen=0
+  au InsertLeave * set timeoutlen=1000
+augroup END
+
 
 let g:rainbow_levels = [
     \{'ctermfg': 2, 'guifg': '#a6e22e'},
@@ -125,6 +133,8 @@ let g:ale_fixers = {
 let g:ale_php_phpcs_standard = "PSR2"
 let g:ale_php_phpcbf_standard = 'PSR2'
 let g:ale_lint_on_text_changed = 'normal'
+
+let g:airline#extensions#ale#enabled = 0
 
 " JS as JSX
 let g:jsx_ext_required = 0
@@ -342,6 +352,7 @@ let g:airline#extensions#tabline#formatter = 'default'
 let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
 let g:airline#extensions#tabline#fnamemod = ':t'
 
+let g:airline#extensions#whitespace#show_message = 0
 
 "
 " Basic shortcuts definitions
