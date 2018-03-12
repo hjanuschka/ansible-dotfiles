@@ -43,24 +43,26 @@ let php_folding = 0
 call plug#begin('~/.vim/plugged')
 " ------Plugins-------
 
-
 "Plug 'Shougo/neosnippet'
 "Plug 'Shougo/neosnippet-snippets'
+"Plug 'Xuyuanp/nerdtree-git-plugin'
 "Plug 'davidhalter/jedi-vim'
+"Plug 'jistr/vim-nerdtree-tabs'
 "Plug 'marijnh/tern_for_vim'
 "Plug 'mileszs/ack.vim'
 "Plug 'nathanaelkane/vim-indent-guides'
 "Plug 'othree/javascript-libraries-syntax.vim'
+"Plug 'scrooloose/nerdtree'
 "Plug 'stephpy/vim-php-cs-fixer'
 "Plug 'tpope/vim-fugitive'
-Plug 'thiagoalessio/rainbow_levels.vim'
 Plug 'Shougo/neocomplete'
-Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'airblade/vim-gitgutter'
 Plug 'beyondwords/vim-twig'
 Plug 'chr4/nginx.vim'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'crusoexia/vim-monokai'
+Plug 'jaromero/vim-monokai-refined'
+Plug 'tomasr/molokai'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'davidegx/ctrlp-smarttabs'
 Plug 'dyng/ctrlsf.vim'
@@ -69,9 +71,9 @@ Plug 'empanda/vim-varnish'
 Plug 'gcmt/breeze.vim'
 Plug 'hjanuschka/vim-danger'
 Plug 'iberianpig/tig-explorer.vim'
+Plug 'janko-m/vim-test'
 Plug 'jelera/vim-javascript-syntax'
 Plug 'jiangmiao/auto-pairs'
-Plug 'jistr/vim-nerdtree-tabs'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'leshill/vim-json'
@@ -83,12 +85,13 @@ Plug 'osyo-manga/vim-over'
 Plug 'pangloss/vim-javascript'
 Plug 'rhysd/vim-clang-format'
 Plug 'ryanoasis/vim-devicons'
-Plug 'scrooloose/nerdtree'
 Plug 'terryma/vim-multiple-cursors'
+Plug 'thiagoalessio/rainbow_levels.vim'
 Plug 'tmux-plugins/vim-tmux-focus-events'
 Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-surround'
+Plug 'tweekmonster/startuptime.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'w0rp/ale'
@@ -206,7 +209,7 @@ let mapleader = ','
 
 
 " Nerdtree
-map <C-j> :NERDTreeTabsToggle<CR>
+"map <C-j> :NERDTreeTabsToggle<CR>
 
 
 " Color Themes
