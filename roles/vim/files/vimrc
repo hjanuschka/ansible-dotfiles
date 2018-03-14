@@ -25,6 +25,8 @@ set ttyfast
 set lazyredraw
 set nofsync
 
+set belloff=all
+
 
 
 
