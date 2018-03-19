@@ -55,7 +55,20 @@ call plug#begin('~/.vim/plugged')
 "Plug 'scrooloose/nerdtree'
 "Plug 'stephpy/vim-php-cs-fixer'
 "Plug 'tpope/vim-fugitive'
-Plug 'Shougo/neocomplete'
+"
+"
+
+Plug 'Shougo/deoplete.nvim'
+
+Plug 'roxma/nvim-yarp'
+Plug 'roxma/vim-hug-neovim-rpc'
+
+"Syntaxes
+Plug 'Shougo/neco-syntax'
+Plug 'padawan-php/deoplete-padawan', { 'do': 'composer install'  }
+
+
+Plug 'jreybert/vimagit'
 Plug 'airblade/vim-gitgutter'
 Plug 'beyondwords/vim-twig'
 Plug 'chr4/nginx.vim'
@@ -154,42 +167,44 @@ smap <C-k>     <Plug>(neosnippet_expand_or_jump)
 
 "NEOCOMPLETE
 set completeopt-=preview
+let g:deoplete#enable_at_startup = 1
+
 "
 " Called once right before you start selecting multiple cursors
-function! Multiple_cursors_before()
-  if exists(':NeoCompleteLock')==2
-    exe 'NeoCompleteLock'
-  endif
-endfunction
+"function! Multiple_cursors_before()
+"  if exists(':NeoCompleteLock')==2
+"    exe 'NeoCompleteLock'
+"  endif
+"endfunction
 
 " Called once only when the multiple selection is canceled (default <Esc>)
-function! Multiple_cursors_after()
-  if exists(':NeoCompleteUnlock')==2
-    exe 'NeoCompleteUnlock'
-  endif
-endfunction
+"function! Multiple_cursors_after()
+"  if exists(':NeoCompleteUnlock')==2
+"    exe 'NeoCompleteUnlock'
+"  endif
+"endfunction
 
 
 let g:acp_enableAtStartup = 0
 " Use neocomplete.
-let g:neocomplete#enable_at_startup = 1
+"let g:neocomplete#enable_at_startup = 1
 " Use smartcase.
-let g:neocomplete#enable_smart_case = 1
+let g:deoplete#enable_smart_case = 1
 " Set minimum syntax keyword length.
-let g:neocomplete#sources#syntax#min_keyword_length = 3
+let g:deoplete#sources#syntax#min_keyword_length = 3
 
 " Define dictionary.
-let g:neocomplete#sources#dictionary#dictionaries = {
-    \ 'default' : '',
-    \ 'vimshell' : $HOME.'/.vimshell_hist',
-    \ 'scheme' : $HOME.'/.gosh_completions'
-        \ }
+"let g:neocomplete#sources#dictionary#dictionaries = {
+"    \ 'default' : '',
+"    \ 'vimshell' : $HOME.'/.vimshell_hist',
+"    \ 'scheme' : $HOME.'/.gosh_completions'
+"        \ }
 "define Keyword
 
-if !exists('g:neocomplete#keyword_patterns')
-    let g:neocomplete#keyword_patterns = {}
-endif
-let g:neocomplete#keyword_patterns['default'] = '\h\w*'
+"if !exists('g:neocomplete#keyword_patterns')
+"    let g:neocomplete#keyword_patterns = {}
+"endif
+"let g:neocomplete#keyword_patterns['default'] = '\h\w*'
 
 
 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
@@ -200,9 +215,9 @@ autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
 
 
-"inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
-inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+inoremap <expr><C-h> deoplete#smart_close_popup()."\<C-h>"
+inoremap <expr><BS> deoplete#smart_close_popup()."\<C-h>"
 
 "NEO SNIPPETS
 "imap <expr><C-k> (pumvisible() ? "\<C-y>":"")."\<Plug>(neosnippet_expand_or_jump)"
