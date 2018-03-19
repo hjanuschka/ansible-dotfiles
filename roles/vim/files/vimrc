@@ -148,6 +148,7 @@ let g:ale_php_phpcbf_standard = 'PSR2'
 let g:ale_lint_on_text_changed = 'normal'
 
 let g:airline#extensions#ale#enabled = 0
+let g:airline#extensions#disable_rtp_load = 1
 
 " JS as JSX
 let g:jsx_ext_required = 0
