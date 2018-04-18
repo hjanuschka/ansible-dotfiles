@@ -93,6 +93,8 @@ call plug#begin('~/.vim/plugged')
 "Plug 'tpope/vim-fugitive'
 Plug 'vim-scripts/SyntaxRange'
 Plug 'tpope/vim-markdown'
+"Plug 'connorholyday/vim-snazzy'
+
 "
 "
 
@@ -112,8 +114,8 @@ Plug 'beyondwords/vim-twig'
 Plug 'chr4/nginx.vim'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'crusoexia/vim-monokai'
-Plug 'jaromero/vim-monokai-refined'
-Plug 'tomasr/molokai'
+"Plug 'jaromero/vim-monokai-refined'
+"Plug 'tomasr/molokai'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'davidegx/ctrlp-smarttabs'
 Plug 'dyng/ctrlsf.vim'
