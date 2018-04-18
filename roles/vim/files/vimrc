@@ -57,6 +57,8 @@ call plug#begin('~/.vim/plugged')
 "Plug 'scrooloose/nerdtree'
 "Plug 'stephpy/vim-php-cs-fixer'
 "Plug 'tpope/vim-fugitive'
+Plug 'vim-scripts/SyntaxRange'
+Plug 'tpope/vim-markdown'
 "
 "
 
