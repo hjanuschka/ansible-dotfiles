@@ -105,7 +105,9 @@ Plug 'roxma/vim-hug-neovim-rpc'
 
 "Syntaxes
 Plug 'Shougo/neco-syntax'
-Plug 'padawan-php/deoplete-padawan', { 'do': 'composer install'  }
+"Plug 'padawan-php/deoplete-padawan', { 'do': 'composer install'  }
+Plug 'phpactor/phpactor' ,  {'do': 'composer install', 'for': 'php'}
+
 
 
 Plug 'jreybert/vimagit'
