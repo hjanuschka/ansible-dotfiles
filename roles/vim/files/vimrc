@@ -105,8 +105,8 @@ Plug 'roxma/vim-hug-neovim-rpc'
 
 "Syntaxes
 Plug 'Shougo/neco-syntax'
-"Plug 'padawan-php/deoplete-padawan', { 'do': 'composer install'  }
-Plug 'phpactor/phpactor' ,  {'do': 'composer install', 'for': 'php'}
+Plug 'padawan-php/deoplete-padawan', { 'do': 'composer install'  }
+"Plug 'phpactor/phpactor' ,  {'do': 'composer install', 'for': 'php'}
 
 
 
@@ -230,6 +230,7 @@ smap <C-k>     <Plug>(neosnippet_expand_or_jump)
 "NEOCOMPLETE
 set completeopt-=preview
 let g:deoplete#enable_at_startup = 1
+
 
 "
 " Called once right before you start selecting multiple cursors
