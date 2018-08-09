@@ -6,7 +6,9 @@
 
 " Enable CTRL
 
-
+if has('python3')
+  silent! python3 1
+endif
 
 inoremap <silent> <F24> <C-\><C-O>:silent doautocmd FocusLost %<CR>
 inoremap <silent> <F25> <C-\><C-O>:silent doautocmd FocusGained %<CR>
@@ -79,6 +81,7 @@ let php_folding = 0
 call plug#begin('~/.vim/plugged')
 " ------Plugins-------
 
+Plug 'RRethy/vim-illuminate'
 "Plug 'Shougo/neosnippet'
 "Plug 'Shougo/neosnippet-snippets'
 "Plug 'Xuyuanp/nerdtree-git-plugin'
@@ -91,8 +94,10 @@ call plug#begin('~/.vim/plugged')
 "Plug 'scrooloose/nerdtree'
 "Plug 'stephpy/vim-php-cs-fixer'
 "Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-eunuch'
 Plug 'vim-scripts/SyntaxRange'
 Plug 'tpope/vim-markdown'
+Plug 'justinmk/vim-syntax-extra'
 "Plug 'connorholyday/vim-snazzy'
 
 "
@@ -491,5 +496,19 @@ if filereadable(expand("~/.vimrc.local"))
   source ~/.vimrc.local
 endif
 
+function! TabCloseRight(bang)
+    let cur=tabpagenr()
+    while cur < tabpagenr('$')
+        exe 'tabclose' . a:bang . ' ' . (cur + 1)
+    endwhile
+endfunction
 
+function! TabCloseLeft(bang)
+    while tabpagenr() > 1
+        exe 'tabclose' . a:bang . ' 1'
+    endwhile
+endfunction
+
+command! -bang Tabcloseright call TabCloseRight('<bang>')
+command! -bang Tabcloseleft call TabCloseLeft('<bang>')
 
