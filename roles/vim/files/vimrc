@@ -82,6 +82,7 @@ call plug#begin('~/.vim/plugged')
 " ------Plugins-------
 
 Plug 'RRethy/vim-illuminate'
+Plug 'mhinz/vim-grepper'
 "Plug 'Shougo/neosnippet'
 "Plug 'Shougo/neosnippet-snippets'
 "Plug 'Xuyuanp/nerdtree-git-plugin'
@@ -199,12 +200,14 @@ let g:rainbow_levels = [
 
 let g:ale_linters = {
 \   'javascript': ['eslint'],
+\   'haml': ['hamllint'],
 \   'php': ['phpcs'],
 \}
 let g:ale_fixers = {
-\   'javascript': ['eslint', 'remove_trailing_lines', 'trim_whitespace'],
-\   'javascript.jsx': ['eslint', 'remove_trailing_lines', 'trim_whitespace'],
+\   'javascript': ['prettier', 'eslint', 'remove_trailing_lines', 'trim_whitespace'],
+\   'javascript.jsx': ['prettier', 'eslint', 'remove_trailing_lines', 'trim_whitespace'],
 \   'ruby': ['rubocop', 'remove_trailing_lines', 'trim_whitespace'],
+\   'haml': ['hamllint', 'remove_trailing_lines', 'trim_whitespace'],
 \   'php': ['phpcbf', 'remove_trailing_lines', 'trim_whitespace'],
 \   'sh': ['shmft', 'remove_trailing_lines', 'trim_whitespace'],
 \   'c': ['clang-format', 'remove_trailing_lines', 'trim_whitespace'],
