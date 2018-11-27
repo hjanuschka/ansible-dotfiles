@@ -104,14 +104,17 @@ Plug 'justinmk/vim-syntax-extra'
 "
 "
 
-Plug 'Shougo/deoplete.nvim'
+"Plug 'Shougo/deoplete.nvim'
+
+Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install() }}
+
 
 Plug 'roxma/nvim-yarp'
 Plug 'roxma/vim-hug-neovim-rpc'
 
 "Syntaxes
-Plug 'Shougo/neco-syntax'
-Plug 'padawan-php/deoplete-padawan', { 'do': 'composer install'  }
+"Plug 'Shougo/neco-syntax'
+"Plug 'padawan-php/deoplete-padawan', { 'do': 'composer install'  }
 "Plug 'phpactor/phpactor' ,  {'do': 'composer install', 'for': 'php'}
 
 
@@ -238,7 +241,7 @@ smap <C-k>     <Plug>(neosnippet_expand_or_jump)
 
 "NEOCOMPLETE
 set completeopt-=preview
-let g:deoplete#enable_at_startup = 1
+"let g:deoplete#enable_at_startup = 1
 
 
 "
@@ -261,9 +264,9 @@ let g:acp_enableAtStartup = 0
 " Use neocomplete.
 "let g:neocomplete#enable_at_startup = 1
 " Use smartcase.
-let g:deoplete#enable_smart_case = 1
+"let g:deoplete#enable_smart_case = 1
 " Set minimum syntax keyword length.
-let g:deoplete#sources#syntax#min_keyword_length = 3
+"let g:deoplete#sources#syntax#min_keyword_length = 3
 
 " Define dictionary.
 "let g:neocomplete#sources#dictionary#dictionaries = {
@@ -287,9 +290,22 @@ autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
 
 
+set hidden
+
+" Better display for messages
+set cmdheight=2
+
+" Smaller updatetime for CursorHold & CursorHoldI
+set updatetime=300
+
+" always show signcolumns
+set signcolumn=yes
+
+
+
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-inoremap <expr><C-h> deoplete#smart_close_popup()."\<C-h>"
-inoremap <expr><BS> deoplete#smart_close_popup()."\<C-h>"
+"inoremap <expr><C-h> deoplete#smart_close_popup()."\<C-h>"
+"inoremap <expr><BS> deoplete#smart_close_popup()."\<C-h>"
 
 "NEO SNIPPETS
 "imap <expr><C-k> (pumvisible() ? "\<C-y>":"")."\<Plug>(neosnippet_expand_or_jump)"
