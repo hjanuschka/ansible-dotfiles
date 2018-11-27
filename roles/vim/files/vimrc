@@ -84,41 +84,16 @@ call plug#begin('~/.vim/plugged')
 Plug 'RRethy/vim-illuminate'
 Plug 'mhinz/vim-grepper'
 Plug 'vim-vdebug/vdebug'
-"Plug 'Shougo/neosnippet'
-"Plug 'Shougo/neosnippet-snippets'
-"Plug 'Xuyuanp/nerdtree-git-plugin'
-"Plug 'davidhalter/jedi-vim'
-"Plug 'jistr/vim-nerdtree-tabs'
-"Plug 'marijnh/tern_for_vim'
-"Plug 'mileszs/ack.vim'
-"Plug 'nathanaelkane/vim-indent-guides'
-"Plug 'othree/javascript-libraries-syntax.vim'
-"Plug 'scrooloose/nerdtree'
-"Plug 'stephpy/vim-php-cs-fixer'
-"Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-eunuch'
 Plug 'vim-scripts/SyntaxRange'
 Plug 'tpope/vim-markdown'
 Plug 'justinmk/vim-syntax-extra'
-"Plug 'connorholyday/vim-snazzy'
-
-"
-"
-
-"Plug 'Shougo/deoplete.nvim'
 
 Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install() }}
 
 
 Plug 'roxma/nvim-yarp'
 Plug 'roxma/vim-hug-neovim-rpc'
-
-"Syntaxes
-"Plug 'Shougo/neco-syntax'
-"Plug 'padawan-php/deoplete-padawan', { 'do': 'composer install'  }
-"Plug 'phpactor/phpactor' ,  {'do': 'composer install', 'for': 'php'}
-
-
 
 Plug 'jreybert/vimagit'
 Plug 'airblade/vim-gitgutter'
@@ -155,7 +130,7 @@ Plug 'terryma/vim-multiple-cursors'
 Plug 'thiagoalessio/rainbow_levels.vim'
 Plug 'tmux-plugins/vim-tmux-focus-events'
 Plug 'tomtom/tcomment_vim'
-Plug 'tpope/vim-endwise'
+"Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-surround'
 Plug 'tweekmonster/startuptime.vim'
 Plug 'vim-airline/vim-airline'
@@ -237,50 +212,11 @@ let g:ctrlp_extensions = ['smarttabs']
 nnoremap π :CtrlPSmartTabs<CR> " Altgr+p to open SmartTabs
 
 
-imap <C-k>     <Plug>(neosnippet_expand_or_jump)
-smap <C-k>     <Plug>(neosnippet_expand_or_jump)
-
-"NEOCOMPLETE
 set completeopt-=preview
-"let g:deoplete#enable_at_startup = 1
 
-
-"
-" Called once right before you start selecting multiple cursors
-"function! Multiple_cursors_before()
-"  if exists(':NeoCompleteLock')==2
-"    exe 'NeoCompleteLock'
-"  endif
-"endfunction
-
-" Called once only when the multiple selection is canceled (default <Esc>)
-"function! Multiple_cursors_after()
-"  if exists(':NeoCompleteUnlock')==2
-"    exe 'NeoCompleteUnlock'
-"  endif
-"endfunction
 
 
 let g:acp_enableAtStartup = 0
-" Use neocomplete.
-"let g:neocomplete#enable_at_startup = 1
-" Use smartcase.
-"let g:deoplete#enable_smart_case = 1
-" Set minimum syntax keyword length.
-"let g:deoplete#sources#syntax#min_keyword_length = 3
-
-" Define dictionary.
-"let g:neocomplete#sources#dictionary#dictionaries = {
-"    \ 'default' : '',
-"    \ 'vimshell' : $HOME.'/.vimshell_hist',
-"    \ 'scheme' : $HOME.'/.gosh_completions'
-"        \ }
-"define Keyword
-
-"if !exists('g:neocomplete#keyword_patterns')
-"    let g:neocomplete#keyword_patterns = {}
-"endif
-"let g:neocomplete#keyword_patterns['default'] = '\h\w*'
 
 
 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
@@ -302,16 +238,23 @@ set updatetime=300
 " always show signcolumns
 set signcolumn=yes
 
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
 
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-"inoremap <expr><C-h> deoplete#smart_close_popup()."\<C-h>"
-"inoremap <expr><BS> deoplete#smart_close_popup()."\<C-h>"
+"inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 
-"NEO SNIPPETS
-"imap <expr><C-k> (pumvisible() ? "\<C-y>":"")."\<Plug>(neosnippet_expand_or_jump)"
-"
-
+"inoremap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"
+"inoremap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
+"inoremap <expr> <PageDown> pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<PageDown>"
+"inoremap <expr> <PageUp>   pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<PageUp>"
 
 """""""
 
@@ -320,23 +263,7 @@ let mapleader = ','
 
 
 
-
-
-" Nerdtree
-"map <C-j> :NERDTreeTabsToggle<CR>
-
-
-" Color Themes
-
 colorscheme monokai
-
-let g:clang_format#style_options = {
-            \ "AccessModifierOffset" : -4,
-            \ "AllowShortIfStatementsOnASingleLine" : "true",
-            \ "AlwaysBreakTemplateDeclarations" : "true",
-            \ "Standard" : "C++11",
-            \ "BreakBeforeBraces" : "Stroustrup"}
-
 
 " Beatufiy
 map <c-f> :call JsBeautify()<cr>
@@ -532,5 +459,52 @@ endfunction
 
 command! -bang Tabcloseright call TabCloseRight('<bang>')
 command! -bang Tabcloseleft call TabCloseLeft('<bang>')
+
+
+
+"CoC
+" if hidden not set, TextEdit might fail.
+set hidden
+
+" Better display for messages
+set cmdheight=2
+
+" Smaller updatetime for CursorHold & CursorHoldI
+set updatetime=300
+
+" always show signcolumns
+set signcolumn=yes
+
+" Use tab for trigger completion with characters ahead and navigate.
+" Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
+" Use tab for trigger completion with characters ahead and navigate.
+" Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use <c-space> for trigger completion.
+inoremap <silent><expr> <c-space> coc#refresh()
+
+" Use <cr> for confirm completion.
+" Coc only does snippet and additional edit on confirm.
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
+" Use `[c` and `]c` for navigate diagnostics
+nmap <silent> [c <Plug>(coc-diagnostic-prev)
+nmap <silent> ]c <Plug>(coc-diagnostic-next)
+
+" Remap keys for gotos
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
 
 
