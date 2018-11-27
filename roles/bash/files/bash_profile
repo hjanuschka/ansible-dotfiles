@@ -3,6 +3,8 @@
 alias vim="mvim -v"
 export VISUAL=vim
 export EDITOR="$VISUAL"
+export PYTHONIOENCODING=UTF-8
+
 export PATH=/usr/local/bin:/usr/local/sbin:$PATH
 alias vi=vim
 
