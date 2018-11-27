@@ -83,6 +83,7 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'RRethy/vim-illuminate'
 Plug 'mhinz/vim-grepper'
+Plug 'vim-vdebug/vdebug'
 "Plug 'Shougo/neosnippet'
 "Plug 'Shougo/neosnippet-snippets'
 "Plug 'Xuyuanp/nerdtree-git-plugin'
@@ -531,4 +532,6 @@ endfunction
 
 command! -bang Tabcloseright call TabCloseRight('<bang>')
 command! -bang Tabcloseleft call TabCloseLeft('<bang>')
+
+let g:vdebug_options.path_maps = {"/opt/API": "/KRN/API"}
 
