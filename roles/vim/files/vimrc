@@ -533,5 +533,4 @@ endfunction
 command! -bang Tabcloseright call TabCloseRight('<bang>')
 command! -bang Tabcloseleft call TabCloseLeft('<bang>')
 
-let g:vdebug_options.path_maps = {"/opt/API": "/KRN/API"}
 
