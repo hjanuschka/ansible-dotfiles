@@ -133,9 +133,11 @@ Plug 'tomtom/tcomment_vim'
 "Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-surround'
 Plug 'tweekmonster/startuptime.vim'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+"Plug 'vim-airline/vim-airline'
+"Plug 'vim-airline/vim-airline-themes'
+Plug 'itchyny/lightline.vim'
 Plug 'w0rp/ale'
+Plug 'maximbaz/lightline-ale'
  let g:ctrlsf_ignore_dir = ['bower_components', 'node_modules', 'vendor']
 
 call plug#end()
@@ -196,8 +198,10 @@ let g:ale_php_phpcbf_standard = 'PSR2'
 let g:ale_lint_on_text_changed = 'normal'
 let g:ale_set_highlights = 0
 
-let g:airline#extensions#ale#enabled = 0
-let g:airline#extensions#disable_rtp_load = 1
+
+"let g:airline#extensions#ale#enabled = 0
+"let g:airline#extensions#disable_rtp_load = 1
+
 
 " JS as JSX
 let g:jsx_ext_required = 0
@@ -369,21 +373,61 @@ let g:ctrlp_prompt_mappings = {
 
 
 " vim-airline
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#show_buffers = 0
-let g:airline#extensions#tabline#show_splits = 0
-let g:airline#extensions#tabline#show_tabs = 1
-let g:airline#extensions#tabline#show_tab_nr = 0
-let g:airline#extensions#tabline#show_tab_type = 0
-let g:airline#extensions#tabline#close_symbol = '×'
-let g:airline#extensions#tabline#show_close_button = 0
+"let g:airline#extensions#tabline#enabled = 1
+"let g:airline#extensions#tabline#show_buffers = 0
+"let g:airline#extensions#tabline#show_splits = 0
+"let g:airline#extensions#tabline#show_tabs = 1
+"let g:airline#extensions#tabline#show_tab_nr = 0
+"let g:airline#extensions#tabline#show_tab_type = 0
+"let g:airline#extensions#tabline#close_symbol = '×'
+"let g:airline#extensions#tabline#show_close_button = 0
 
-let g:airline_powerline_fonts = 1
-let g:airline#extensions#tabline#formatter = 'default'
-let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
-let g:airline#extensions#tabline#fnamemod = ':t'
+"let g:airline_powerline_fonts = 1
+"let g:airline#extensions#tabline#formatter = 'default'
+"let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
+"let g:airline#extensions#tabline#fnamemod = ':t'
 
-let g:airline#extensions#whitespace#show_message = 0
+"let g:airline#extensions#whitespace#show_message = 0
+
+let g:lightline = {
+  \   'colorscheme': 'powerline',
+  \   'active': {
+  \     'left':[ [ 'mode', 'paste' ],
+  \              [ 'readonly', 'filename', 'modified' ]
+  \     ]
+  \   },
+	\  'component': {
+	\  'lineinfo': ' %3l:%-2v',
+	\   }
+  \ }
+let g:lightline.separator = {
+	\   'left': '', 'right': ''
+  \}
+let g:lightline.subseparator = {
+	\   'left': '', 'right': '' 
+  \}
+
+let g:lightline.tabline = {
+  \   'left': [ ['tabs'] ],
+  \   'right': [ ['close'] ]
+  \ }
+
+let g:lightline.component_expand = {
+      \  'linter_checking': 'lightline#ale#checking',
+      \  'linter_warnings': 'lightline#ale#warnings',
+      \  'linter_errors': 'lightline#ale#errors',
+      \  'linter_ok': 'lightline#ale#ok',
+      \ 
+      \}
+let g:lightline.component_type = {
+      \     'linter_checking': 'left',
+      \     'linter_warnings': 'warning',
+      \     'linter_errors': 'error',
+      \     'linter_ok': 'left',
+      \ 
+      \}
+
+set showtabline=2  " Show tabline
 
 "
 " Basic shortcuts definitions
@@ -409,8 +453,8 @@ inoremap <C-z>  <Esc>:undo<CR>
 nnoremap <C-y>  :redo<CR>
 inoremap <C-y>  <Esc>:redo<CR>
 " Tabs
-let g:airline_theme='badwolf'
-let g:airline#extensions#tabline#enabled = 1
+"let g:airline_theme='badwolf'
+"let g:airline#extensions#tabline#enabled = 1
 
 nnoremap <C-a> <esc>ggVG<CR>
 
