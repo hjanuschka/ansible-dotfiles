@@ -189,7 +189,7 @@ let g:ale_fixers = {
 \   'javascript.jsx': ['prettier', 'eslint', 'remove_trailing_lines', 'trim_whitespace'],
 \   'ruby': ['rubocop', 'remove_trailing_lines', 'trim_whitespace'],
 \   'haml': ['hamllint', 'remove_trailing_lines', 'trim_whitespace'],
-\   'php': ['phpcbf', 'remove_trailing_lines', 'trim_whitespace'],
+\   'php': ['php_cs_fixer', 'phpcbf'],
 \   'sh': ['shmft', 'remove_trailing_lines', 'trim_whitespace'],
 \   'c': ['clang-format', 'remove_trailing_lines', 'trim_whitespace'],
 \}
@@ -207,8 +207,6 @@ let g:ale_set_highlights = 0
 let g:jsx_ext_required = 0
 
 
-let g:php_cs_fixer_rules = "@PSR2"          " options: --rules (default:@PSR2)
-let g:php_cs_fixer_cache = "/tmp/.php_cs.cache" " options: --cache-file
 
 let g:ctrlp_extensions = ['smarttabs']
 
