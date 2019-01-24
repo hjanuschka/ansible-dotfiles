@@ -276,7 +276,7 @@ let mapleader = ','
 
 
 
-colorscheme monokai
+silent! colorscheme monokai
 
 " Beatufiy
 map <c-f> :call JsBeautify()<cr>
