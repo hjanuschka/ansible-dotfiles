@@ -374,6 +374,9 @@ inoremap <C-c> <Esc>
 " CtrlP
 set wildignore+=*/.git/*,*/.hg/*,*/.svn/*
 let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
+if executable('rg')
+  let g:ctrlp_user_command = 'rg %s --files --color=never --glob ""'
+endif
 let g:ctrlp_regexp = 1
 let g:ctrlp_prompt_mappings = {
     \ 'AcceptSelection("e")': ['<c-t>'],
