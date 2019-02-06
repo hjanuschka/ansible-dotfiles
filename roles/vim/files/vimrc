@@ -190,6 +190,7 @@ let g:ale_linters = {
 \   'javascript': ['eslint'],
 \   'haml': ['hamllint'],
 \   'php': ['phpcs'],
+\   'rust': ['rls']
 \}
 let g:ale_fixers = {
 \   'javascript': ['prettier', 'eslint', 'remove_trailing_lines', 'trim_whitespace'],
@@ -197,6 +198,7 @@ let g:ale_fixers = {
 \   'ruby': ['rubocop', 'remove_trailing_lines', 'trim_whitespace'],
 \   'haml': ['hamllint', 'remove_trailing_lines', 'trim_whitespace'],
 \   'php': ['php_cs_fixer', 'phpcbf'],
+\   'rust': ['rustfmt'],
 \   'sh': ['shmft', 'remove_trailing_lines', 'trim_whitespace'],
 \   'c': ['clang-format', 'remove_trailing_lines', 'trim_whitespace'],
 \}
