@@ -83,7 +83,6 @@ call plug#begin('~/.vim/plugged')
 " ------Plugins-------
 
 Plug 'RRethy/vim-illuminate'
-Plug 'mhinz/vim-grepper'
 Plug 'vim-vdebug/vdebug'
 Plug 'tpope/vim-eunuch'
 Plug 'vim-scripts/SyntaxRange'
@@ -96,25 +95,29 @@ Plug 'neoclide/coc.nvim', {'tag': 'master', 'do': 'yarn install'}
 Plug 'roxma/nvim-yarp'
 Plug 'roxma/vim-hug-neovim-rpc'
 
-Plug 'jreybert/vimagit'
+"Plug 'jreybert/vimagit'
 Plug 'mhinz/vim-signify'
 Plug 'beyondwords/vim-twig'
 Plug 'chr4/nginx.vim'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'crusoexia/vim-monokai'
-"Plug 'jaromero/vim-monokai-refined'
-"Plug 'tomasr/molokai'
+"Plug 'sickill/vim-monokai'
+Plug 'tomasr/molokai'
+Plug 'fmoralesc/molokayo'
+Plug 'drewtempelmeyer/palenight.vim'
+Plug 'rust-lang/rust.vim'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'davidegx/ctrlp-smarttabs'
 Plug 'dyng/ctrlsf.vim'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'empanda/vim-varnish'
-Plug 'gcmt/breeze.vim'
+""Plug 'gcmt/breeze.vim'
 Plug 'hjanuschka/vim-danger'
 Plug 'iberianpig/tig-explorer.vim'
-Plug 'janko-m/vim-test'
+"Plug 'janko-m/vim-test'
 Plug 'jelera/vim-javascript-syntax'
-Plug 'jiangmiao/auto-pairs'
+""Plug 'jiangmiao/auto-pairs'
+Plug 'vim-scripts/auto-pairs-gentle'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'leshill/vim-json'
@@ -126,11 +129,11 @@ Plug 'mxw/vim-jsx'
 Plug 'osyo-manga/vim-over'
 Plug 'pangloss/vim-javascript'
 Plug 'rhysd/vim-clang-format'
-Plug 'ryanoasis/vim-devicons'
+""Plug 'ryanoasis/vim-devicons'
 Plug 'terryma/vim-multiple-cursors'
-Plug 'thiagoalessio/rainbow_levels.vim'
+""Plug 'thiagoalessio/rainbow_levels.vim'
 Plug 'tmux-plugins/vim-tmux-focus-events'
-Plug 'tomtom/tcomment_vim'
+"Plug 'tomtom/tcomment_vim'
 "Plug 'tpope/vim-endwise'
 Plug 'StanAngeloff/php.vim'
 Plug 'tpope/vim-surround'
@@ -278,7 +281,8 @@ let mapleader = ','
 
 
 
-silent! colorscheme monokai
+"silent! colorscheme monokai
+silent! colorscheme molokayo
 
 " Beatufiy
 map <c-f> :call JsBeautify()<cr>
@@ -454,7 +458,7 @@ vnoremap <S-Tab> <
 " comment / decomment & normal comment behavior
 vmap <C-m> gc
 " Disable tComment to escape some entities
-let g:tcomment#replacements_xml={}
+""let g:tcomment#replacements_xml={}
 " Text wrap simpler, then type the open tag or ',"
 vmap <C-w> S
 " Cut, Paste, Copy

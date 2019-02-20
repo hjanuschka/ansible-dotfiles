@@ -2,5 +2,6 @@
   "coc.preferences.diagnostic.displayByAle": true,
   "coc.preferences.snippets.enable": false,
   "coc.preferences.minTriggerInputLength": 4,
+  "coc.preferences.timeout": 10000,
   "coc.preferences.diagnostic.enable": false
 }
