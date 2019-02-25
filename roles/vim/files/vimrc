@@ -73,7 +73,7 @@ filetype off
 
 set directory^=$HOME/tmp/hjvim
 set backupdir^=$HOME/tmp/hjvim
-"let g:loaded_matchparen = 1
+let g:loaded_matchparen = 1
 
 
 let g:DisableAutoPHPFolding = 1
@@ -102,8 +102,6 @@ Plug 'chr4/nginx.vim'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'crusoexia/vim-monokai'
 "Plug 'sickill/vim-monokai'
-Plug 'tomasr/molokai'
-Plug 'fmoralesc/molokayo'
 Plug 'drewtempelmeyer/palenight.vim'
 Plug 'rust-lang/rust.vim'
 Plug 'ctrlpvim/ctrlp.vim'
@@ -281,8 +279,7 @@ let mapleader = ','
 
 
 
-"silent! colorscheme monokai
-silent! colorscheme molokayo
+silent! colorscheme monokai
 
 " Beatufiy
 map <c-f> :call JsBeautify()<cr>
