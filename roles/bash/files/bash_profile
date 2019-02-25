@@ -1,16 +1,13 @@
 #!/bin/bash
 
-alias vim="mvim -v"
 export VISUAL=vim
 export EDITOR="$VISUAL"
 export PYTHONIOENCODING=UTF-8
 
 export PATH=/usr/local/bin:/usr/local/sbin:$PATH
+export LC_ALL="en_US.UTF-8"
 alias vi=vim
 
-if [ -f `brew --prefix`/etc/bash_completion ]; then
-    . `brew --prefix`/etc/bash_completion
-fi
 
 
 #export GITAWAREPROMPT=~/.bash/git-aware-prompt
@@ -18,12 +15,7 @@ fi
 
 ORIG_PS1=$PS1
 function _update_ps1() {
-    if [[ $PWD != *KRN*  ]] 
-      then
         PS1="$(powerline-shell $? 2> /dev/null)"
-      else
-        PS1=$ORIG_PS1
-      fi
 }
 
 if [ "$TERM" != "linux" ]; then

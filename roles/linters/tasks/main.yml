@@ -1,4 +1,5 @@
 - name: install phpcs
+  become: true
   get_url:
     url: https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar
     dest: /usr/local/bin/phpcs
@@ -6,6 +7,8 @@
 
 
 - name: install phpcbf
+  become: true
+  become: $this->
   get_url:
     url: https://squizlabs.github.io/PHP_CodeSniffer/phpcbf.phar
     dest: /usr/local/bin/phpcbf
