@@ -18,6 +18,8 @@ inoremap <silent> <F25> <C-\><C-O>:silent doautocmd FocusGained %<CR>
 set clipboard=unnamed
 set t_Co=256  " vim-monokai now only support 256 colours in terminal.
 
+let &t_ut=''
+
 "
 
 let g:monokai_term_italic = 1
@@ -82,6 +84,7 @@ let php_folding = 0
 call plug#begin('~/.vim/plugged')
 " ------Plugins-------
 
+Plug 'bluz71/vim-moonfly-colors'
 Plug 'RRethy/vim-illuminate'
 Plug 'vim-vdebug/vdebug'
 Plug 'tpope/vim-eunuch'
@@ -90,7 +93,8 @@ Plug 'tpope/vim-markdown'
 Plug 'justinmk/vim-syntax-extra'
 
 
-Plug 'neoclide/coc.nvim', {'tag': 'master', 'do': 'yarn install'}
+Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+
 
 Plug 'roxma/nvim-yarp'
 Plug 'roxma/vim-hug-neovim-rpc'
