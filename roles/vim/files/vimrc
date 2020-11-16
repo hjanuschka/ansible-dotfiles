@@ -82,15 +82,21 @@ let php_folding = 0
 call plug#begin('~/.vim/plugged')
 " ------Plugins-------
 
+Plug 'rakr/vim-one'
 Plug 'RRethy/vim-illuminate'
-Plug 'vim-vdebug/vdebug'
+"Plug 'vim-vdebug/vdebug'
 Plug 'tpope/vim-eunuch'
 Plug 'vim-scripts/SyntaxRange'
 Plug 'tpope/vim-markdown'
 Plug 'justinmk/vim-syntax-extra'
+Plug 'sheerun/vim-polyglot'
 
 
-Plug 'neoclide/coc.nvim', {'tag': 'master', 'do': 'yarn install'}
+if !exists('g:vscode')
+"Plug 'neoclide/coc.nvim', {'tag': 'master', 'do': 'yarn install'}
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+endif
+
 
 Plug 'roxma/nvim-yarp'
 Plug 'roxma/vim-hug-neovim-rpc'
@@ -101,6 +107,8 @@ Plug 'beyondwords/vim-twig'
 Plug 'chr4/nginx.vim'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'crusoexia/vim-monokai'
+Plug 'dunckr/vim-monokai-soda'
+Plug 'bluz71/vim-moonfly-colors'
 "Plug 'sickill/vim-monokai'
 Plug 'drewtempelmeyer/palenight.vim'
 Plug 'rust-lang/rust.vim'
