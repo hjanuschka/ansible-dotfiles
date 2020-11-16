@@ -1,16 +1,13 @@
 #!/bin/bash
 
-alias vim="mvim -v"
 export VISUAL=vim
 export EDITOR="$VISUAL"
 export PYTHONIOENCODING=UTF-8
 
 export PATH=/usr/local/bin:/usr/local/sbin:$PATH
+export LC_ALL="en_US.UTF-8"
 alias vi=vim
 
-if [ -f `brew --prefix`/etc/bash_completion ]; then
-    . `brew --prefix`/etc/bash_completion
-fi
 
 
 #export GITAWAREPROMPT=~/.bash/git-aware-prompt
@@ -18,12 +15,7 @@ fi
 
 ORIG_PS1=$PS1
 function _update_ps1() {
-    if [[ $PWD != *KRN*  ]]
-      then
-        PS1="$(powerline-rs $? 2> /dev/null)"
-      else
-        PS1=$ORIG_PS1
-      fi
+        PS1="$(powerline-shell $? 2> /dev/null)"
 }
 
 if [ "$TERM" != "linux" ]; then
@@ -48,3 +40,14 @@ export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 # Allow us to use Ctrl-s and Ctrl-q as keybinds
 stty -ixon
 if [ -e /Users/hja/.nix-profile/etc/profile.d/nix.sh ]; then . /Users/hja/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
+export PATH=/snap/bin:$PATH
+
+export PATH=$HOME/.local/bin/emrichen:$PATH:~/.local/bin/
+
+
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion

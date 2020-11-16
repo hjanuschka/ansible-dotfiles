@@ -5,24 +5,13 @@
 - name: Set up local development environment
   hosts: local
   roles:
-    - { role: rvm_io.ruby,
-        tags: ruby,
-        rvm1_user: hja,
-        rvm1_rubies: ['ruby-2.4.0'],
-        rvm1_bundler_install: true
-      }
-    - ruby
     - bash
     - git
-    - {role: package_manager, tags: ['bootstrap']}
-    - vim
-    - node
-    #- ruby
     - hub
     - ccat
     - tmux
+    - vim
     - {role: osx, when: ansible_os_family == "Darwin"}
     - tig
     - tmuxinator
     - linters
-    - kitty

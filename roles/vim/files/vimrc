@@ -18,6 +18,8 @@ inoremap <silent> <F25> <C-\><C-O>:silent doautocmd FocusGained %<CR>
 set clipboard=unnamed
 set t_Co=256  " vim-monokai now only support 256 colours in terminal.
 
+let &t_ut=''
+
 "
 
 let g:monokai_term_italic = 1
@@ -82,7 +84,6 @@ let php_folding = 0
 call plug#begin('~/.vim/plugged')
 " ------Plugins-------
 
-Plug 'rakr/vim-one'
 Plug 'RRethy/vim-illuminate'
 "Plug 'vim-vdebug/vdebug'
 Plug 'tpope/vim-eunuch'
