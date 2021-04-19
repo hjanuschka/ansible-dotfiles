@@ -74,8 +74,9 @@ call plug#begin('~/.vim/plugged')
 Plug 'equalsraf/neovim-gui-shim'
 Plug 'fatih/vim-go', {'do': ':GoUpdateBinaries'}
 Plug 'bluz71/vim-moonfly-colors'
+
 Plug 'RRethy/vim-illuminate'
-Plug 'vim-vdebug/vdebug'
+"Plug 'vim-vdebug/vdebug'
 Plug 'tpope/vim-eunuch'
 Plug 'vim-scripts/SyntaxRange'
 Plug 'tpope/vim-markdown'
@@ -84,6 +85,7 @@ Plug 'voldikss/vim-floaterm'
 
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'sheerun/vim-polyglot'
 
 
 Plug 'roxma/nvim-yarp'
@@ -96,6 +98,9 @@ Plug 'christoomey/vim-tmux-navigator'
 Plug 'crusoexia/vim-monokai'
 Plug 'phanviet/vim-monokai-pro'
 Plug 'morhetz/gruvbox'
+Plug 'dunckr/vim-monokai-soda'
+Plug 'bluz71/vim-moonfly-colors'
+"Plug 'sickill/vim-monokai'
 Plug 'drewtempelmeyer/palenight.vim'
 Plug 'rust-lang/rust.vim'
 "Plug 'ctrlpvim/ctrlp.vim'

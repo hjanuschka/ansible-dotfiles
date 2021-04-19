@@ -4,5 +4,13 @@
   "coc.preferences.minTriggerInputLength": 4,
   "coc.preferences.timeout": 10000,
   "coc.preferences.diagnostic.enable": false,
+  "rust-client.logToFile": true,
+  "rls": {
+      "command": "rustup",
+      "trace.server": "verbose",
+      "args": ["run", "nightly", "rls"],
+      "filetypes": ["rust"],
+      "settings": {}
+    },
   "git.gitlab.hosts": ["gitlab.krone.at"]
 }
