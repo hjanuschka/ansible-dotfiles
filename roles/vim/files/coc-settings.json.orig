@@ -1,0 +1,13 @@
+{
+  "coc.preferences.diagnostic.displayByAle": true,
+  "coc.preferences.snippets.enable": false,
+  "coc.preferences.minTriggerInputLength": 4,
+  "coc.preferences.timeout": 10000,
+<<<<<<< HEAD
+  "coc.preferences.diagnostic.enable": false
+  "coc.preferences.diagnostic.displayByAle": true
+=======
+  "coc.preferences.diagnostic.enable": false,
+  "git.gitlab.hosts": ["gitlab.krone.at"]
+>>>>>>> f49fc8a6d94031532cbdf7d2f279280f54163e4d
+}

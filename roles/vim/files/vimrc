@@ -13,6 +13,7 @@ endif
 inoremap <silent> <F24> <C-\><C-O>:silent doautocmd FocusLost %<CR>
 inoremap <silent> <F25> <C-\><C-O>:silent doautocmd FocusGained %<CR>
 
+set guifont=Hack\ Nerd\ Font:h16
 
 " Share ClipBoard
 set clipboard=unnamed
@@ -32,42 +33,30 @@ set nofsync
 
 set belloff=all
 
+let g:go_highlight_function_calls=1
 
-function! Wipeout()
-  " list of *all* buffer numbers
-  let l:buffers = range(1, bufnr('$'))
-
-  " what tab page are we in?
-  let l:currentTab = tabpagenr()
-  try
-    " go through all tab pages
-    let l:tab = 0
-    while l:tab < tabpagenr('$')
-      let l:tab += 1
-
-      " go through all windows
-      let l:win = 0
-      while l:win < winnr('$')
-        let l:win += 1
-        " whatever buffer is in this window in this tab, remove it from
-        " l:buffers list
-        let l:thisbuf = winbufnr(l:win)
-        call remove(l:buffers, index(l:buffers, l:thisbuf))
-      endwhile
-    endwhile
-
-    " if there are any buffers left, delete them
-    if len(l:buffers)
-      execute 'bwipeout' join(l:buffers)
-    endif
-  finally
-    " go back to our original tab page
-    execute 'tabnext' l:currentTab
-  endtry
+command -bang -nargs=? QFix call QFixToggle(<bang>0)
+function! QFixToggle(forced)
+  if exists("g:qfix_win") && a:forced == 0
+    cclose
+    unlet g:qfix_win
+  else
+    copen 10
+    let g:qfix_win = bufnr("$")
+  endif
 endfunction
 
+" OPTION+F quickfix toggle
+nmap <silent> <D-f> :QFix<CR>
+
+" OPTION+SHIFT+F - Search in Project (RIPGREP)
+map <D-F> :Rg<CR>
 
 
+
+" Apple Keyboard Pasting with OPTION+v 
+imap <D-v> <C-R>+
+cmap <D-v> <C-R>+
 
 
 set nocompatible
@@ -76,14 +65,14 @@ filetype off
 set directory^=$HOME/tmp/hjvim
 set backupdir^=$HOME/tmp/hjvim
 let g:loaded_matchparen = 1
-
-
 let g:DisableAutoPHPFolding = 1
 let php_folding = 0
 
+
 call plug#begin('~/.vim/plugged')
 " ------Plugins-------
-
+Plug 'equalsraf/neovim-gui-shim'
+Plug 'fatih/vim-go', {'do': ':GoUpdateBinaries'}
 Plug 'bluz71/vim-moonfly-colors'
 Plug 'RRethy/vim-illuminate'
 Plug 'vim-vdebug/vdebug'
@@ -91,9 +80,10 @@ Plug 'tpope/vim-eunuch'
 Plug 'vim-scripts/SyntaxRange'
 Plug 'tpope/vim-markdown'
 Plug 'justinmk/vim-syntax-extra'
+Plug 'voldikss/vim-floaterm'
 
 
-Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 
 Plug 'roxma/nvim-yarp'
@@ -102,14 +92,14 @@ Plug 'roxma/vim-hug-neovim-rpc'
 "Plug 'jreybert/vimagit'
 Plug 'mhinz/vim-signify'
 Plug 'beyondwords/vim-twig'
-Plug 'chr4/nginx.vim'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'crusoexia/vim-monokai'
-"Plug 'sickill/vim-monokai'
+Plug 'phanviet/vim-monokai-pro'
+Plug 'morhetz/gruvbox'
 Plug 'drewtempelmeyer/palenight.vim'
 Plug 'rust-lang/rust.vim'
-Plug 'ctrlpvim/ctrlp.vim'
-Plug 'davidegx/ctrlp-smarttabs'
+"Plug 'ctrlpvim/ctrlp.vim'
+"Plug 'davidegx/ctrlp-smarttabs'
 Plug 'dyng/ctrlsf.vim'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'empanda/vim-varnish'
@@ -120,8 +110,9 @@ Plug 'iberianpig/tig-explorer.vim'
 Plug 'jelera/vim-javascript-syntax'
 ""Plug 'jiangmiao/auto-pairs'
 Plug 'vim-scripts/auto-pairs-gentle'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf', {'do': { -> fzf#install() }}
 Plug 'junegunn/fzf.vim'
+Plug 'airblade/vim-rooter'
 Plug 'leshill/vim-json'
 Plug 'maksimr/vim-jsbeautify'
 Plug 'mhinz/vim-startify'
@@ -140,35 +131,28 @@ Plug 'tmux-plugins/vim-tmux-focus-events'
 Plug 'StanAngeloff/php.vim'
 Plug 'tpope/vim-surround'
 Plug 'tweekmonster/startuptime.vim'
-"Plug 'vim-airline/vim-airline'
-"Plug 'vim-airline/vim-airline-themes'
 Plug 'itchyny/lightline.vim'
 Plug 'w0rp/ale'
 Plug 'maximbaz/lightline-ale'
- let g:ctrlsf_ignore_dir = ['bower_components', 'node_modules', 'vendor']
+
 
 call plug#end()
 
 
+" FZF Config
+let $FZF_DEFAULT_COMMAND = 'rg --files --no-ignore-vcs  --hiden -i '
+let g:fzf_buffers_jump = 1
+let g:fzf_action = {
+  \ 'ctrl-t': 'tab drop',
+  \ 'ctrl-x': 'split',
+  \ 'ctrl-v': 'vsplit'}
+
+
+
+
 set iskeyword+=$
 
-""set iskeyword=$,@,48-57,_,192-255,#
 
-"phpvim
-let php_html_load = 0
-let php_html_in_heredoc = 0
-let php_html_in_nowdoc = 0
-let php_sql_query = 0
-let php_sql_heredoc = 0
-let php_sql_nowdoc = 0
-function! PhpSyntaxOverride()
-	hi! def link phpDocTags	phpDefine
-	hi! def link phpDocParam phpType
-endfunction
-augroup phpVimAutocmd
-	autocmd!
-	autocmd FileType php call PhpSyntaxOverride()
-augroup END
 
 
 
@@ -181,20 +165,11 @@ augroup FastEscape
 augroup END
 
 
-let g:rainbow_levels = [
-    \{'ctermfg': 2, 'guifg': '#a6e22e'},
-    \{'ctermfg': 6, 'guifg': '#66d9ef'},
-    \{'ctermfg': 4, 'guifg': '#ae81ff'},
-    \{'ctermfg': 5, 'guifg': '#f92672'},
-    \{'ctermfg': 1, 'guifg': '#fd971f'},
-    \{'ctermfg': 3, 'guifg': '#f4bf75'},
-    \{'ctermfg': 7, 'guifg': '#f8f8f2'},
-    \{'ctermfg': 0, 'guifg': '#75715e'}]
-
 let g:ale_linters = {
 \   'javascript': ['eslint'],
 \   'haml': ['hamllint'],
 \   'php': ['phpcs'],
+\   'go': ['gofmt'],
 \   'rust': ['rls']
 \}
 let g:ale_fixers = {
@@ -204,12 +179,12 @@ let g:ale_fixers = {
 \   'haml': ['hamllint', 'remove_trailing_lines', 'trim_whitespace'],
 \   'php': ['php_cs_fixer', 'phpcbf'],
 \   'rust': ['rustfmt'],
+\   'go': ['gofmt'],
 \   'sh': ['shmft', 'remove_trailing_lines', 'trim_whitespace'],
 \   'c': ['clang-format', 'remove_trailing_lines', 'trim_whitespace'],
 \}
 let g:ale_php_phpcs_standard = "PSR2"
 let g:ale_php_phpcbf_standard = 'PSR2'
-""let g:ale_lint_on_text_changed = 'normal'
 let g:ale_set_highlights = 0
 
 let g:ale_lint_on_text_changed = 0
@@ -217,21 +192,9 @@ let g:ale_lint_on_enter = 0
 let g:ale_lint_on_save = 1
 
 
-"let g:airline#extensions#ale#enabled = 0
-"let g:airline#extensions#disable_rtp_load = 1
-
 
 " JS as JSX
 let g:jsx_ext_required = 0
-
-
-
-let g:ctrlp_extensions = ['smarttabs']
-
-" ALT+P on my keyboard
-nnoremap π :CtrlPSmartTabs<CR> " Altgr+p to open SmartTabs
-
-
 set completeopt-=preview
 
 
@@ -255,8 +218,6 @@ set cmdheight=2
 " Smaller updatetime for CursorHold & CursorHoldI
 set updatetime=300
 
-" always show signcolumns
-set signcolumn=yes
 
 inoremap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
@@ -269,21 +230,12 @@ function! s:check_back_space() abort
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
-"inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-
-"inoremap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"
-"inoremap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
-"inoremap <expr> <PageDown> pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<PageDown>"
-"inoremap <expr> <PageUp>   pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<PageUp>"
-
-"""""""
-
 map \ :
 let mapleader = ','
 
 
 
-silent! colorscheme monokai
+silent! colorscheme monokai_pro
 
 " Beatufiy
 map <c-f> :call JsBeautify()<cr>
@@ -293,6 +245,7 @@ autocmd FileType jsx noremap <buffer> <c-f> :ALEFix<cr>
 autocmd FileType html noremap <buffer> <c-f> :call HtmlBeautify()<cr>
 autocmd FileType css noremap <buffer> <c-f> :call CSSBeautify()<cr>
 autocmd FileType php noremap <buffer> <c-f> :ALEFix<cr>
+autocmd FileType go noremap <buffer> <c-f> :GoFmt<cr>
 autocmd FileType c,cpp,objc noremap <buffer> <c-f> :<C-u>ClangFormat<CR>
 
 
@@ -311,7 +264,6 @@ set autoindent
 set backspace=indent,eol,start
 set showmatch
 set showmode
-"set smarttab
 
 set nrformats-=octal
 set shiftround
@@ -336,6 +288,10 @@ set encoding=utf-8  " The encoding displayed.
 set fileencoding=utf-8  " The encoding written to file.
 
 set tabstop=2 shiftwidth=2 expandtab
+set textwidth=0 
+set wrapmargin=0
+set wrap!
+
 "set listchars=tab:▒░,trail:▓
 "set list
 
@@ -363,6 +319,11 @@ noremap  <C-S> :update<CR>
 vnoremap <C-S> <C-C>:update<CR>
 inoremap <C-S> <Esc>:update<CR>
 
+
+noremap  <D-s> :update<CR>
+vnoremap <D-s> <C-C>:update<CR>
+inoremap <D-s> <Esc>:update<CR>
+
 set nobackup
 set nowritebackup
 set noswapfile
@@ -377,37 +338,6 @@ inoremap <C-c> <Esc>
 "
 " Plugins config
 "
-
-" CtrlP
-set wildignore+=*/.git/*,*/.hg/*,*/.svn/*
-let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
-if executable('rg')
-  let g:ctrlp_user_command = 'rg %s --files --color=never --glob ""'
-endif
-let g:ctrlp_regexp = 1
-let g:ctrlp_prompt_mappings = {
-    \ 'AcceptSelection("e")': ['<c-t>'],
-    \ 'AcceptSelection("t")': ['<cr>', '<2-LeftMouse>'],
-    \ }
-
-
-" vim-airline
-"let g:airline#extensions#tabline#enabled = 1
-"let g:airline#extensions#tabline#show_buffers = 0
-"let g:airline#extensions#tabline#show_splits = 0
-"let g:airline#extensions#tabline#show_tabs = 1
-"let g:airline#extensions#tabline#show_tab_nr = 0
-"let g:airline#extensions#tabline#show_tab_type = 0
-"let g:airline#extensions#tabline#close_symbol = '×'
-"let g:airline#extensions#tabline#show_close_button = 0
-
-"let g:airline_powerline_fonts = 1
-"let g:airline#extensions#tabline#formatter = 'default'
-"let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
-"let g:airline#extensions#tabline#fnamemod = ':t'
-
-"let g:airline#extensions#whitespace#show_message = 0
-
 let g:lightline = {
   \   'colorscheme': 'powerline',
   \   'active': {
@@ -471,21 +401,65 @@ nnoremap <C-z>  :undo<CR>
 inoremap <C-z>  <Esc>:undo<CR>
 nnoremap <C-y>  :redo<CR>
 inoremap <C-y>  <Esc>:redo<CR>
-" Tabs
-"let g:airline_theme='badwolf'
-"let g:airline#extensions#tabline#enabled = 1
+" OPTION z -> UNDO
+nnoremap <D-z>  :undo<CR>
+inoremap <D-z>  <Esc>:undo<CR>
 
+" OPTION Z -> redo
+nnoremap <D-Z>  :redo<CR>
+inoremap <D-Z>  <Esc>:redo<CR>
+
+" OPTION y REDO
+nnoremap <D-y>  :redo<CR>
+inoremap <D-y>  <Esc>:redo<CR>
+
+
+
+
+
+" Mark ALL
 nnoremap <C-a> <esc>ggVG<CR>
+nnoremap <D-a> <esc>ggVG<CR>
 
 
-"nnoremap <C-S-Tab>  :tabprevious<CR>
-"inoremap <C-S-Tab>  <Esc>:tabprevious<CR>i
-"nnoremap <C-Tab>  :tabnext<CR>
-"inoremap <C-Tab>  <Esc>:tabnext<CR>i
-nnoremap <C-t>  :tabnew<CR>
-inoremap <C-t>  <Esc>:tabnew<CR>i
-"nnoremap <C-k>  :tabclose<CR>
-"inoremap <C-k>  <Esc>:tabclose<CR>i
+" OPTION+M Terminal
+nnoremap <D-m> :FloatermToggle<CR>
+inoremap <D-m> :FloatermToggle<CR>
+tnoremap <D-m> <C-\><C-n>:FloatermToggle<CR>
+
+
+
+" OPTION + e -> GoDef
+nnoremap <D-e> :GoDef<CR>
+inoremap <D-e> :GoDef<CR>
+
+
+
+
+
+set synmaxcol=240
+
+" OPTION+P / CTRL+P
+nnoremap <D-p> :GFiles --cached --others --exclude-standard  <CR>
+inoremap <D-p> <esc>:GFiles --cached --others --exclude-standard  <CR>
+nnoremap <C-p> :GFiles --cached --others --exclude-standard  <CR>
+inoremap <C-p> <esc>:GFiles --cached --others --exclude-standard  <CR>
+
+
+
+" OPTION + LEFT/RIGHT - navigate TABS
+nnoremap <D-Left>  :tabprevious<CR>
+inoremap <D-Left>  <Esc>:tabprevious<CR>i
+nnoremap <D-Right>  :tabnext<CR>
+inoremap <D-Right>  <Esc>:tabnext<CR>i
+
+" OPTION + t  -> new TAB
+nnoremap <D-t>  :tabnew<CR>
+inoremap <D-t>  <Esc>:tabnew<CR>i
+" OPTION + w -> close tab
+"
+nnoremap <D-w>  :tabclose<CR>
+inoremap <D-w>  <Esc>:tabclose<CR>i
 
 " lazy ':'
 
@@ -494,12 +468,6 @@ nnoremap <Leader>f :ALEFix<CR>
 nnoremap <Leader>o :set nopaste<CR>
 
 
-"""""""
-
-
-" TAB NAV
-"nnoremap <silent> <A-Left> :execute 'silent! tabmove ' . (tabpagenr()-2)<CR>
-"nnoremap <silent> <A-Right> :execute 'silent! tabmove ' . (tabpagenr()+1)<CR>
 
 
 " this machine config
@@ -527,7 +495,7 @@ command! -bang Tabcloseleft call TabCloseLeft('<bang>')
 
 "CoC
 " if hidden not set, TextEdit might fail.
-set hidden
+
 
 " Better display for messages
 set cmdheight=2
@@ -535,8 +503,6 @@ set cmdheight=2
 " Smaller updatetime for CursorHold & CursorHoldI
 set updatetime=300
 
-" always show signcolumns
-set signcolumn=yes
 
 " Use tab for trigger completion with characters ahead and navigate.
 " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
@@ -554,7 +520,7 @@ function! s:check_back_space() abort
 endfunction
 
 " Use <c-space> for trigger completion.
-inoremap <silent><expr> <c-space> coc#refresh()
+inoremap <silent><expr> <C-space> coc#refresh()
 
 " Use <cr> for confirm completion.
 " Coc only does snippet and additional edit on confirm.
