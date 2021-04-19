@@ -71,29 +71,61 @@ let php_folding = 0
 
 call plug#begin('~/.vim/plugged')
 " ------Plugins-------
+<<<<<<< HEAD
 Plug 'equalsraf/neovim-gui-shim'
 Plug 'fatih/vim-go', {'do': ':GoUpdateBinaries'}
+Plug 'bluz71/vim-moonfly-colors'
+=======
 
+>>>>>>> 0f802d3ec19607b5ae1a5e101746df65a5f96b4d
 Plug 'RRethy/vim-illuminate'
 "Plug 'vim-vdebug/vdebug'
 Plug 'tpope/vim-eunuch'
+Plug 'vim-scripts/SyntaxRange'
+Plug 'tpope/vim-markdown'
 Plug 'justinmk/vim-syntax-extra'
+<<<<<<< HEAD
 Plug 'voldikss/vim-floaterm'
 
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+=======
 Plug 'sheerun/vim-polyglot'
 
 
+if !exists('g:vscode')
+"Plug 'neoclide/coc.nvim', {'tag': 'master', 'do': 'yarn install'}
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+endif
+>>>>>>> 0f802d3ec19607b5ae1a5e101746df65a5f96b4d
+
+
+Plug 'roxma/nvim-yarp'
+Plug 'roxma/vim-hug-neovim-rpc'
 
 "Plug 'jreybert/vimagit'
 Plug 'mhinz/vim-signify'
 Plug 'beyondwords/vim-twig'
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'crusoexia/vim-monokai'
+<<<<<<< HEAD
 Plug 'phanviet/vim-monokai-pro'
+Plug 'morhetz/gruvbox'
+=======
+Plug 'dunckr/vim-monokai-soda'
+Plug 'bluz71/vim-moonfly-colors'
+"Plug 'sickill/vim-monokai'
+>>>>>>> 0f802d3ec19607b5ae1a5e101746df65a5f96b4d
+Plug 'drewtempelmeyer/palenight.vim'
 Plug 'rust-lang/rust.vim'
+"Plug 'ctrlpvim/ctrlp.vim'
+"Plug 'davidegx/ctrlp-smarttabs'
+Plug 'dyng/ctrlsf.vim'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'empanda/vim-varnish'
 ""Plug 'gcmt/breeze.vim'
+Plug 'hjanuschka/vim-danger'
+Plug 'iberianpig/tig-explorer.vim'
 "Plug 'janko-m/vim-test'
 Plug 'jelera/vim-javascript-syntax'
 ""Plug 'jiangmiao/auto-pairs'
@@ -106,9 +138,17 @@ Plug 'maksimr/vim-jsbeautify'
 Plug 'mhinz/vim-startify'
 Plug 'milch/vim-fastlane'
 Plug 'mxw/vim-jsx'
+""Plug 'StanAngeloff/php.vim'
+Plug 'osyo-manga/vim-over'
 Plug 'pangloss/vim-javascript'
 Plug 'rhysd/vim-clang-format'
+""Plug 'ryanoasis/vim-devicons'
 Plug 'terryma/vim-multiple-cursors'
+""Plug 'thiagoalessio/rainbow_levels.vim'
+Plug 'tmux-plugins/vim-tmux-focus-events'
+"Plug 'tomtom/tcomment_vim'
+"Plug 'tpope/vim-endwise'
+Plug 'StanAngeloff/php.vim'
 Plug 'tpope/vim-surround'
 Plug 'tweekmonster/startuptime.vim'
 Plug 'itchyny/lightline.vim'
