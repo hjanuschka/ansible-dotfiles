@@ -74,6 +74,11 @@ call plug#begin('~/.vim/plugged')
 Plug 'equalsraf/neovim-gui-shim'
 Plug 'fatih/vim-go', {'do': ':GoUpdateBinaries'}
 
+Plug 'reewr/vim-monokai-phoenix'
+
+
+Plug 'tiagovla/tokyodark.nvim'
+
 Plug 'RRethy/vim-illuminate'
 "Plug 'vim-vdebug/vdebug'
 Plug 'tpope/vim-eunuch'
@@ -215,7 +220,7 @@ let mapleader = ','
 
 
 
-silent! colorscheme monokai_pro
+silent! colorscheme  monokai-phoenix
 
 " Beatufiy
 map <c-f> :call JsBeautify()<cr>
