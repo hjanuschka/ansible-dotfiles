@@ -6,9 +6,24 @@
 
 " Enable CTRL
 
+let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+
 if has('python3')
   silent! python3 1
 endif
+
+
+map \ :
+let mapleader = ','
+
+" ESC-ESC clear search highlight
+nnoremap <silent> <Esc><Esc> :let @/=""<CR>
+
+
+"""""""YANK TO SSH CLIPBOARD 
+vnoremap <Leader>y  :OSCYank<CR>
+nnoremap <Leader>Y  v$:OSCYank<CR>
+nnoremap <Leader>yy V:OSCYank<CR>
 
 inoremap <silent> <F24> <C-\><C-O>:silent doautocmd FocusLost %<CR>
 inoremap <silent> <F25> <C-\><C-O>:silent doautocmd FocusGained %<CR>
@@ -47,16 +62,16 @@ function! QFixToggle(forced)
 endfunction
 
 " OPTION+F quickfix toggle
-nmap <silent> <D-f> :QFix<CR>
+nmap <silent> <C-f> :QFix<CR>
 
 " OPTION+SHIFT+F - Search in Project (RIPGREP)
-map <D-F> :Rg<CR>
+map Ï :Rg<CR>
 
 
 
 " Apple Keyboard Pasting with OPTION+v 
-imap <D-v> <C-R>+
-cmap <D-v> <C-R>+
+imap <C-v> <C-R>+
+cmap <C-v> <C-R>+
 
 
 set nocompatible
@@ -72,6 +87,13 @@ let php_folding = 0
 call plug#begin('~/.vim/plugged')
 " ------Plugins-------
 Plug 'equalsraf/neovim-gui-shim'
+
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
+Plug 'tanvirtin/monokai.nvim'
+Plug 'ojroques/vim-oscyank'
+Plug 'pR0Ps/molokai-dark'
+
+
 Plug 'fatih/vim-go', {'do': ':GoUpdateBinaries'}
 
 Plug 'reewr/vim-monokai-phoenix'
@@ -79,7 +101,7 @@ Plug 'reewr/vim-monokai-phoenix'
 
 Plug 'tiagovla/tokyodark.nvim'
 
-Plug 'RRethy/vim-illuminate'
+"Plug 'RRethy/vim-illuminate'
 "Plug 'vim-vdebug/vdebug'
 Plug 'tpope/vim-eunuch'
 Plug 'justinmk/vim-syntax-extra'
@@ -117,11 +139,14 @@ Plug 'terryma/vim-multiple-cursors'
 Plug 'tpope/vim-surround'
 Plug 'tweekmonster/startuptime.vim'
 Plug 'itchyny/lightline.vim'
-Plug 'w0rp/ale'
+Plug 'dense-analysis/ale'
 Plug 'maximbaz/lightline-ale'
 
 
 call plug#end()
+
+"let g:floaterm_wintype = 'split'
+"let g:floaterm_height = 0.3
 
 
 " FZF Config
@@ -215,15 +240,14 @@ function! s:check_back_space() abort
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
-map \ :
-let mapleader = ','
 
 
 
-silent! colorscheme  monokai-phoenix
+
+silent! colorscheme  molokai-dark
 
 " Beatufiy
-map <c-f> :call JsBeautify()<cr>
+"map <c-f> :call JsBeautify()<cr>
 autocmd FileType javascript noremap <buffer>  <c-f> :ALEFix<cr>
 autocmd FileType json noremap <buffer> <c-f> :call JsonBeautify()<cr>
 autocmd FileType jsx noremap <buffer> <c-f> :ALEFix<cr>
@@ -305,9 +329,9 @@ vnoremap <C-S> <C-C>:update<CR>
 inoremap <C-S> <Esc>:update<CR>
 
 
-noremap  <D-s> :update<CR>
-vnoremap <D-s> <C-C>:update<CR>
-inoremap <D-s> <Esc>:update<CR>
+noremap  <C-s> :update<CR>
+vnoremap <C-s> <C-C>:update<CR>
+inoremap <C-s> <Esc>:update<CR>
 
 set nobackup
 set nowritebackup
@@ -386,17 +410,7 @@ nnoremap <C-z>  :undo<CR>
 inoremap <C-z>  <Esc>:undo<CR>
 nnoremap <C-y>  :redo<CR>
 inoremap <C-y>  <Esc>:redo<CR>
-" OPTION z -> UNDO
-nnoremap <D-z>  :undo<CR>
-inoremap <D-z>  <Esc>:undo<CR>
 
-" OPTION Z -> redo
-nnoremap <D-Z>  :redo<CR>
-inoremap <D-Z>  <Esc>:redo<CR>
-
-" OPTION y REDO
-nnoremap <D-y>  :redo<CR>
-inoremap <D-y>  <Esc>:redo<CR>
 
 
 
@@ -404,19 +418,20 @@ inoremap <D-y>  <Esc>:redo<CR>
 
 " Mark ALL
 nnoremap <C-a> <esc>ggVG<CR>
-nnoremap <D-a> <esc>ggVG<CR>
 
 
 " OPTION+M Terminal
-nnoremap <D-m> :FloatermToggle<CR>
-inoremap <D-m> :FloatermToggle<CR>
-tnoremap <D-m> <C-\><C-n>:FloatermToggle<CR>
+nnoremap µ :FloatermToggle<CR>
+inoremap µ :FloatermToggle<CR>
+tnoremap µ <C-\><C-n>:FloatermToggle<CR>
+
+
 
 
 
 " OPTION + e -> GoDef
-nnoremap <D-e> :GoDef<CR>
-inoremap <D-e> :GoDef<CR>
+nnoremap <C-e> :GoDef<CR>
+inoremap <C-e> :GoDef<CR>
 
 
 
@@ -425,25 +440,26 @@ inoremap <D-e> :GoDef<CR>
 set synmaxcol=240
 
 " OPTION+P / CTRL+P
-nnoremap <D-p> :GFiles --cached --others --exclude-standard  <CR>
-inoremap <D-p> <esc>:GFiles --cached --others --exclude-standard  <CR>
 nnoremap <C-p> :GFiles --cached --others --exclude-standard  <CR>
 inoremap <C-p> <esc>:GFiles --cached --others --exclude-standard  <CR>
 
 
+nnoremap π :GFiles --cached --others --exclude-standard  <CR>
+inoremap π <esc>:GFiles --cached --others --exclude-standard  <CR>
+
+
 
 " OPTION + LEFT/RIGHT - navigate TABS
-nnoremap <D-Left>  :tabprevious<CR>
-inoremap <D-Left>  <Esc>:tabprevious<CR>i
-nnoremap <D-Right>  :tabnext<CR>
-inoremap <D-Right>  <Esc>:tabnext<CR>i
+nnoremap <C-Left>  :tabprevious<CR>
+inoremap <C-Left>  <Esc>:tabprevious<CR>i
+nnoremap <C-Right>  :tabnext<CR>
+inoremap <C-Right>  <Esc>:tabnext<CR>i
 
 " OPTION + t  -> new TAB
-nnoremap <D-t>  :tabnew<CR>
-inoremap <D-t>  <Esc>:tabnew<CR>i
+nnoremap <C-t>  :tabnew<CR>
+inoremap <C-t>  <Esc>:tabnew<CR>i
 " OPTION + w -> close tab
 "
-nnoremap <D-w>  :tabclose<CR>
 inoremap <D-w>  <Esc>:tabclose<CR>i
 
 " lazy ':'

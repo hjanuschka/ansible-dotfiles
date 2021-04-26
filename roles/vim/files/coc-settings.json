@@ -1,5 +1,7 @@
 {
   "coc.preferences.diagnostic.displayByAle": true,
+  "diagnostic.messageTarget": "echo",
+  "diagnostic.checkCurrentLine": true,
   "coc.preferences.snippets.enable": false,
   "coc.preferences.minTriggerInputLength": 4,
   "coc.preferences.timeout": 10000,
