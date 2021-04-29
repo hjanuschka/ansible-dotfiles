@@ -16,7 +16,6 @@ Plug 'RRethy/vim-illuminate'
 Plug 'airblade/vim-rooter'
 Plug 'beyondwords/vim-twig'
 Plug 'editorconfig/editorconfig-vim'
-Plug 'empanda/vim-varnish'
 Plug 'fatih/vim-go', {'do': ':GoUpdateBinaries'}
 Plug 'junegunn/fzf', {'do': { -> fzf#install() }}
 Plug 'junegunn/fzf.vim'
@@ -38,6 +37,12 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'vim-scripts/auto-pairs-gentle'
 Plug 'voldikss/vim-floaterm'
+Plug 'tpope/vim-fugitive'
+Plug 'nvim-lua/popup.nvim'
+Plug 'nvim-lua/plenary.nvim'
+" Plug 'nvim-telescope/telescope.nvim'
+Plug 'tpope/vim-commentary'
+
 call plug#end()
 
 
@@ -101,6 +106,7 @@ set updatetime=300
 set wildmenu
 set wrap!
 set wrapmargin=0
+set relativenumber
 syntax on
 
 
@@ -134,9 +140,13 @@ set guicursor=n-v:block-Cursor
 
 
 
+
+
 " AU GROUPS
 "
 " RELOAD config if VIMRC is changed
+
+
 augroup myvimrc
     au!
     au BufWritePost init.vim,.vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc so $MYVIMRC | if has('gui_running') | so $MYGVIMRC | endif
@@ -153,6 +163,26 @@ augroup END
 
 " PLUGIN CONFIG
 "
+
+" TELESCOPE
+"
+" lua << EOF
+" local actions = require('telescope.actions')
+" require('telescope').setup{
+"   defaults = {
+"     mappings = {
+"       i = {
+"         ["<esc>"] = actions.close
+"       },
+"       n = {
+"         ["<esc>"] = actions.close
+"       }
+ 
+"     }
+"   }
+" }
+" EOF
+
 
 " TREESITTER
 lua <<EOF
@@ -211,6 +241,11 @@ let g:fzf_action = {
   \ 'ctrl-v': 'vsplit'}
 
 
+" FUGITIVE
+"
+nmap <Leader>gs :G<CR>
+nmap <Leader>gf :diffget //2
+nmap <Leader>gh :diffget //3
 
 " COC
 "
@@ -297,6 +332,10 @@ endfunction
 "
 map \ :
 let mapleader = ','
+
+
+""" COMMENT UNCOMMENT
+
 
 """""""YANK TO SSH CLIPBOARD 
 vnoremap <Leader>y  :OSCYank<CR>
@@ -410,7 +449,7 @@ inoremap <D-w>  <Esc>:tabclose<CR>i
 " lazy ':'
 
 nnoremap <Leader>p :set paste<CR>
-nnoremap <Leader>f :ALEFix<CR>
+"nnoremap <Leader>f :ALEFix<CR>
 nnoremap <Leader>o :set nopaste<CR>
 
 
