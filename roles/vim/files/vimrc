@@ -42,6 +42,7 @@ Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 " Plug 'nvim-telescope/telescope.nvim'
 Plug 'tpope/vim-commentary'
+Plug 'morhetz/gruvbox'
 
 call plug#end()
 
@@ -104,7 +105,7 @@ set ttimeoutlen=50
 set ttyfast
 set updatetime=300
 set wildmenu
-set wrap!
+set nowrap!
 set wrapmargin=0
 set relativenumber
 syntax on
@@ -244,6 +245,7 @@ let g:fzf_action = {
 " FUGITIVE
 "
 nmap <Leader>gs :G<CR>
+imap <Leader>gs <ESC>:G<CR>
 nmap <Leader>gf :diffget //2
 nmap <Leader>gh :diffget //3
 
