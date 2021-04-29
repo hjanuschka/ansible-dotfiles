@@ -5,6 +5,46 @@
 " Updated by Dorian Neto (https://github.com/dorianneto)"
 
 " Enable CTRL
+"
+"
+
+call plug#begin('~/.vim/plugged')
+" ------Plugins-------
+Plug 'kyazdani42/nvim-web-devicons'
+
+
+Plug 'Erichain/vim-monokai-pro'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
+Plug 'ojroques/vim-oscyank'
+Plug 'fatih/vim-go', {'do': ':GoUpdateBinaries'}
+Plug 'RRethy/vim-illuminate'
+Plug 'tpope/vim-eunuch'
+Plug 'voldikss/vim-floaterm'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'sheerun/vim-polyglot'
+
+Plug 'mhinz/vim-signify'
+Plug 'beyondwords/vim-twig'
+Plug 'phanviet/vim-monokai-pro'
+Plug 'rust-lang/rust.vim'
+Plug 'editorconfig/editorconfig-vim'
+Plug 'empanda/vim-varnish'
+Plug 'vim-scripts/auto-pairs-gentle'
+Plug 'junegunn/fzf', {'do': { -> fzf#install() }}
+Plug 'junegunn/fzf.vim'
+Plug 'airblade/vim-rooter'
+Plug 'mhinz/vim-startify'
+Plug 'milch/vim-fastlane'
+Plug 'terryma/vim-multiple-cursors'
+Plug 'tpope/vim-surround'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+"Plug 'dense-analysis/ale'
+Plug 'patstockwell/vim-monokai-tasty'
+
+
+call plug#end()
+
 
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 
@@ -89,44 +129,6 @@ set nofoldenable
 set foldlevel=2
 
 
-call plug#begin('~/.vim/plugged')
-" ------Plugins-------
-Plug 'kyazdani42/nvim-web-devicons'
-
-
-Plug 'Erichain/vim-monokai-pro'
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
-Plug 'ojroques/vim-oscyank'
-Plug 'fatih/vim-go', {'do': ':GoUpdateBinaries'}
-Plug 'RRethy/vim-illuminate'
-Plug 'tpope/vim-eunuch'
-Plug 'voldikss/vim-floaterm'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'sheerun/vim-polyglot'
-
-Plug 'mhinz/vim-signify'
-Plug 'beyondwords/vim-twig'
-Plug 'phanviet/vim-monokai-pro'
-Plug 'rust-lang/rust.vim'
-Plug 'editorconfig/editorconfig-vim'
-Plug 'empanda/vim-varnish'
-Plug 'vim-scripts/auto-pairs-gentle'
-Plug 'junegunn/fzf', {'do': { -> fzf#install() }}
-Plug 'junegunn/fzf.vim'
-Plug 'airblade/vim-rooter'
-Plug 'mhinz/vim-startify'
-Plug 'milch/vim-fastlane'
-Plug 'terryma/vim-multiple-cursors'
-Plug 'tpope/vim-surround'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'dense-analysis/ale'
-Plug 'patstockwell/vim-monokai-tasty'
-
-
-
-call plug#end()
-
 "let g:floaterm_wintype = 'split'
 "let g:floaterm_height = 0.3
 
@@ -141,16 +143,19 @@ let g:airline_theme='powerlineish'
 
 
 
+" TIG status
+nnoremap <Leader>ag :FloatermNew --name=git_status --title="Git-Status" tig status<CR>
+tnoremap <Leader>ag <C-\><C-n>:FloatermKill git_status <CR>
 
 
-
-nnoremap <F8> :setl ai nocin nosi inde=<CR>
+" INDENT
+set autoindent
 set nocindent
 set nosmartindent
 set indentexpr=
 
 
-" FZF Config
+" FZF Config ignore git files and find already open tab
 let $FZF_DEFAULT_COMMAND = 'rg --files --no-ignore-vcs  --hiden -i '
 let g:fzf_buffers_jump = 1
 let g:fzf_action = {
@@ -160,11 +165,7 @@ let g:fzf_action = {
 
 
 
-
-set iskeyword+=$
-
-
-
+" RELOAD config if VIMRC is changed
 augroup myvimrc
     au!
     au BufWritePost init.vim,.vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc so $MYVIMRC | if has('gui_running') | so $MYGVIMRC | endif
@@ -172,14 +173,13 @@ augroup END
 
 
 " make Esc happen without waiting for timeoutlen
-" fixes Powerline delay
 augroup FastEscape
   autocmd!
   au InsertEnter * set timeoutlen=0
   au InsertLeave * set timeoutlen=1000
 augroup END
 
-
+" ALE CONFIG
 let g:ale_linters = {
 \   'javascript': ['eslint'],
 \   'haml': ['hamllint'],
@@ -203,36 +203,72 @@ let g:ale_lint_on_text_changed = 0
 let g:ale_lint_on_enter = 0
 let g:ale_lint_on_save = 1
 
-
+" COC CONFIG
+"
 
 set completeopt-=preview
-
-
 set hidden
-
 " Better display for messages
 set cmdheight=2
-
 " Smaller updatetime for CursorHold & CursorHoldI
 set updatetime=300
 
+set shortmess+=c
+set signcolumn=yes
 
-"inoremap <silent><expr> <TAB>
-"      \ pumvisible() ? "\<C-n>" :
-"      \ <SID>check_back_space() ? "\<TAB>" :
-"      \ coc#refresh()
-"inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+" Highlight the symbol and its references when holding the cursor.
+autocmd CursorHold * silent call CocActionAsync('highlight')
 
-"function! s:check_back_space() abort
-"  let col = col('.') - 1
-"  return !col || getline('.')[col - 1]  =~# '\s'
-"endfunction
+" Add `:Format` command to format current buffer.
+command! -nargs=0 Format :call CocAction('format')
+
+
+" Make autocomplete more better
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+
+
+" Add `:OR` command for organize imports of the current buffer.
+command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+
+" Add (Neo)Vim's native statusline support.
+" NOTE: Please see `:h coc-status` for integrations with external plugins that
+" provide custom statusline: lightline.vim, vim-airline.
+set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+
+
+
+" Use `[c` and `]c` for navigate diagnostics
+nmap <silent> [c <Plug>(coc-diagnostic-prev)
+nmap <silent> ]c <Plug>(coc-diagnostic-next)
+
+" Remap keys for gotos
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+
+" COC END
 
 
 syntax on
 colorscheme monokai_pro 
 set termguicolors
 
+" COMPLETION POPUP STYLES
 hi Pmenu ctermfg=NONE ctermbg=236 cterm=NONE guifg=NONE guibg=#64666d gui=NONE
 highlight Pmenu ctermbg=238 gui=bold
 
@@ -251,12 +287,7 @@ hi oCursor guibg=#E5C07B
 set guicursor+=o:block-oCursor
 
 
-""""""""
-if has('syntax') && !exists('g:syntax_on')
-  syntax enable
-endif
 
-set autoindent
 set backspace=indent,eol,start
 set showmatch
 set showmode
@@ -288,11 +319,6 @@ set textwidth=0
 set wrapmargin=0
 set wrap!
 
-"set listchars=tab:▒░,trail:▓
-"set list
-
-inoremap <C-U> <C-G>u<C-U>
-
 "set relativenumber
 set number
 set hlsearch
@@ -306,9 +332,6 @@ if has('mouse')
   set mouse=a
 endif
 
-" do not history when leavy buffer
-
-" FIXME: (broken) ctrl s to save
 noremap  <C-S> :update<CR>
 vnoremap <C-S> <C-C>:update<CR>
 inoremap <C-S> <Esc>:update<CR>
@@ -352,7 +375,9 @@ inoremap <C-y>  <Esc>:redo<CR>
 
 
 " Mark ALL
-nnoremap <C-a> <esc>ggVG<CR>
+nnoremap <C-A> <ESC>ggVG<CR>
+inoremap <C-A> <ESC>ggVG<CR>
+
 
 
 " OPTION+M Terminal
@@ -366,8 +391,8 @@ tnoremap <C-S-m> <C-\><C-n>:FloatermToggle<CR>
 
 
 " OPTION + e -> GoDef
-nnoremap <C-e> :GoDef<CR>
-inoremap <C-e> :GoDef<CR>
+nmap <silent> <C-e> <Plug>(coc-definition)
+imap <silent> <C-e> <ESC><Plug>(coc-definition)
 
 
 
@@ -382,11 +407,6 @@ inoremap <C-p> <ESC>:GitFiles <CR>
 
 let g:fzf_preview_window = ['down:40%']
 
-
-
-
-nnoremap π :GFiles --cached --others --exclude-standard  <CR>
-inoremap π <esc>:GFiles --cached --others --exclude-standard  <CR>
 
 
 
@@ -458,38 +478,6 @@ set cmdheight=2
 " Smaller updatetime for CursorHold & CursorHoldI
 set updatetime=300
 
-
-" Use tab for trigger completion with characters ahead and navigate.
-" Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
-" Use tab for trigger completion with characters ahead and navigate.
-" Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
-
-" Use <c-space> for trigger completion.
-inoremap <silent><expr> <C-space> coc#refresh()
-
-" Use <cr> for confirm completion.
-" Coc only does snippet and additional edit on confirm.
-""inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-
-" Use `[c` and `]c` for navigate diagnostics
-nmap <silent> [c <Plug>(coc-diagnostic-prev)
-nmap <silent> ]c <Plug>(coc-diagnostic-next)
-
-" Remap keys for gotos
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
 
 "luafile "~/.config/nvim/status-line.lua"
 
