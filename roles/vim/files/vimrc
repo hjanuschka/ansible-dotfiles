@@ -10,161 +10,132 @@
 
 call plug#begin('~/.vim/plugged')
 " ------Plugins-------
-Plug 'kyazdani42/nvim-web-devicons'
-
-
+"Plug 'dense-analysis/ale'
 Plug 'Erichain/vim-monokai-pro'
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
-Plug 'ojroques/vim-oscyank'
-Plug 'fatih/vim-go', {'do': ':GoUpdateBinaries'}
 Plug 'RRethy/vim-illuminate'
-Plug 'tpope/vim-eunuch'
-Plug 'voldikss/vim-floaterm'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'sheerun/vim-polyglot'
-
-Plug 'mhinz/vim-signify'
+Plug 'airblade/vim-rooter'
 Plug 'beyondwords/vim-twig'
-Plug 'phanviet/vim-monokai-pro'
-Plug 'rust-lang/rust.vim'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'empanda/vim-varnish'
-Plug 'vim-scripts/auto-pairs-gentle'
+Plug 'fatih/vim-go', {'do': ':GoUpdateBinaries'}
 Plug 'junegunn/fzf', {'do': { -> fzf#install() }}
 Plug 'junegunn/fzf.vim'
-Plug 'airblade/vim-rooter'
+Plug 'kyazdani42/nvim-web-devicons'
+Plug 'mhinz/vim-signify'
 Plug 'mhinz/vim-startify'
 Plug 'milch/vim-fastlane'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
+Plug 'ojroques/vim-oscyank'
+Plug 'patstockwell/vim-monokai-tasty'
+Plug 'phanviet/vim-monokai-pro'
+Plug 'rust-lang/rust.vim'
+Plug 'sheerun/vim-polyglot'
 Plug 'terryma/vim-multiple-cursors'
+Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-surround'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-"Plug 'dense-analysis/ale'
-Plug 'patstockwell/vim-monokai-tasty'
-
-
+Plug 'vim-scripts/auto-pairs-gentle'
+Plug 'voldikss/vim-floaterm'
 call plug#end()
 
 
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 
-if has('python3')
-  silent! python3 1
+
+colorscheme monokai_pro 
+filetype off
+let &t_ut=''
+set autoindent
+set autoread
+set backspace=indent,eol,start
+set backupdir^=$HOME/tmp/hjvim
+set belloff=all
+set clipboard=unnamed
+set cmdheight=2
+set completeopt-=preview
+set cursorline
+set directory^=$HOME/tmp/hjvim
+set encoding=utf-8  " The encoding displayed.
+set fileencoding=utf-8  " The encoding written to file.
+set fileformats=unix,dos,mac
+set foldlevel=2
+set foldmethod=syntax
+set foldnestmax=10
+set guifont=Hack\ Nerd\ Font:h16
+set hidden
+set hlsearch
+set ignorecase
+set incsearch
+set indentexpr=
+set laststatus=2
+set lazyredraw
+set nobackup
+set nocindent
+set nocompatible
+set nofoldenable
+set nofsync
+set nosmartindent
+set noswapfile
+set nowritebackup
+set nrformats-=octal
+set number
+set re=1
+set ruler
+set shiftround
+set shortmess+=c
+set showcmd
+set showmatch
+set showmode
+set showtabline=2
+set signcolumn=yes
+set smartcase
+set tabstop=2 shiftwidth=2 expandtab shiftwidth=2
+set termguicolors
+set textwidth=0 
+set ttimeout
+set ttimeoutlen=50
+set ttyfast
+set updatetime=300
+set wildmenu
+set wrap!
+set wrapmargin=0
+syntax on
+
+
+
+" In many terminal emulators the mouse works just fine, thus enable it.
+if has('mouse')
+  set mouse=a
 endif
 
 
-map \ :
-let mapleader = ','
 
-set cursorline
+" Auto complete styling
+
+highlight BufferCurrentSign guifg=#90C966 
+highlight BufferInactiveSign guifg=#83A598 
+highlight BufferVisibleSign guifg=#73BA9F 
+highlight ColorColumn guibg=#343B46
+highlight Cursor guibg=#EBDBB2
+highlight GitSignsChange guifg=#E5C07B
+highlight Pmenu ctermbg=238 gui=bold
+highlight Pmenu ctermfg=NONE ctermbg=236 cterm=NONE guifg=NONE guibg=#64666d gui=NONE
+highlight iCursor guibg=#EBDBB2
+highlight oCursor guibg=#E5C07B
+set guicursor+=i-c:ver100-iCursor
+set guicursor+=o:block-oCursor
+set guicursor+=r:hor10-iCursor
+set guicursor=n-v:block-Cursor
 
 
 
 
-"""""""YANK TO SSH CLIPBOARD 
-vnoremap <Leader>y  :OSCYank<CR>
-nnoremap <Leader>Y  v$:OSCYank<CR>
-nnoremap <Leader>yy V:OSCYank<CR>
 
-inoremap <silent> <F24> <C-\><C-O>:silent doautocmd FocusLost %<CR>
-inoremap <silent> <F25> <C-\><C-O>:silent doautocmd FocusGained %<CR>
 
-set guifont=Hack\ Nerd\ Font:h16
-
-" Share ClipBoard
-set clipboard=unnamed
-" set t_Co=256  " vim-monokai now only support 256 colours in terminal.
-
-let &t_ut=''
-
+" AU GROUPS
 "
-
-"let g:monokai_term_italic = 1
-"let g:monokai_gui_italic = 1
-
-set re=1
-set ttyfast
-set lazyredraw
-set nofsync
-
-set belloff=all
-
-
-command -bang -nargs=? QFix call QFixToggle(<bang>0)
-function! QFixToggle(forced)
-  if exists("g:qfix_win") && a:forced == 0
-    cclose
-    unlet g:qfix_win
-  else
-    copen 10
-    let g:qfix_win = bufnr("$")
-  endif
-endfunction
-
-" OPTION+F quickfix toggle
-nmap <silent> <C-f> :QFix<CR>
-
-" OPTION+SHIFT+F - Search in Project (RIPGREP)
-map <C-S-F> :Rg<CR>
-
-
-
-" Apple Keyboard Pasting with OPTION+v 
-imap <C-v> <C-R>+
-cmap <C-v> <C-R>+
-
-
-set nocompatible
-filetype off
-
-set directory^=$HOME/tmp/hjvim
-set backupdir^=$HOME/tmp/hjvim
-let g:loaded_matchparen = 1
-let g:DisableAutoPHPFolding = 1
-let php_folding = 0
-
-set foldmethod=syntax
-set foldnestmax=10
-set nofoldenable
-set foldlevel=2
-
-
-"let g:floaterm_wintype = 'split'
-"let g:floaterm_height = 0.3
-
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#formatter = 'unique_tail'
-let g:airline#extensions#tabline#left_sep = ''
-let g:airline#extensions#tabline#right_sep = ''
-let g:airline#extensions#tabline#left_alt_sep = ''
-let g:airline#extensions#tabline#right_alt_sep = ''
-let airline#extensions#tabline#show_buffers = 0
-let g:airline_theme='powerlineish'
-
-
-
-" TIG status
-nnoremap <Leader>ag :FloatermNew --name=git_status --title="Git-Status" tig status<CR>
-tnoremap <Leader>ag <C-\><C-n>:FloatermKill git_status <CR>
-
-
-" INDENT
-set autoindent
-set nocindent
-set nosmartindent
-set indentexpr=
-
-
-" FZF Config ignore git files and find already open tab
-let $FZF_DEFAULT_COMMAND = 'rg --files --no-ignore-vcs  --hiden -i '
-let g:fzf_buffers_jump = 1
-let g:fzf_action = {
-  \ 'ctrl-t': 'tab drop',
-  \ 'ctrl-x': 'split',
-  \ 'ctrl-v': 'vsplit'}
-
-
-
 " RELOAD config if VIMRC is changed
 augroup myvimrc
     au!
@@ -179,7 +150,34 @@ augroup FastEscape
   au InsertLeave * set timeoutlen=1000
 augroup END
 
-" ALE CONFIG
+
+" PLUGIN CONFIG
+"
+
+" TREESITTER
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+  ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+  ignore_install = { "javascript" }, -- List of parsers to ignore installing
+  highlight = {
+    enable = true,              -- false will disable the whole extension
+    disable = { },  -- list of language that will be disabled
+  },
+}
+EOF
+
+
+" AIRLINE
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#formatter = 'unique_tail'
+let g:airline#extensions#tabline#left_sep = ''
+let g:airline#extensions#tabline#right_sep = ''
+let g:airline#extensions#tabline#left_alt_sep = ''
+let g:airline#extensions#tabline#right_alt_sep = ''
+let airline#extensions#tabline#show_buffers = 0
+let g:airline_theme='powerlineish'
+
+" ALE
 let g:ale_linters = {
 \   'javascript': ['eslint'],
 \   'haml': ['hamllint'],
@@ -203,19 +201,19 @@ let g:ale_lint_on_text_changed = 0
 let g:ale_lint_on_enter = 0
 let g:ale_lint_on_save = 1
 
-" COC CONFIG
+
+" FZF
+let $FZF_DEFAULT_COMMAND = 'rg --files --no-ignore-vcs  --hiden -i '
+let g:fzf_buffers_jump = 1
+let g:fzf_action = {
+  \ 'ctrl-t': 'tab drop',
+  \ 'ctrl-x': 'split',
+  \ 'ctrl-v': 'vsplit'}
+
+
+
+" COC
 "
-
-set completeopt-=preview
-set hidden
-" Better display for messages
-set cmdheight=2
-" Smaller updatetime for CursorHold & CursorHoldI
-set updatetime=300
-
-set shortmess+=c
-set signcolumn=yes
-
 " Highlight the symbol and its references when holding the cursor.
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
@@ -264,94 +262,81 @@ nmap <silent> gr <Plug>(coc-references)
 " COC END
 
 
-syntax on
-colorscheme monokai_pro 
-set termguicolors
 
-" COMPLETION POPUP STYLES
-hi Pmenu ctermfg=NONE ctermbg=236 cterm=NONE guifg=NONE guibg=#64666d gui=NONE
-highlight Pmenu ctermbg=238 gui=bold
+" FUNCTIONS
 
-hi ColorColumn guibg=#343B46
-hi GitSignsChange guifg=#E5C07B
-hi BufferCurrentSign guifg=#90C966 
-hi BufferVisibleSign guifg=#73BA9F 
-hi BufferInactiveSign guifg=#83A598 
+function! TabCloseRight(bang)
+    let cur=tabpagenr()
+    while cur < tabpagenr('$')
+        exe 'tabclose' . a:bang . ' ' . (cur + 1)
+    endwhile
+endfunction
 
-hi Cursor guibg=#EBDBB2
-set guicursor=n-v:block-Cursor
-hi iCursor guibg=#EBDBB2
-set guicursor+=i-c:ver100-iCursor
-set guicursor+=r:hor10-iCursor
-hi oCursor guibg=#E5C07B
-set guicursor+=o:block-oCursor
+function! TabCloseLeft(bang)
+    while tabpagenr() > 1
+        exe 'tabclose' . a:bang . ' 1'
+    endwhile
+endfunction
+
+command! -bang Tabcloseright call TabCloseRight('<bang>')
+command! -bang Tabcloseleft call TabCloseLeft('<bang>')
+
+command -bang -nargs=? QFix call QFixToggle(<bang>0)
+function! QFixToggle(forced)
+  if exists("g:qfix_win") && a:forced == 0
+    cclose
+    unlet g:qfix_win
+  else
+    copen 10
+    let g:qfix_win = bufnr("$")
+  endif
+endfunction
 
 
+" KEY MAPS
+"
+map \ :
+let mapleader = ','
 
-set backspace=indent,eol,start
-set showmatch
-set showmode
+"""""""YANK TO SSH CLIPBOARD 
+vnoremap <Leader>y  :OSCYank<CR>
+nnoremap <Leader>Y  v$:OSCYank<CR>
+nnoremap <Leader>yy V:OSCYank<CR>
 
-set nrformats-=octal
-set shiftround
+inoremap <silent> <F24> <C-\><C-O>:silent doautocmd FocusLost %<CR>
+inoremap <silent> <F25> <C-\><C-O>:silent doautocmd FocusGained %<CR>
 
-set ttimeout
-set ttimeoutlen=50
 
-set incsearch
-" Use <C-L> to clear the highlighting of :set hlsearch.
-if maparg('<C-L>', 'n') ==# ''
-  nnoremap <silent> <C-L> :nohlsearch<CR><C-L>
-endif
+" OPTION+F quickfix toggle
+nmap <silent> <C-f> :QFix<CR>
 
-set laststatus=2
-set ruler
-set showcmd
-set wildmenu
+" OPTION+SHIFT+F - Search in Project (RIPGREP)
+map <C-S-F> :Rg<CR>
 
-set autoread
-
-set encoding=utf-8  " The encoding displayed.
-set fileencoding=utf-8  " The encoding written to file.
-
-set tabstop=2 shiftwidth=2 expandtab shiftwidth=2
-set textwidth=0 
-set wrapmargin=0
-set wrap!
-
-"set relativenumber
-set number
-set hlsearch
-set ignorecase
-set smartcase
+" Apple Keyboard Pasting with OPTION+v 
+imap <C-v> <C-R>+
+cmap <C-v> <C-R>+
 
 
 
-" In many terminal emulators the mouse works just fine, thus enable it.
-if has('mouse')
-  set mouse=a
-endif
+
+" TIG status
+nnoremap <Leader>ag :FloatermNew --name=git_status --title="Git-Status" tig status<CR>
+tnoremap <Leader>ag <C-\><C-n>:FloatermKill git_status <CR>
+
+
+
+
 
 noremap  <C-S> :update<CR>
 vnoremap <C-S> <C-C>:update<CR>
 inoremap <C-S> <Esc>:update<CR>
 
 
+if maparg('<C-L>', 'n') ==# ''
+  nnoremap <silent> <C-L> :nohlsearch<CR><C-L>
+endif
 
-set nobackup
-set nowritebackup
-set noswapfile
-set fileformats=unix,dos,mac
-
-
-
-
-
-"
-" Plugins config
-"
-
-set showtabline=2  " Show tabline
 
 "
 " Basic shortcuts definitions
@@ -436,49 +421,8 @@ if filereadable(expand("~/.vimrc.local"))
   source ~/.vimrc.local
 endif
 
-function! TabCloseRight(bang)
-    let cur=tabpagenr()
-    while cur < tabpagenr('$')
-        exe 'tabclose' . a:bang . ' ' . (cur + 1)
-    endwhile
-endfunction
-
-function! TabCloseLeft(bang)
-    while tabpagenr() > 1
-        exe 'tabclose' . a:bang . ' 1'
-    endwhile
-endfunction
-
-command! -bang Tabcloseright call TabCloseRight('<bang>')
-command! -bang Tabcloseleft call TabCloseLeft('<bang>')
 
 
-" Treesiter
-"
 
-lua <<EOF
-require'nvim-treesitter.configs'.setup {
-  ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
-  ignore_install = { "javascript" }, -- List of parsers to ignore installing
-  highlight = {
-    enable = true,              -- false will disable the whole extension
-    disable = { },  -- list of language that will be disabled
-  },
-}
-EOF
-
-
-"CoC
-" if hidden not set, TextEdit might fail.
-
-
-" Better display for messages
-set cmdheight=2
-
-" Smaller updatetime for CursorHold & CursorHoldI
-set updatetime=300
-
-
-"luafile "~/.config/nvim/status-line.lua"
 
 
