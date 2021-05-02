@@ -11,8 +11,8 @@
 call plug#begin('~/.vim/plugged')
 " ------Plugins-------
 "Plug 'dense-analysis/ale'
-Plug 'Erichain/vim-monokai-pro'
-Plug 'RRethy/vim-illuminate'
+"Plug 'Erichain/vim-monokai-pro'
+"Plug 'RRethy/vim-illuminate'
 Plug 'airblade/vim-rooter'
 Plug 'beyondwords/vim-twig'
 Plug 'editorconfig/editorconfig-vim'
@@ -30,13 +30,27 @@ Plug 'patstockwell/vim-monokai-tasty'
 Plug 'phanviet/vim-monokai-pro'
 Plug 'rust-lang/rust.vim'
 Plug 'sheerun/vim-polyglot'
-Plug 'terryma/vim-multiple-cursors'
 Plug 'tpope/vim-eunuch'
+Plug 'romainl/vim-qf'
 Plug 'tpope/vim-surround'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'vim-scripts/auto-pairs-gentle'
+"Plug 'vim-airline/vim-airline'
+"Plug 'vim-airline/vim-airline-themes'
+Plug 'itchyny/lightline.vim'
+Plug 'josa42/vim-lightline-coc'
+Plug 'niklaas/lightline-gitdiff'
+
+
+Plug 'sindrets/diffview.nvim'
+
+
+
+Plug 'mg979/vim-visual-multi', {'branch': 'master'}
+
+
+
+"Plug 'vim-scripts/auto-pairs-gentle'
 Plug 'voldikss/vim-floaterm'
+
 Plug 'tpope/vim-fugitive'
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
@@ -44,15 +58,22 @@ Plug 'nvim-lua/plenary.nvim'
 Plug 'tpope/vim-commentary'
 Plug 'morhetz/gruvbox'
 
+Plug 'RishabhRD/popfix'
+Plug 'RishabhRD/nvim-cheat.sh'
+
+Plug 'terryma/vim-multiple-cursors'
+
 call plug#end()
 
 
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 
 
-colorscheme monokai_pro 
+
+set background=dark
+colorscheme gruvbox 
+"colorscheme monokai_pro 
 filetype off
-let &t_ut=''
 set autoindent
 set autoread
 set backspace=indent,eol,start
@@ -94,7 +115,7 @@ set shortmess+=c
 set showcmd
 set showmatch
 set showmode
-set showtabline=2
+set showtabline=3
 set signcolumn=yes
 set smartcase
 set tabstop=2 shiftwidth=2 expandtab shiftwidth=2
@@ -134,7 +155,8 @@ highlight oCursor guibg=#E5C07B
 set guicursor+=i-c:ver100-iCursor
 set guicursor+=o:block-oCursor
 set guicursor+=r:hor10-iCursor
-set guicursor=n-v:block-Cursor
+set guicursor+=n-v:block-Cursor
+
 
 
 
@@ -147,6 +169,12 @@ set guicursor=n-v:block-Cursor
 "
 " RELOAD config if VIMRC is changed
 
+
+" wrap long lines in quickfix
+augroup quickfix
+    autocmd!
+    autocmd FileType qf setlocal wrap
+augroup END
 
 augroup myvimrc
     au!
@@ -164,6 +192,50 @@ augroup END
 
 " PLUGIN CONFIG
 "
+
+" LIGHTLINE
+"
+function! LLMode()
+  let fname = expand('%:t')
+  return fname == '__Tagbar__' ? 'Tagbar' :
+        \ fname == 'ControlP' ? 'CtrlP' :
+        \ lightline#mode() == 'NORMAL' ? 'N' :
+        \ lightline#mode() == 'INSERT' ? 'I' :
+        \ lightline#mode() == 'VISUAL' ? 'V' :
+        \ lightline#mode() == 'V-LINE' ? 'V' :
+        \ lightline#mode() == 'V-BLOCK' ? 'V' :
+        \ lightline#mode() == 'REPLACE' ? 'R' : lightline#mode()
+endfunction
+
+let g:lightline = {
+  \   'active': {
+  \     'left': [[ 'mode', 'paste', 'coc_info', 'coc_hints', 'coc_errors', 'coc_warnings', 'coc_ok' ],
+  \              [ 'gitbranch','readonly', 'absolutepath', 'coc_status'  ]],
+  \     'right': [['gitdiff'],['lineinfo'], ['fileformat', 'fileencoding', 'filetype']]
+  \   },
+  \ 'inactive': {
+  \   'left': [ [ 'filename', 'gitversion' ] ],
+  \ },
+  \ 'component_function': {
+  \   'gitbranch': 'FugitiveHead',
+  \   'mode': 'LLMode'
+  \ },
+  \ 'component_expand': {
+  \   'gitdiff': 'lightline#gitdiff#get',
+  \ },
+  \ 'component_type': {
+  \   'gitdiff': 'middle',
+  \ },
+  \ }
+
+" register compoments:
+call lightline#coc#register()
+
+
+let g:lightline#gitdiff#indicator_added = '+'
+let g:lightline#gitdiff#indicator_deleted = '-'
+let g:lightline#gitdiff#indicator_modified = '~'
+
 
 " TELESCOPE
 "
@@ -250,6 +322,18 @@ nmap <Leader>gf :diffget //2
 nmap <Leader>gh :diffget //3
 
 " COC
+
+" Show Yank list
+nnoremap <silent> <Leader>c  :<C-u>CocList -A --normal yank<cr>
+
+
+imap <C-l> <Plug>(coc-snippets-expand)
+imap <C-j> <Plug>(coc-snippets-expand-jump)
+
+
+command! -nargs=0 Prettier :CocCommand prettier.formatFile
+
+
 "
 " Highlight the symbol and its references when holding the cursor.
 autocmd CursorHold * silent call CocActionAsync('highlight')
@@ -318,17 +402,6 @@ endfunction
 command! -bang Tabcloseright call TabCloseRight('<bang>')
 command! -bang Tabcloseleft call TabCloseLeft('<bang>')
 
-command -bang -nargs=? QFix call QFixToggle(<bang>0)
-function! QFixToggle(forced)
-  if exists("g:qfix_win") && a:forced == 0
-    cclose
-    unlet g:qfix_win
-  else
-    copen 10
-    let g:qfix_win = bufnr("$")
-  endif
-endfunction
-
 
 " KEY MAPS
 "
@@ -336,8 +409,14 @@ map \ :
 let mapleader = ','
 
 
+" Cycle last 2 files -
+nmap - <C-^>
+
 """ COMMENT UNCOMMENT
 
+""" SHOW NETRW 
+let g:netrw_browse_split=4
+nnoremap <Leader>pv :wincmd v<bar> :Ex <bar> :vertical resize 30<CR>
 
 """""""YANK TO SSH CLIPBOARD 
 vnoremap <Leader>y  :OSCYank<CR>
@@ -348,8 +427,6 @@ inoremap <silent> <F24> <C-\><C-O>:silent doautocmd FocusLost %<CR>
 inoremap <silent> <F25> <C-\><C-O>:silent doautocmd FocusGained %<CR>
 
 
-" OPTION+F quickfix toggle
-nmap <silent> <C-f> :QFix<CR>
 
 " OPTION+SHIFT+F - Search in Project (RIPGREP)
 map <C-S-F> :Rg<CR>
@@ -451,7 +528,7 @@ inoremap <D-w>  <Esc>:tabclose<CR>i
 " lazy ':'
 
 nnoremap <Leader>p :set paste<CR>
-"nnoremap <Leader>f :ALEFix<CR>
+nnoremap <Leader>f :Format<CR>
 nnoremap <Leader>o :set nopaste<CR>
 
 
