@@ -23,9 +23,9 @@ call plug#begin('~/.vim/plugged')
 "Plug 'dense-analysis/ale'
 "Plug 'Erichain/vim-monokai-pro'
 "Plug 'RRethy/vim-illuminate'
-Plug 'airblade/vim-rooter'
+"Plug 'airblade/vim-rooter'
 Plug 'beyondwords/vim-twig'
-Plug 'editorconfig/editorconfig-vim'
+"Plug 'editorconfig/editorconfig-vim'
 Plug 'fatih/vim-go', {'do': ':GoUpdateBinaries'}
 Plug 'junegunn/fzf', {'do': { -> fzf#install() }}
 Plug 'junegunn/fzf.vim'
@@ -42,13 +42,27 @@ Plug 'neovim/nvim-lsp'
 Plug 'kabouzeid/nvim-lspinstall'
 Plug 'nvim-lua/completion-nvim'
 Plug 'nvim-lua/lsp-status.nvim'
+Plug 'folke/lsp-trouble.nvim'
+Plug 'folke/lsp-colors.nvim'
+"Plug 'liuchengxu/vista.vim'
+Plug 'simrat39/symbols-outline.nvim'
+
+
+
+
+
+
+
+
+
+
+
 
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
 Plug 'ojroques/vim-oscyank'
 Plug 'patstockwell/vim-monokai-tasty'
 Plug 'phanviet/vim-monokai-pro'
 Plug 'rust-lang/rust.vim'
-Plug 'sheerun/vim-polyglot'
 Plug 'tpope/vim-eunuch'
 Plug 'romainl/vim-qf'
 Plug 'tpope/vim-surround'
@@ -58,6 +72,8 @@ Plug 'tpope/vim-surround'
 " Plug 'niklaas/lightline-gitdiff'
 "
 Plug 'glepnir/galaxyline.nvim' , {'branch': 'main'}
+Plug 'akinsho/nvim-bufferline.lua'
+
 
 
 
@@ -69,12 +85,14 @@ Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 
 
 
-Plug 'vim-scripts/auto-pairs-gentle'
+"Plug 'vim-scripts/auto-pairs-gentle'
+Plug 'Raimondi/delimitMate'
 Plug 'voldikss/vim-floaterm'
 
 Plug 'tpope/vim-fugitive'
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
+Plug 'NTBBloodbath/rest.nvim'
 " Plug 'nvim-telescope/telescope.nvim'
 Plug 'tpope/vim-commentary'
 Plug 'morhetz/gruvbox'
@@ -86,13 +104,19 @@ Plug 'terryma/vim-multiple-cursors'
 
 call plug#end()
 
-
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 
 
 
+
+let g:gruvbox_contrast_dark = 'hard'
+if exists("+termguicolors")
+  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum]"
+  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum]"
+endif
 set background=dark
 colorscheme gruvbox 
+
 "colorscheme monokai_pro 
 filetype off
 set autoindent
@@ -184,9 +208,39 @@ set guicursor+=n-v:block-Cursor
 
 
 
+" Highlight Yanked things
+" 
 
+augroup highlight_yank
+    autocmd!
+    au TextYankPost * silent! lua vim.highlight.on_yank { higroup='IncSearch', timeout=200 }
+augroup END
 
 " AU GROUPS
+
+" HEX EDITOR for binary files
+" vim -b : edit binary using xxd-format!
+augroup Binary
+  au!
+  au BufReadPre  *.jpeg let &bin=1
+  au BufReadPost *.jpeg if &bin | %!xxd
+  au BufReadPost *.jpeg set ft=xxd | endif
+  au BufWritePre *.jpeg if &bin | %!xxd -r
+  au BufWritePre *.jpeg endif
+  au BufWritePost *.jpeg if &bin | %!xxd
+  au BufWritePost *.jpeg set nomod | endif
+augroup END
+
+" FORCE AUTOINDENT
+autocmd BufReadPost * setlocal autoindent
+
+
+augroup cursorline
+  autocmd!
+  autocmd WinEnter,BufEnter * setlocal cursorline 
+  autocmd WinLeave,BufLeave * setlocal nocursorline 
+augroup END
+
 "
 " RELOAD config if VIMRC is changed
 
@@ -212,7 +266,53 @@ augroup END
 
 
 " PLUGIN CONFIG
+
+" BUFFERLINE
+lua << EOF
+require'bufferline'.setup{
+  options = {
+    separator_style = "slant",
+    diagnostics = "nvim_lsp",
+    show_buffer_icon = true,
+    show_buffer_close_icon = true,
+    diagnostics_indicator = function(count, level, diagnostics_dict)
+      local icon = level:match("error") and " " or " "
+      return " " .. icon .. count
+    end
+  }
+}
+EOF
+
+"REST PLUGIN
+"autocmd FileType http nnoremap <buffer> <Leader>r gg
+autocmd FileType http map <buffer> <Leader>r <ESC>gg<Plug>RestNvim
+autocmd FileType http map <buffer> <Leader>R <ESC><Plug>RestNvim
+
+
+
+
 "
+"
+" DELIMIATE
+"
+
+
+
+let g:delimitMate_autoclose = 1
+let g:delimitMate_matchpairs = "(:),[:],{:},<:>"
+let g:delimitMate_jump_expansion = 1
+let g:delimitMate_expand_space = 1
+let g:delimitMate_expand_cr = 2
+let g:delimitMate_expand_inside_quotes = 1
+
+"inoremap {<CR> {<CR>} <C-o>O
+
+" Fixes delimitmate's 'delimitMate_expand_cr' option
+let g:completion_confirm_key = ""
+imap <expr> <cr>  pumvisible() ? complete_info()["selected"] != "-1" ?
+                \ "\<Plug>(completion_confirm_completion)" : "\<c-e>\<CR>" : "\<Plug>delimitMateCR"
+
+
 
 " LIGHTLINE
 "
@@ -278,7 +378,7 @@ lua <<EOF
 local gl = require('galaxyline')
 
 local colors = {
-    bg              = '#000000',
+    bg              = '#1d2021',
 
     giticon         = '#FF8800',
     gitbg           = '#5C2C2E',
@@ -843,7 +943,7 @@ let g:ale_lint_on_save = 1
 
 
 " FZF
-let $FZF_DEFAULT_COMMAND = 'rg --files --no-ignore-vcs  --hiden -i '
+let $FZF_DEFAULT_COMMAND = 'rg --files  --hidden --ignore-vcs'
 let g:fzf_buffers_jump = 1
 let g:fzf_action = {
   \ 'ctrl-t': 'tab drop',
@@ -863,6 +963,34 @@ let g:float_preview#docked = 0
 
 " NATIVE LSP
 if g:native_lsp == 1 
+
+""LSP SNIPPETS
+
+
+" PHP LSP inserts double $$
+autocmd FileType php setlocal iskeyword+=$
+
+let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
+" ['exact', 'substring', 'fuzzy', 'all']
+"let g:completion_matching_smart_case = 1
+"let g:completion_trigger_keyword_length = 2
+"let g:completion_enable_snippet = 'Neosnippet'
+"let g:completion_auto_change_source = 1
+
+let g:completion_chain_complete_list = {
+             \'default' :[
+            \   {'complete_items': ['lsp', 'snippet', 'ts']},
+            \]
+             \}
+
+lua << EOF
+  require("trouble").setup {
+    -- your configuration comes here
+    -- or leave it empty to use the default settings
+    -- refer to the configuration section below
+  }
+EOF
+
 lua <<EOF
 require'lspinstall'.setup() -- important
 
@@ -872,6 +1000,8 @@ local servers = require'lspinstall'.installed_servers()
 for _, server in pairs(servers) do
   require'lspconfig'[server].setup{}
 end
+require'lspconfig'.solargraph.setup{}
+
 EOF
 autocmd BufEnter * lua require'completion'.on_attach()
 
@@ -1025,9 +1155,9 @@ tnoremap <Leader>ag <C-\><C-n>:FloatermKill git_status <CR>
 
 
 
-noremap  <C-S> :update<CR>
-vnoremap <C-S> <C-C>:update<CR>
-inoremap <C-S> <Esc>:update<CR>
+noremap  <C-S> :w<CR>
+vnoremap <C-S> <C-C>:w<CR>
+inoremap <C-S> <Esc>:w<CR>
 
 
 if maparg('<C-L>', 'n') ==# ''
@@ -1093,10 +1223,10 @@ let g:fzf_preview_window = ['down:40%']
 
 
 " OPTION + LEFT/RIGHT - navigate TABS
-nnoremap <C-Left>  :tabprevious<CR>
-inoremap <C-Left>  <Esc>:tabprevious<CR>i
-nnoremap <C-Right>  :tabnext<CR>
-inoremap <C-Right>  <Esc>:tabnext<CR>i
+nnoremap <C-Left>  :BufferLineCyclePrev<CR>
+inoremap <C-Left>  <Esc>:BufferLineCyclePrev<CR>i
+nnoremap <C-Right>  :BufferLineCycleNext<CR>
+inoremap <C-Right>  <Esc>:BufferLineCycleNext<CR>i
 
 " OPTION + t  -> new TAB
 nnoremap <C-t>  :tabnew<CR>
