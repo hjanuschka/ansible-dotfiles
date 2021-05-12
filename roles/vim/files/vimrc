@@ -17,6 +17,7 @@
 " Enable CTRL
 "
 "
+let g:vimspector_enable_mappings = 'HUMAN'
 
 call plug#begin('~/.vim/plugged')
 " ------Plugins-------
@@ -25,6 +26,8 @@ call plug#begin('~/.vim/plugged')
 "Plug 'RRethy/vim-illuminate'
 "Plug 'airblade/vim-rooter'
 Plug 'beyondwords/vim-twig'
+Plug 'szw/vim-maximizer'
+Plug 'puremourning/vimspector'
 "Plug 'editorconfig/editorconfig-vim'
 Plug 'fatih/vim-go', {'do': ':GoUpdateBinaries'}
 Plug 'junegunn/fzf', {'do': { -> fzf#install() }}
@@ -41,6 +44,7 @@ Plug 'neovim/nvim-lspconfig'
 Plug 'neovim/nvim-lsp'
 Plug 'kabouzeid/nvim-lspinstall'
 Plug 'nvim-lua/completion-nvim'
+"Plug 'hrsh7th/nvim-compe'
 Plug 'nvim-lua/lsp-status.nvim'
 Plug 'folke/lsp-trouble.nvim'
 Plug 'folke/lsp-colors.nvim'
@@ -266,6 +270,10 @@ augroup END
 
 
 " PLUGIN CONFIG
+" VIMSPECTOR
+"
+
+map <Leader>db 	<Plug>VimspectorToggleBreakpoint
 
 " BUFFERLINE
 lua << EOF
@@ -1116,6 +1124,10 @@ command! -bang Tabcloseleft call TabCloseLeft('<bang>')
 "
 map \ :
 let mapleader = ','
+
+
+" Close All Buffers
+noremap <leader>bd :%bd\|e#\|bd#<cr>\|'"
 
 
 " Cycle last 2 files -
