@@ -1,15 +1,8 @@
 [hub]
         protocol = https
 [user]
-        name = {{ full_name }}
-        email = {{ git_email }}
-{% if git_signing_key %}
-        signingkey = {{ git_signing_key }}
-{% endif %}
-{% if ansible_os_family == 'Darwin' %}
-[credential]
-        helper = osxkeychain
-{% endif %}
+        name = Helmut Januschka
+        email = helmut@januschka.com
 [alias]
         a = add
         st = status
@@ -52,25 +45,39 @@
         diff = auto
         status = auto
         branch = auto
-        ui = true
+	ui = true
 [core]
         excludesfile = ~/.gitignore_global
         editor = vim
+        #   cargo install git-delta
+	      pager = delta
 [apply]
         whitespace = nowarn
 
-[mergetool "custom"]
-        cmd = /Applications/p4merge.app/Contents/Resources/launchp4merge "$PWD/$BASE" "$PWD/$REMOTE" "$PWD/$LOCAL" "$PWD/$MERGED"
-        keepTemporaries = false
-        trustExitCode = false
-        keepBackup = false
+
+[delta]
+  line-numbers = true
+  syntax-theme = gruvbox
+  side-by-side = false
+
+  file-modified-label = modified:
+
+[interactive]
+  diffFilter = delta --color-only
+
 
 [merge]
-        keepBackup = false
-        tool = custom
-
+  tool = vimdiff
+[mergetool]
+  prompt = true
+[mergetool "vimdiff"]
+  cmd = nvim -d $LOCAL $REMOTE $MERGED -c 'wincmd w' -c 'wincmd J'
 [difftool]
-        prompt = false
+  prompt = false
+[diff]
+  tool = vimdiff
+
+
 [push]
         # See `git help config` (search for push.default)
         # for more information on different options of the below setting.
@@ -78,8 +85,23 @@
         # Setting to git 2.0 default to surpress warning message
         default = current
 [github]
-        user = {{ git_user }}
-{% if git_signing_key %}
-[commit]
-        gpgsign = false
-{% endif %}
+        user = hjanuschka
+[color "diff-highlight"]
+	oldNormal = red bold
+	oldHighlight = red bold 52
+	newNormal = green bold
+	newHighlight = green bold 22
+[color "diff"]
+	meta = yellow
+	frag = magenta bold
+	commit = yellow bold
+	old = red bold
+	new = green bold
+	whitespace = red reverse
+[url "git@github.com:"]
+	insteadOf = https://github.com/
+	insteadOf = https://github.com/
+[url "ssh://git@gitlab.krone.at:"]
+	insteadOf = https://gitlab.krone.at/
+[url "/git@gitlab.krone.at/KRN"]
+	insteadOf = http://gitlab.krone.at/KRN
