@@ -40,10 +40,13 @@ Plug 'milch/vim-fastlane'
 Plug 'ncm2/float-preview.nvim'
 " """ LSP
 Plug 'neovim/nvim-lspconfig'
+Plug 'nvim-lua/completion-nvim'
 "Plug 'hrsh7th/nvim-compe' 
+"Plug 'ray-x/lsp_signature.nvim'
+
 Plug 'neovim/nvim-lsp'
 Plug 'kabouzeid/nvim-lspinstall'
-Plug 'nvim-lua/completion-nvim'
+
 Plug 'nvim-lua/lsp-status.nvim'
 Plug 'folke/lsp-trouble.nvim'
 Plug 'folke/lsp-colors.nvim'
@@ -279,6 +282,8 @@ if g:nvim_compe == 1
 lua << EOF
 
 
+
+
 vim.cmd [[set shortmess+=c]]
 
 require'compe'.setup {
@@ -347,6 +352,9 @@ _G.s_tab_complete = function()
     return t "<S-Tab>"
   end
 end
+
+
+
 
 EOF
 endif
@@ -1059,6 +1067,7 @@ autocmd FileType php setlocal iskeyword+=$
 
 
 " Fixes delimitmate's 'delimitMate_expand_cr' option
+if g:nvim_compe == 0
 let g:completion_confirm_key = ""
 imap <expr> <cr>  pumvisible() ? complete_info()["selected"] != "-1" ?
                 \ "\<Plug>(completion_confirm_completion)" : "\<c-e>\<CR>" : "\<Plug>delimitMateCR"
@@ -1089,6 +1098,7 @@ let g:completion_customize_lsp_label = {
       \ 'Class': '',
       \ 'Interface': '',
       \}
+endif
 
 lua << EOF
   require("trouble").setup {
@@ -1110,7 +1120,12 @@ end
 require'lspconfig'.solargraph.setup{}
 
 EOF
+
+if g:nvim_compe == 0
 autocmd BufEnter * lua require'completion'.on_attach()
+else
+  autocmd BufEnter * lua require'lsp_signature'.on_attach()
+endif
 
 
 
@@ -1169,9 +1184,11 @@ function! s:check_back_space() abort
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
+if g:nvim_compe == 0
 inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
                               \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
+endif
 
 
 " Add `:OR` command for organize imports of the current buffer.
