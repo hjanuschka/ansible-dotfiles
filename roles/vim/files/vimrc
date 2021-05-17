@@ -1,6 +1,4 @@
-
-" ShowLspClient = {
-"         provider = 'GetLspClient',
+" g         provider = 'GetLspClient',
 "         condition = function()
 "             local tbl = {['dashboard'] = true, [' '] = true}
 "             if tbl[vim.bo.filetype] then return false end
@@ -24,7 +22,7 @@ call plug#begin('~/.vim/plugged')
 "Plug 'dense-analysis/ale'
 "Plug 'Erichain/vim-monokai-pro'
 "Plug 'RRethy/vim-illuminate'
-"Plug 'airblade/vim-rooter'
+Plug 'airblade/vim-rooter'
 Plug 'beyondwords/vim-twig'
 Plug 'szw/vim-maximizer'
 Plug 'puremourning/vimspector'
@@ -33,32 +31,42 @@ Plug 'fatih/vim-go', {'do': ':GoUpdateBinaries'}
 Plug 'junegunn/fzf', {'do': { -> fzf#install() }}
 Plug 'junegunn/fzf.vim'
 Plug 'kyazdani42/nvim-web-devicons'
-Plug 'mhinz/vim-signify'
+"Plug 'mhinz/vim-signify'
+Plug 'lewis6991/gitsigns.nvim'
+
 Plug 'mhinz/vim-startify'
 Plug 'milch/vim-fastlane'
 
 Plug 'ncm2/float-preview.nvim'
 " """ LSP
 Plug 'neovim/nvim-lspconfig'
-Plug 'nvim-lua/completion-nvim'
-"Plug 'hrsh7th/nvim-compe' 
-"Plug 'ray-x/lsp_signature.nvim'
+"Plug 'nvim-lua/completion-nvim'
+Plug 'hrsh7th/nvim-compe' 
+Plug 'ray-x/lsp_signature.nvim'
+Plug 'onsails/lspkind-nvim'
 
 Plug 'neovim/nvim-lsp'
 Plug 'kabouzeid/nvim-lspinstall'
 
 Plug 'nvim-lua/lsp-status.nvim'
-Plug 'folke/lsp-trouble.nvim'
+Plug 'folke/trouble.nvim'
+
 Plug 'folke/lsp-colors.nvim'
+
 "Plug 'liuchengxu/vista.vim'
 Plug 'simrat39/symbols-outline.nvim'
 
 
+Plug 'sainnhe/sonokai'
+
+Plug 'folke/todo-comments.nvim'
 
 
+"
+Plug 'rktjmp/lush.nvim'
+Plug 'npxbr/gruvbox.nvim'
 
-
-
+"Plug 'folke/which-key.nvim'
 
 
 
@@ -74,10 +82,6 @@ Plug 'tpope/vim-eunuch'
 Plug 'romainl/vim-qf'
 Plug 'tpope/vim-surround'
 
-" Plug 'itchyny/lightline.vim'
-" Plug 'josa42/vim-lightline-coc'
-" Plug 'niklaas/lightline-gitdiff'
-"
 Plug 'glepnir/galaxyline.nvim' , {'branch': 'main'}
 Plug 'akinsho/nvim-bufferline.lua'
 
@@ -102,7 +106,7 @@ Plug 'nvim-lua/plenary.nvim'
 Plug 'NTBBloodbath/rest.nvim'
 " Plug 'nvim-telescope/telescope.nvim'
 Plug 'tpope/vim-commentary'
-Plug 'morhetz/gruvbox'
+"Plug 'morhetz/gruvbox'
 
 Plug 'RishabhRD/popfix'
 Plug 'RishabhRD/nvim-cheat.sh'
@@ -115,6 +119,16 @@ let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 
 
 
+lua <<EOF
+function _G.lsp_reinstall_all()
+  local lspinstall = require'lspinstall'
+  for _, server in ipairs(lspinstall.installed_servers()) do
+    lspinstall.install_server(server)
+  end
+end
+vim.cmd 'command! -nargs=0 LspReinstallAll call v:lua.lsp_reinstall_all()'
+EOF
+
 
 let g:gruvbox_contrast_dark = 'hard'
 if exists("+termguicolors")
@@ -123,6 +137,8 @@ if exists("+termguicolors")
 endif
 set background=dark
 colorscheme gruvbox 
+
+
 
 "colorscheme monokai_pro 
 filetype off
@@ -184,7 +200,6 @@ set relativenumber
 syntax on
 
 
-
 " In many terminal emulators the mouse works just fine, thus enable it.
 if has('mouse')
   set mouse=a
@@ -199,9 +214,6 @@ highlight BufferInactiveSign guifg=#83A598
 highlight BufferVisibleSign guifg=#73BA9F 
 highlight ColorColumn guibg=#343B46
 highlight Cursor guibg=#EBDBB2
-highlight GitSignsChange guifg=#E5C07B
-highlight Pmenu ctermbg=238 gui=bold
-highlight Pmenu ctermfg=NONE ctermbg=236 cterm=NONE guifg=NONE guibg=#64666d gui=NONE
 highlight iCursor guibg=#EBDBB2
 highlight oCursor guibg=#E5C07B
 set guicursor+=i-c:ver100-iCursor
@@ -220,7 +232,7 @@ set guicursor+=n-v:block-Cursor
 
 augroup highlight_yank
     autocmd!
-    au TextYankPost * silent! lua vim.highlight.on_yank { higroup='IncSearch', timeout=200 }
+    au TextYankPost * silent! lua vim.highlight.on_yank { higroup='Visual', timeout=300 }
 augroup END
 
 " AU GROUPS
@@ -273,15 +285,87 @@ augroup END
 
 
 " PLUGIN CONFIG
+
+" GITSIGNS
+
+lua <<EOF
+require('gitsigns').setup({
+  signs = {
+    add          = {hl = 'GitSignsAdd'   , text = '+', numhl='GitSignsAddNr'   , linehl='GitSignsAddLn'},
+    change       = {hl = 'GitSignsChange', text = '~', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
+    delete       = {hl = 'GitSignsDelete', text = '-', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
+    topdelete    = {hl = 'GitSignsDelete', text = '-', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
+    changedelete = {hl = 'GitSignsChange', text = '~', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
+  }
+})
+EOF
+
+
+
+" WILDER
+
+
+" DEV ICONS
+"
+lua <<EOF
+require'nvim-web-devicons'.setup {
+ -- your personnal icons can go here (to override)
+ -- DevIcon will be appended to `name`
+ override = {
+  zsh = {
+    icon = "",
+    color = "#428850",
+    name = "Zsh"
+  }
+ };
+ -- globally enable default icons (default to false)
+ -- will get overriden by `get_icons` option
+ default = true;
+}
+EOF
+
+" 'file_command' : for ripgrep : ['rg', '--files']
+"                : for fd      : ['fd', '-tf']
+" 'dir_command'  : for fd      : ['fd', '-td']
+" 'filters'      : use ['cpsm_filter'] for performance, needs cpsm to be installed
+
+
+" TODO
+
+lua << EOF
+  require("todo-comments").setup {
+    -- your configuration comes here
+    -- or leave it empty to use the default settings
+    -- refer to the configuration section below
+  }
+EOF
+
+
+
+" LSP Colors
+"
+lua <<EOF
+
+-- Lua
+require("lsp-colors").setup({
+  Error = "#db4b4b",
+  Warning = "#e0af68",
+  Information = "#0db9d7",
+  Hint = "#10B981"
+})
+
+EOF
+
 "
 
 " NVIM-COMPE
 "
-let g:nvim_compe = 0
+let g:nvim_compe = 1
 if g:nvim_compe == 1
 lua << EOF
 
 
+require('lspkind').init();
 
 
 vim.cmd [[set shortmess+=c]]
@@ -1100,11 +1184,24 @@ let g:completion_customize_lsp_label = {
       \}
 endif
 
+
+
 lua << EOF
+
+vim.fn.sign_define("LspDiagnosticsSignError",
+    {text = "",  texthl = 'LspDiagnosticsSignError'})
+vim.fn.sign_define("LspDiagnosticsSignWarning",
+    {text = "", texthl= 'LspDiagnosticsSignWarning' })
+vim.fn.sign_define("LspDiagnosticsSignInformation",
+    {text = "", texthl= 'LspDiagnosticsSignInformation'})
+vim.fn.sign_define("LspDiagnosticsSignHint",
+    {text = "", texthl= 'LspDiagnosticsSignHint'  })
+
   require("trouble").setup {
     -- your configuration comes here
     -- or leave it empty to use the default settings
     -- refer to the configuration section below
+    use_lsp_diagnostic_signs = true
   }
 EOF
 
@@ -1115,9 +1212,20 @@ require'lspinstall'.setup() -- important
 
 local servers = require'lspinstall'.installed_servers()
 for _, server in pairs(servers) do
-  require'lspconfig'[server].setup{}
+  if server ~= "yaml" then
+    require'lspconfig'[server].setup{}
+  end
 end
 require'lspconfig'.solargraph.setup{}
+require'lspconfig'.yaml.setup{
+    settings = {
+        yaml = {
+           schemas = { kubernetes = "globPattern" },
+      }
+}
+}
+
+
 
 EOF
 
@@ -1271,9 +1379,9 @@ let g:netrw_browse_split=4
 nnoremap <Leader>pv :wincmd v<bar> :Ex <bar> :vertical resize 30<CR>
 
 """""""YANK TO SSH CLIPBOARD 
-vnoremap <Leader>y  :OSCYank<CR>
-nnoremap <Leader>Y  v$:OSCYank<CR>
-nnoremap <Leader>yy V:OSCYank<CR>
+
+vnoremap Y :OSCYank<CR>
+nnoremap Y :OSCYank<CR>
 
 inoremap <silent> <F24> <C-\><C-O>:silent doautocmd FocusLost %<CR>
 inoremap <silent> <F25> <C-\><C-O>:silent doautocmd FocusGained %<CR>
@@ -1384,12 +1492,16 @@ nnoremap <Leader>f :Format<CR>
 nnoremap <Leader>o :set nopaste<CR>
 
 
+hi Visual		 guibg=#303731 gui=none ctermfg=15 ctermbg=67
+hi VisualNOS    guibg=#303731 gui=none ctermfg=15 ctermbg=67
+
 
 
 " this machine config
 if filereadable(expand("~/.vimrc.local"))
   source ~/.vimrc.local
 endif
+
 
 
 
