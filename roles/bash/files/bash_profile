@@ -66,3 +66,4 @@ then
 fi
 if [ -e /Users/hjanuschka/.nix-profile/etc/profile.d/nix.sh ]; then . /Users/hjanuschka/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
 source "$HOME/.cargo/env"
+export PATH="/usr/local/opt/mysql-client/bin:$PATH"
