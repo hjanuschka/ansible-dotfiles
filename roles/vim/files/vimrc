@@ -16,6 +16,7 @@
 "
 "
 let g:vimspector_enable_mappings = 'HUMAN'
+"let g:loaded_matchparen=1
 
 call plug#begin('~/.vim/plugged')
 " ------Plugins-------
@@ -182,7 +183,7 @@ set ruler
 set shiftround
 set shortmess+=c
 set showcmd
-set showmatch
+set noshowmatch
 set showmode
 set showtabline=3
 set signcolumn=auto:2
