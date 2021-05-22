@@ -23,7 +23,10 @@ call plug#begin('~/.vim/plugged')
 "Plug 'dense-analysis/ale'
 "Plug 'Erichain/vim-monokai-pro'
 "Plug 'RRethy/vim-illuminate'
-Plug 'airblade/vim-rooter'
+"Plug 'airblade/vim-rooter'
+Plug 'ahmedkhalf/lsp-rooter.nvim'
+Plug 'fgsch/vim-varnish'
+
 "Plug 'ygm2/rooter.nvim'
 Plug 'beyondwords/vim-twig'
 Plug 'szw/vim-maximizer'
@@ -1196,6 +1199,17 @@ endif
 
 lua << EOF
 
+vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+  vim.lsp.diagnostic.on_publish_diagnostics, {
+    virtual_text = {
+      prefix = "»",
+      spacing = 4,
+    },
+    signs = true,
+    update_in_insert = false,
+  }
+)
+
 vim.fn.sign_define("LspDiagnosticsSignError",
     {text = "",  texthl = 'LspDiagnosticsSignError'})
 vim.fn.sign_define("LspDiagnosticsSignWarning",
@@ -1237,12 +1251,7 @@ flags = {debounce_did_change_notify = 1000},
 EOF
 
 lua << EOF
-    vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-      vim.lsp.diagnostic.on_publish_diagnostics, {
-        -- delay update diagnostics
-        update_in_insert = false,
-      }
-    )
+
 EOF
 
 if g:nvim_compe == 0
