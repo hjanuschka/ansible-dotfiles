@@ -109,7 +109,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'NTBBloodbath/rest.nvim'
-" Plug 'nvim-telescope/telescope.nvim'
+"Plug 'nvim-telescope/telescope.nvim'
 Plug 'tpope/vim-commentary'
 "Plug 'morhetz/gruvbox'
 
@@ -1207,6 +1207,7 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
     },
     signs = true,
     update_in_insert = false,
+    underline = false,
   }
 )
 
@@ -1519,6 +1520,7 @@ nnoremap <Leader>o :set nopaste<CR>
 
 hi Visual		 guibg=#303731 gui=none ctermfg=15 ctermbg=67
 hi VisualNOS    guibg=#303731 gui=none ctermfg=15 ctermbg=67
+hi Error  gui=none
 
 
 
