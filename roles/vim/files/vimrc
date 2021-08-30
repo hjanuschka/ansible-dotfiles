@@ -45,8 +45,13 @@ Plug 'milch/vim-fastlane'
 Plug 'ncm2/float-preview.nvim'
 " """ LSP
 Plug 'neovim/nvim-lspconfig'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/vim-vsnip'
 "Plug 'nvim-lua/completion-nvim'
-Plug 'hrsh7th/nvim-compe' 
+"Plug 'hrsh7th/nvim-compe' 
+Plug 'hrsh7th/nvim-cmp'
+Plug 'hrsh7th/cmp-buffer'
+
 "Plug 'ray-x/lsp_signature.nvim'
 Plug 'onsails/lspkind-nvim'
 
@@ -368,7 +373,91 @@ EOF
 
 " NVIM-COMPE
 "
-let g:nvim_compe = 1
+"
+let g:nvim_compe = 0
+let g:nvim_cmp = 1
+
+
+if g:nvim_cmp == 1
+lua << EOF
+local cmp = require 'cmp'
+cmp.setup {
+  snippet = {
+    expand = function(args)
+      vim.fn["vsnip#anonymous"](args.body)
+    end,
+  },
+formatting = {
+  format = function(entry, vim_item)
+    vim_item.menu = ({
+      nvim_lsp = '',
+      buffer   = '',
+    })[entry.source.name]
+    vim_item.kind = ({
+      Text          = '',
+      Method        = '',
+      Function      = '',
+      Constructor   = '',
+      Field         = '',
+      Variable      = '',
+      Class         = '',
+      Interface     = 'ﰮ',
+      Module        = '',
+      Property      = '',
+      Unit          = '',
+      Value         = '',
+      Enum          = '',
+      Keyword       = '',
+      Snippet       = '﬌',
+      Color         = '',
+      File          = '',
+      Reference     = '',
+      Folder        = '',
+      EnumMember    = '',
+      Constant      = '',
+      Struct        = '',
+      Event         = '',
+      Operator      = 'ﬦ',
+      TypeParameter = '',
+    })[vim_item.kind]
+    return vim_item
+  end
+},
+  mapping = {
+    ['<C-p>'] = cmp.mapping.select_prev_item(),
+    ['<C-n>'] = cmp.mapping.select_next_item(),
+    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+    ['<C-Space>'] = cmp.mapping.complete(),
+    ['<C-e>'] = cmp.mapping.close(),
+    ['<CR>'] = cmp.mapping.confirm {
+      behavior = cmp.ConfirmBehavior.Replace,
+      select = true,
+    },
+    ['<Tab>'] = function(fallback)
+      if vim.fn.pumvisible() == 1 then
+        vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<C-n>', true, true, true), 'n')
+      else
+        fallback()
+      end
+    end,
+    ['<S-Tab>'] = function(fallback)
+      if vim.fn.pumvisible() == 1 then
+        vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<C-p>', true, true, true), 'n')
+      else
+        fallback()
+      end
+    end,
+  },
+  sources = {
+    { name = 'nvim_lsp' },
+    { name = 'bufer' },
+  },
+}
+EOF
+
+endif
+
 if g:nvim_compe == 1
 lua << EOF
 
@@ -1152,9 +1241,6 @@ if g:native_lsp == 1
 
 " NO DIAG WHILE TYPING
 
-lua << EOF
-
-EOF
 
 ""LSP SNIPPETS
 
@@ -1237,10 +1323,14 @@ require'lspinstall'.setup() -- important
 
 
 local servers = require'lspinstall'.installed_servers()
+
+local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+
 for _, server in pairs(servers) do
   if server ~= "yaml" then
     require'lspconfig'[server].setup{
       flags = {debounce_did_change_notify = 1000},
+      capabilities = capabilities,
     }
   end
 end
@@ -1253,104 +1343,9 @@ flags = {debounce_did_change_notify = 1000},
 
 
 EOF
-
-lua << EOF
-
-EOF
-
-if g:nvim_compe == 0
-autocmd BufEnter * lua require'completion'.on_attach()
-else
-  "autocmd BufEnter * lua require'lsp_signature'.on_attach()
 endif
 
 
-
-" Use <Tab> and <S-Tab> to navigate through popup menu
-inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-
-" Set completeopt to have a better completion experience
-set completeopt=menuone,noinsert,noselect
-
-nnoremap <silent> gD <cmd>lua vim.lsp.buf.declaration()<CR>
-nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
-nnoremap <silent> ;h  <cmd>lua vim.lsp.buf.hover()<CR>
-nnoremap <silent> gi  <cmd>lua vim.lsp.buf.implementation()<CR>
-nnoremap <silent> ;s  <cmd>lua vim.lsp.buf.signature_help()<CR>
-nnoremap <silent> gy <cmd>lua vim.lsp.buf.type_definition()<CR>
-nnoremap <silent> gr <cmd>lua vim.lsp.buf.references()<CR>
-
-
-
-" Add `:Format` command to format current buffer.
-command! -nargs=0 Format :lua vim.lsp.buf.formatting()<CR>
-else
-
-" COC
-
-" " Show Yank list
-nnoremap <silent> <Leader>c  :<C-u>CocList -A --normal yank<cr>
-
-
-imap <C-l> <Plug>(coc-snippets-expand)
-imap <C-j> <Plug>(coc-snippets-expand-jump)
-
-
-command! -nargs=0 Prettier :CocCommand prettier.formatFile
-
-
-"
-" Highlight the symbol and its references when holding the cursor.
-autocmd CursorHold * silent call CocActionAsync('highlight')
-
-
-" Add `:Format` command to format current buffer.
-command! -nargs=0 Format :call CocAction('format')
-
-
-" Make autocomplete more better
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
-
-if g:nvim_compe == 0
-inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
-                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-
-endif
-
-
-" Add `:OR` command for organize imports of the current buffer.
-command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
-
-" Add (Neo)Vim's native statusline support.
-" NOTE: Please see `:h coc-status` for integrations with external plugins that
-" provide custom statusline: lightline.vim, vim-airline.
-set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
-
-
-
-" Use `[c` and `]c` for navigate diagnostics
-nmap <silent> [c <Plug>(coc-diagnostic-prev)
-nmap <silent> ]c <Plug>(coc-diagnostic-next)
-
-" Remap keys for gotos
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
-
-
-endif
-" COC END
 
 
 
