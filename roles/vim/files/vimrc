@@ -26,10 +26,13 @@ call plug#begin('~/.vim/plugged')
 "Plug 'airblade/vim-rooter'
 Plug 'nelsyeung/twig.vim'
 Plug 'ahmedkhalf/lsp-rooter.nvim'
+Plug 'sunjon/shade.nvim'
+
+"Plug 'kyazdani42/nvim-tree.lua'
+
 Plug 'fgsch/vim-varnish'
 
 "Plug 'ygm2/rooter.nvim'
-Plug 'beyondwords/vim-twig'
 Plug 'szw/vim-maximizer'
 Plug 'puremourning/vimspector'
 "Plug 'editorconfig/editorconfig-vim'
@@ -80,7 +83,7 @@ Plug 'folke/todo-comments.nvim'
 
 "
 Plug 'rktjmp/lush.nvim'
-Plug 'npxbr/gruvbox.nvim'
+Plug 'ellisonleao/gruvbox.nvim'
 
 "Plug 'folke/which-key.nvim'
 
@@ -119,6 +122,7 @@ Plug 'voldikss/vim-floaterm'
 Plug 'tpope/vim-fugitive'
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
+Plug 'ThePrimeagen/harpoon'
 Plug 'NTBBloodbath/rest.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 "Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
@@ -132,6 +136,47 @@ Plug 'RishabhRD/nvim-cheat.sh'
 Plug 'terryma/vim-multiple-cursors'
 
 call plug#end()
+
+"let g:nvim_tree_respect_buf_cwd = 1
+"au BufEnter * if &ft != 'help' | silent! cd %:p:h | endif
+
+
+"let g:nvim_tree_respect_buf_cwd = 1
+" lua <<EOF
+" require'nvim-tree'.setup {
+"   update_cwd          = true
+
+"   }
+" EOF
+
+function! PHPCsFixer()
+    silent !vendor/bin/php-cs-fixer --using-cache=no fix %
+    let view = winsaveview()
+    silent edit
+    call winrestview(view)
+    redraw!
+endfunction
+
+augroup phpcsfix
+    autocmd!
+    autocmd BufWritePost * if &filetype ==# 'php' | call PHPCsFixer() | endif
+augroup END
+
+
+
+
+
+
+" Harpoon
+"
+" These functions are stored in harpoon.  A plugn that I am developing
+nnoremap <leader>a :lua require("harpoon.mark").add_file()<CR>
+nnoremap <C-h> :lua require("harpoon.ui").toggle_quick_menu()<CR>
+
+nnoremap <leader>1 :lua require("harpoon.ui").nav_file(1)<CR>
+nnoremap <leader>2 :lua require("harpoon.ui").nav_file(2)<CR>
+nnoremap <leader>3 :lua require("harpoon.ui").nav_file(3)<CR>
+nnoremap <leader>4 :lua require("harpoon.ui").nav_file(4)<CR>
 
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 
@@ -274,6 +319,7 @@ augroup END
 autocmd BufReadPost * setlocal autoindent
 
 
+
 augroup cursorline
   autocmd!
   autocmd WinEnter,BufEnter * setlocal cursorline 
@@ -305,6 +351,18 @@ augroup END
 
 
 " PLUGIN CONFIG
+"" SHADE
+lua <<EOF
+require'shade'.setup({
+  overlay_opacity = 50,
+  opacity_step = 1,
+  keys = {
+    brightness_up    = '<C-Up>',
+    brightness_down  = '<C-Down>',
+    toggle           = '<Leader>s',
+  }
+})
+EOF
 
 " GITSIGNS
 
@@ -1285,6 +1343,8 @@ if g:native_lsp == 1
 
 " PHP LSP inserts double $$
 autocmd FileType php setlocal iskeyword+=$
+
+let b:PHP_default_indenting = 1
 
 
 
