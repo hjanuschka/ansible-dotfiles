@@ -65,7 +65,8 @@ Plug 'hrsh7th/cmp-buffer'
 Plug 'onsails/lspkind-nvim'
 
 Plug 'neovim/nvim-lsp'
-Plug 'kabouzeid/nvim-lspinstall'
+"Plug 'kabouzeid/nvim-lspinstall'
+Plug 'williamboman/nvim-lsp-installer'
 
 Plug 'nvim-lua/lsp-status.nvim'
 Plug 'folke/trouble.nvim'
@@ -117,7 +118,7 @@ Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 
 "Plug 'vim-scripts/auto-pairs-gentle'
 "Plug 'Raimondi/delimitMate'
-Plug 'voldikss/vim-floaterm'
+"Plug 'voldikss/vim-floaterm'
 
 Plug 'tpope/vim-fugitive'
 Plug 'nvim-lua/popup.nvim'
@@ -181,15 +182,6 @@ nnoremap <leader>4 :lua require("harpoon.ui").nav_file(4)<CR>
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 
 
-lua <<EOF
-function _G.lsp_reinstall_all()
-  local lspinstall = require'lspinstall'
-  for _, server in ipairs(lspinstall.installed_servers()) do
-    lspinstall.install_server(server)
-  end
-end
-vim.cmd 'command! -nargs=0 LspReinstallAll call v:lua.lsp_reinstall_all()'
-EOF
 
 
 let g:gruvbox_contrast_dark = 'hard'
@@ -1416,14 +1408,8 @@ vim.fn.sign_define("LspDiagnosticsSignHint",
 EOF
 
 lua <<EOF
-require'lspinstall'.setup() -- important
-
-
-
-local servers = require'lspinstall'.installed_servers()
-
+local lsp_installer = require("nvim-lsp-installer")
 local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
-
 
 
 
@@ -1460,8 +1446,8 @@ local on_attach = function(client, bufnr)
 
 end
 
-for _, server in pairs(servers) do
-    require'lspconfig'[server].setup{
+lsp_installer.on_server_ready(function(server)
+    local opts = {
     on_attach = on_attach,
       flags = {
 
@@ -1470,13 +1456,16 @@ for _, server in pairs(servers) do
         },
       capabilities = capabilities,
     }
-  end
-require'lspconfig'.solargraph.setup{
-flags = {debounce_did_change_notify = 1000, debounce_text_changes = 1500,},
-}
 
+    -- (optional) Customize the options passed to the server
+    -- if server.name == "tsserver" then
+    --     opts.root_dir = function() ... end
+    -- end
 
-
+    -- This setup() function is exactly the same as lspconfig's setup function.
+    -- Refer to https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
+    server:setup(opts)
+end)
 
 
 EOF
