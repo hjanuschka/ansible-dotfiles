@@ -74,12 +74,12 @@ Plug 'folke/trouble.nvim'
 Plug 'folke/lsp-colors.nvim'
 
 "Plug 'liuchengxu/vista.vim'
-Plug 'simrat39/symbols-outline.nvim'
+"Plug 'simrat39/symbols-outline.nvim'
 
 
 Plug 'sainnhe/sonokai'
 
-Plug 'folke/todo-comments.nvim'
+"Plug 'folke/todo-comments.nvim'
 
 
 "
@@ -402,13 +402,13 @@ EOF
 
 " TODO
 
-lua << EOF
-  require("todo-comments").setup {
-    -- your configuration comes here
-    -- or leave it empty to use the default settings
-    -- refer to the configuration section below
-  }
-EOF
+" lua << EOF
+"   require("todo-comments").setup {
+"     -- your configuration comes here
+"     -- or leave it empty to use the default settings
+"     -- refer to the configuration section below
+"   }
+" EOF
 
 
 
@@ -1377,33 +1377,36 @@ endif
 
 
 lua << EOF
+vim.o.updatetime = 1000
+vim.cmd [[autocmd CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false})]]
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
   vim.lsp.diagnostic.on_publish_diagnostics, {
-    virtual_text = {
-      prefix = "»",
-      spacing = 4,
-    },
+
+  float = {
+    source = "always",  -- Or "if_many"
+  },
+    virtual_text = false,
     signs = true,
     update_in_insert = false,
     underline = false,
   }
 )
 
-vim.fn.sign_define("LspDiagnosticsSignError",
-    {text = "",  texthl = 'LspDiagnosticsSignError'})
-vim.fn.sign_define("LspDiagnosticsSignWarning",
-    {text = "", texthl= 'LspDiagnosticsSignWarning' })
-vim.fn.sign_define("LspDiagnosticsSignInformation",
-    {text = "", texthl= 'LspDiagnosticsSignInformation'})
-vim.fn.sign_define("LspDiagnosticsSignHint",
-    {text = "", texthl= 'LspDiagnosticsSignHint'  })
+vim.fn.sign_define("DiagnosticSignError",
+    {text = "",  texthl = 'DiagnosticSignError'})
+vim.fn.sign_define("DiagnosticSignWarning",
+    {text = "", texthl= 'DiagnosticSignWarning' })
+vim.fn.sign_define("DiagnosticSignInformation",
+    {text = "", texthl= 'DiagnosticSignInformation'})
+vim.fn.sign_define("DiagnosticSignHint",
+    {text = "", texthl= 'DiagnosticSignHint'  })
 
   require("trouble").setup {
     -- your configuration comes here
     -- or leave it empty to use the default settings
     -- refer to the configuration section below
-    use_lsp_diagnostic_signs = true
+    use_diagnostic_signs = true
   }
 EOF
 
