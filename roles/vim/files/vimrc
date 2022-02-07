@@ -28,6 +28,9 @@ Plug 'nelsyeung/twig.vim'
 Plug 'ahmedkhalf/lsp-rooter.nvim'
 Plug 'sunjon/shade.nvim'
 
+Plug 'kdheepak/lazygit.nvim'
+
+
 "Plug 'kyazdani42/nvim-tree.lua'
 
 Plug 'fgsch/vim-varnish'
