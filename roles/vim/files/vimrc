@@ -27,6 +27,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'nelsyeung/twig.vim'
 Plug 'ahmedkhalf/lsp-rooter.nvim'
 Plug 'sunjon/shade.nvim'
+"Plug 'karb94/neoscroll.nvim'
 Plug 'jbyuki/venn.nvim'
 
 Plug 'kdheepak/lazygit.nvim'
@@ -59,6 +60,7 @@ Plug 'ncm2/float-preview.nvim'
 " """ LSP
 Plug 'neovim/nvim-lspconfig'
 Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-vsnip'
 Plug 'hrsh7th/vim-vsnip'
 "Plug 'nvim-lua/completion-nvim'
 "Plug 'hrsh7th/nvim-compe' 
@@ -145,6 +147,10 @@ call plug#end()
 "let g:nvim_tree_respect_buf_cwd = 1
 "au BufEnter * if &ft != 'help' | silent! cd %:p:h | endif
 
+
+" lua <<EOF
+" require('neoscroll').setup()
+" EOF
 
 "let g:nvim_tree_respect_buf_cwd = 1
 " lua <<EOF
@@ -444,11 +450,15 @@ if g:nvim_cmp == 1
 lua << EOF
 local cmp = require 'cmp'
 cmp.setup {
-  snippet = {
-    expand = function(args)
-      vim.fn["vsnip#anonymous"](args.body)
-    end,
-  },
+snippet = {
+      -- REQUIRED - you must specify a snippet engine
+      expand = function(args)
+        vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
+        -- require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+        -- require('snippy').expand_snippet(args.body) -- For `snippy` users.
+        -- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
+      end,
+    },
 formatting = {
   format = function(entry, vim_item)
     vim_item.menu = ({
@@ -485,7 +495,7 @@ formatting = {
     return vim_item
   end
 },
-  mapping = {
+  mapping = cmp.mapping.preset.insert({
     ['<C-p>'] = cmp.mapping.select_prev_item(),
     ['<C-n>'] = cmp.mapping.select_next_item(),
     ['<C-d>'] = cmp.mapping.scroll_docs(-4),
@@ -497,23 +507,16 @@ formatting = {
       select = true,
     },
     ['<Tab>'] = function(fallback)
-      if vim.fn.pumvisible() == 1 then
-        vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<C-n>', true, true, true), 'n')
+      if cmp.visible() then
+        cmp.select_next_item()
       else
         fallback()
       end
-    end,
-    ['<S-Tab>'] = function(fallback)
-      if vim.fn.pumvisible() == 1 then
-        vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<C-p>', true, true, true), 'n')
-      else
-        fallback()
-      end
-    end,
-  },
+    end
+  }),
   sources = {
     { name = 'nvim_lsp' },
-    { name = 'bufer' },
+    { name = 'buffer' },
   },
 }
 EOF
@@ -575,26 +578,26 @@ end
 -- Use (s-)tab to:
 --- move to prev/next item in completion menuone
 --- jump to prev/next snippet's placeholder
-_G.tab_complete = function()
-  if vim.fn.pumvisible() == 1 then
-    return t "<C-n>"
-  elseif vim.fn.call("vsnip#available", {1}) == 1 then
-    return t "<Plug>(vsnip-expand-or-jump)"
-  elseif check_back_space() then
-    return t "<Tab>"
-  else
-    return vim.fn['compe#complete']()
-  end
-end
-_G.s_tab_complete = function()
-  if vim.fn.pumvisible() == 1 then
-    return t "<C-p>"
-  elseif vim.fn.call("vsnip#jumpable", {-1}) == 1 then
-    return t "<Plug>(vsnip-jump-prev)"
-  else
-    return t "<S-Tab>"
-  end
-end
+" _G.tab_complete = function()
+"   if vim.fn.pumvisible() == 1 then
+"     return t "<C-n>"
+"   elseif vim.fn.call("vsnip#available", {1}) == 1 then
+"     return t "<Plug>(vsnip-expand-or-jump)"
+"   elseif check_back_space() then
+"     return t "<Tab>"
+"   else
+"     return vim.fn['compe#complete']()
+"   end
+" end
+" _G.s_tab_complete = function()
+"   if vim.fn.pumvisible() == 1 then
+"     return t "<C-p>"
+"   elseif vim.fn.call("vsnip#jumpable", {-1}) == 1 then
+"     return t "<Plug>(vsnip-jump-prev)"
+"   else
+"     return t "<S-Tab>"
+"   end
+" end
 
 
 
@@ -1252,7 +1255,7 @@ endif
 " TREESITTER
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
-  ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+  ensure_installed = "all", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
   ignore_install = { "javascript" }, -- List of parsers to ignore installing
   highlight = {
     enable = true,              -- false will disable the whole extension
