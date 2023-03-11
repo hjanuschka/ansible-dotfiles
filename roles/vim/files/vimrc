@@ -16,30 +16,35 @@
 "
 "
 let g:vimspector_enable_mappings = 'HUMAN'
+let g:loaded_clipboard_provider='1'
+let g:loaded_matchparen = '1'
 "let g:loaded_matchparen=1
 
 call plug#begin('~/.vim/plugged')
 " ------Plugins-------
-"Plug 'dense-analysis/ale'
-"Plug 'Erichain/vim-monokai-pro'
-"Plug 'RRethy/vim-illuminate'
-"Plug 'airblade/vim-rooter'
 Plug 'nelsyeung/twig.vim'
 Plug 'ahmedkhalf/lsp-rooter.nvim'
-Plug 'sunjon/shade.nvim'
+"Plug 'sunjon/shade.nvim'
 "Plug 'karb94/neoscroll.nvim'
 Plug 'jbyuki/venn.nvim'
 
 Plug 'kdheepak/lazygit.nvim'
+Plug 'NTBBloodbath/sweetie.nvim'
 
 
 "Plug 'kyazdani42/nvim-tree.lua'
 
 Plug 'fgsch/vim-varnish'
 
+Plug 'alexaandru/nvim-lspupdate'
+
+
+Plug 'j-hui/fidget.nvim'
+
+
 "Plug 'ygm2/rooter.nvim'
 Plug 'szw/vim-maximizer'
-Plug 'puremourning/vimspector'
+"Plug 'puremourning/vimspector'
 "Plug 'editorconfig/editorconfig-vim'
 Plug 'fatih/vim-go', {'do': ':GoUpdateBinaries'}
 
@@ -60,8 +65,6 @@ Plug 'ncm2/float-preview.nvim'
 " """ LSP
 Plug 'neovim/nvim-lspconfig'
 Plug 'hrsh7th/cmp-nvim-lsp'
-Plug 'hrsh7th/cmp-vsnip'
-Plug 'hrsh7th/vim-vsnip'
 "Plug 'nvim-lua/completion-nvim'
 "Plug 'hrsh7th/nvim-compe' 
 Plug 'hrsh7th/nvim-cmp'
@@ -118,7 +121,7 @@ Plug 'sindrets/diffview.nvim'
 
 
 
-Plug 'mg979/vim-visual-multi', {'branch': 'master'}
+"Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 
 
 
@@ -126,7 +129,7 @@ Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 "Plug 'Raimondi/delimitMate'
 "Plug 'voldikss/vim-floaterm'
 
-Plug 'tpope/vim-fugitive'
+" Plug 'tpope/vim-fugitive'
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'ThePrimeagen/harpoon'
@@ -144,21 +147,9 @@ Plug 'terryma/vim-multiple-cursors'
 
 call plug#end()
 
-"let g:nvim_tree_respect_buf_cwd = 1
-"au BufEnter * if &ft != 'help' | silent! cd %:p:h | endif
-
-
-" lua <<EOF
-" require('neoscroll').setup()
-" EOF
-
-"let g:nvim_tree_respect_buf_cwd = 1
-" lua <<EOF
-" require'nvim-tree'.setup {
-"   update_cwd          = true
-
-"   }
-" EOF
+lua <<EOF
+  require"fidget".setup{}
+EOF
 
 
 function! PHPCsFixer()
@@ -215,7 +206,7 @@ set autoread
 set backspace=indent,eol,start
 set backupdir^=$HOME/tmp/hjvim
 set belloff=all
-set clipboard=unnamed
+set clipboard=unnamedplus
 set cmdheight=2
 set completeopt-=preview
 set cursorline
@@ -355,17 +346,17 @@ augroup END
 
 " PLUGIN CONFIG
 "" SHADE
-lua <<EOF
-require'shade'.setup({
-  overlay_opacity = 50,
-  opacity_step = 1,
-  keys = {
-    brightness_up    = '<C-Up>',
-    brightness_down  = '<C-Down>',
-    toggle           = '<Leader>s',
-  }
-})
-EOF
+"lua <<EOF
+"require'shade'.setup({
+"  overlay_opacity = 50,
+"  opacity_step = 1,
+"  keys = {
+"    brightness_up    = '<C-Up>',
+"    brightness_down  = '<C-Down>',
+"    toggle           = '<Leader>s',
+"  }
+"})
+"EOF
 
 " GITSIGNS
 
@@ -451,13 +442,6 @@ lua << EOF
 local cmp = require 'cmp'
 cmp.setup {
 snippet = {
-      -- REQUIRED - you must specify a snippet engine
-      expand = function(args)
-        vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
-        -- require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
-        -- require('snippy').expand_snippet(args.body) -- For `snippy` users.
-        -- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
-      end,
     },
 formatting = {
   format = function(entry, vim_item)
@@ -516,12 +500,18 @@ formatting = {
   }),
   sources = {
     { name = 'nvim_lsp' },
-    { name = 'buffer' },
   },
 }
 EOF
 
 endif
+
+" RightMouse Click
+" lua << EOF
+" vim.api.nvim_set_keymap('n', '<LeftMouse>', '<LeftMouse><cmd>lua vim.lsp.buf.hover({border = "single"})<CR>', { noremap=true, silent=true })
+" vim.api.nvim_set_keymap('n', '<RightMouse>', '<LeftMouse><cmd>lua vim.lsp.buf.definition()<CR>', { noremap=true, silent=true })
+
+" EOF
 
 if g:nvim_compe == 1
 lua << EOF
@@ -552,12 +542,12 @@ require'compe'.setup {
         path = true;
         buffer = true;
         calc = true;
-        vsnip = true;
+        vsnip = false;
         nvim_lsp = true;
         nvim_lua = true;
         spell = true;
         tags = true;
-        snippets_nvim = true;
+        snippets_nvim = false;
         treesitter = true;
   };
 }
@@ -1312,6 +1302,10 @@ command Buffers FzfLua buffers
 nnoremap <C-p> :FzfLua git_files <CR>
 inoremap <C-p> <ESC>:FzfLua git_files <CR>
 
+
+nnoremap <C-o> :Rgr <CR>
+inoremap <C-o> <ESC>:Rgr <CR>
+
 lua <<EOF
 local actions = require'fzf-lua.actions'
 require 'fzf-lua'.setup({
@@ -1380,7 +1374,7 @@ let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
 
 let g:completion_chain_complete_list = {
              \'default' :[
-            \   {'complete_items': ['lsp',  'snippet', 'ts']},
+            \   {'complete_items': ['lsp',  'ts']},
             \]
              \}
 
@@ -1401,6 +1395,7 @@ endif
 
 
 
+" DIAG
 lua << EOF
 vim.o.updatetime = 1000
 vim.cmd [[autocmd CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false})]]
@@ -1437,7 +1432,9 @@ EOF
 
 lua <<EOF
 local lsp_installer = require("nvim-lsp-installer")
-local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
+capabilities.textDocument.completion.completionItem.snippetSupport = false
+
 
 
 
@@ -1456,6 +1453,8 @@ local on_attach = function(client, bufnr)
   -- See `:help vim.lsp.*` for documentation on any of the below functions
   buf_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
   buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
+  buf_set_keymap('n', 'gh', '<cmd>Gitsigns next_hunk<CR>', opts)
+  buf_set_keymap('n', 'gH', '<cmd>Gitsigns prev_hunk<CR>', opts)
   buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
   buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
   buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
@@ -1558,8 +1557,9 @@ nnoremap <Leader>pv :wincmd v<bar> :Ex <bar> :vertical resize 30<CR>
 
 """""""YANK TO SSH CLIPBOARD 
 
-vnoremap Y :OSCYank<CR>
-nnoremap Y :OSCYank<CR>
+let g:oscyank_term = 'default'
+vnoremap Y :OSCYankVisual<CR>
+nnoremap Y :OSCYankVisual<CR>
 
 inoremap <silent> <F24> <C-\><C-O>:silent doautocmd FocusLost %<CR>
 inoremap <silent> <F25> <C-\><C-O>:silent doautocmd FocusGained %<CR>
@@ -1677,10 +1677,6 @@ hi Error  gui=none
 if filereadable(expand("~/.vimrc.local"))
   source ~/.vimrc.local
 endif
-
-
-
-
 
 
 
