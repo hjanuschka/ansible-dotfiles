@@ -24,6 +24,8 @@ call plug#begin('~/.vim/plugged')
 " ------Plugins-------
 Plug 'nelsyeung/twig.vim'
 Plug 'ahmedkhalf/lsp-rooter.nvim'
+Plug 'preservim/nerdtree'
+
 "Plug 'sunjon/shade.nvim'
 "Plug 'karb94/neoscroll.nvim'
 Plug 'jbyuki/venn.nvim'
@@ -36,7 +38,7 @@ Plug 'NTBBloodbath/sweetie.nvim'
 
 Plug 'fgsch/vim-varnish'
 
-Plug 'alexaandru/nvim-lspupdate'
+" Plug 'alexaandru/nvim-lspupdate'
 
 
 Plug 'j-hui/fidget.nvim'
@@ -63,19 +65,19 @@ Plug 'milch/vim-fastlane'
 
 Plug 'ncm2/float-preview.nvim'
 " """ LSP
-Plug 'neovim/nvim-lspconfig'
-Plug 'hrsh7th/cmp-nvim-lsp'
+" Plug 'neovim/nvim-lspconfig'
+" Plug 'hrsh7th/cmp-nvim-lsp'
 "Plug 'nvim-lua/completion-nvim'
 "Plug 'hrsh7th/nvim-compe' 
 Plug 'hrsh7th/nvim-cmp'
 Plug 'hrsh7th/cmp-buffer'
 
-"Plug 'ray-x/lsp_signature.nvim'
+Plug 'ray-x/lsp_signature.nvim'
 Plug 'onsails/lspkind-nvim'
 
-Plug 'neovim/nvim-lsp'
+" Plug 'neovim/nvim-lsp'
 "Plug 'kabouzeid/nvim-lspinstall'
-Plug 'williamboman/nvim-lsp-installer'
+" Plug 'williamboman/nvim-lsp-installer'
 
 Plug 'nvim-lua/lsp-status.nvim'
 Plug 'folke/trouble.nvim'
@@ -111,8 +113,19 @@ Plug 'tpope/vim-eunuch'
 Plug 'romainl/vim-qf'
 Plug 'tpope/vim-surround'
 
+Plug 'VonHeikemen/lsp-zero.nvim', {'branch': 'v1.x'}
+Plug 'neovim/nvim-lspconfig'
+Plug 'hrsh7th/nvim-cmp'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'L3MON4D3/LuaSnip'
+Plug 'williamboman/mason.nvim'
+Plug 'williamboman/mason-lspconfig.nvim'
+
+
 Plug 'glepnir/galaxyline.nvim' , {'branch': 'main'}
 Plug 'akinsho/nvim-bufferline.lua'
+
+
 
 
 
@@ -185,6 +198,9 @@ let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 
 
 
+" Disable gopls in vim-go / it is in the native lsp
+let g:go_gopls_enabled = 0
+
 
 let g:gruvbox_contrast_dark = 'hard'
 if exists("+termguicolors")
@@ -196,8 +212,6 @@ colorscheme gruvbox
 
 
 
-" Disable gopls in vim-go / it is in the native lsp
-let g:go_gopls_enabled = 0
 
 "colorscheme monokai_pro 
 filetype off
@@ -416,6 +430,54 @@ EOF
 
 " LSP Colors
 "
+let g:lsp_zero =  1
+if g:lsp_zero == 1
+lua <<EOF
+  local lsp = require('lsp-zero').preset({
+  name = 'minimal',
+  set_lsp_keymaps = true,
+  manage_nvim_cmp = true,
+  suggest_lsp_servers = true,
+})
+
+-- (Optional) Configure lua language server for neovim
+lsp.nvim_workspace()
+
+lsp.setup()
+
+lsp.on_attach(function(client, bufnr)
+  local map = function(mode, lhs, rhs)
+    local opts = {remap = false, buffer = bufnr}
+    vim.keymap.set(mode, lhs, rhs, opts)
+  end
+
+  -- LSP actions
+  map('n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>')
+  map('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>')
+  map('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>')
+  map('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<cr>')
+  map('n', 'go', '<cmd>lua vim.lsp.buf.type_definition()<cr>')
+  map('n', 'gr', '<cmd>lua vim.lsp.buf.references()<cr>')
+  map('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<cr>')
+  map('n', '<F2>', '<cmd>lua vim.lsp.buf.rename()<cr>')
+  map('n', '<F4>', '<cmd>lua vim.lsp.buf.code_action()<cr>')
+  map('x', '<F4>', '<cmd>lua vim.lsp.buf.range_code_action()<cr>')
+
+  -- Diagnostics
+  map('n', 'gl', '<cmd>lua vim.diagnostic.open_float()<cr>')
+  map('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<cr>')
+  map('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<cr>')
+  client.server_capabilities.semanticTokensProvider = nil
+end)
+
+
+require "lsp_signature".setup()
+
+
+EOF
+endif
+
+
 lua <<EOF
 
 -- Lua
@@ -428,13 +490,14 @@ require("lsp-colors").setup({
 
 EOF
 
+
 "
 
 " NVIM-COMPE
 "
 "
 let g:nvim_compe = 0
-let g:nvim_cmp = 1
+let g:nvim_cmp = 0
 
 
 if g:nvim_cmp == 1
@@ -512,12 +575,45 @@ endif
 " vim.api.nvim_set_keymap('n', '<RightMouse>', '<LeftMouse><cmd>lua vim.lsp.buf.definition()<CR>', { noremap=true, silent=true })
 
 " EOF
+"
+"
+let NERDTreeShowHidden=1
+let NERDTreeMinimalUI=1
+let NERDTreeShowBookmarks=1
+" let NERDTreeShowLineNumbers=1
+let g:NERDTreeChDirMode=2
+let NERDTreeWinPos="right"
+let NERDTreeWinSize=30
+let g:NERDTreeDirArrowExpandable = ' '
+let g:NERDTreeDirArrowCollapsible = ' '
+" Hide the current working directory in NERDTree
+augroup nerdtreehidecwd
+	autocmd!
+	autocmd FileType nerdtree setlocal conceallevel=3
+				\ | syntax match NERDTreeHideCWD #^[</].*$# conceal
+				\ | setlocal concealcursor=n
+augroup end
+map <C-a> :NERDTreeToggle<CR>
+nnoremap <leader>n :NERDTreeFocus<CR>
+nnoremap <C-n> :NERDTree<CR>
+nnoremap <C-t> :NERDTreeToggle<CR>
+nnoremap <C-f> :NERDTreeFind<CR>
+" Exit Vim if NERDTree is the only window remaining in the only tab.
+autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+" Open the existing NERDTree on each new tab.
+autocmd BufWinEnter * if getcmdwintype() == '' | silent NERDTreeMirror | endif
+
+
+lua <<EOF
+
+require('lspkind').init();
+EOF
 
 if g:nvim_compe == 1
 lua << EOF
 
 
-require('lspkind').init();
+
 
 
 vim.cmd [[set shortmess+=c]]
@@ -688,6 +784,16 @@ call lightline#coc#register()
 let g:lightline#gitdiff#indicator_added = '+'
 let g:lightline#gitdiff#indicator_deleted = '-'
 let g:lightline#gitdiff#indicator_modified = '~'
+
+endif
+
+let g:use_feline = 0
+if g:use_feline == 1 
+
+lua <<EOF
+require('feline').setup()
+require('feline').winbar.setup()
+EOF
 
 endif
 
@@ -1430,6 +1536,7 @@ vim.fn.sign_define("DiagnosticSignHint",
   }
 EOF
 
+if g:lsp_zero == 0
 lua <<EOF
 local lsp_installer = require("nvim-lsp-installer")
 local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
@@ -1496,6 +1603,7 @@ end)
 
 
 EOF
+endif
 endif
 
 
