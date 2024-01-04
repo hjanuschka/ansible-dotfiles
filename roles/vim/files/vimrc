@@ -41,7 +41,6 @@ Plug 'fgsch/vim-varnish'
 " Plug 'alexaandru/nvim-lspupdate'
 
 
-Plug 'j-hui/fidget.nvim'
 
 
 "Plug 'ygm2/rooter.nvim'
@@ -83,6 +82,9 @@ Plug 'nvim-lua/lsp-status.nvim'
 Plug 'folke/trouble.nvim'
 
 Plug 'folke/lsp-colors.nvim'
+
+Plug 'karb94/neoscroll.nvim'
+
 
 "Plug 'liuchengxu/vista.vim'
 "Plug 'simrat39/symbols-outline.nvim'
@@ -160,9 +162,6 @@ Plug 'terryma/vim-multiple-cursors'
 
 call plug#end()
 
-lua <<EOF
-  require"fidget".setup{}
-EOF
 
 
 function! PHPCsFixer()
@@ -357,6 +356,9 @@ augroup FastEscape
   au InsertLeave * set timeoutlen=1000
 augroup END
 
+lua <<EOF
+require('neoscroll').setup()
+EOF
 
 " PLUGIN CONFIG
 "" SHADE
@@ -1541,6 +1543,7 @@ lua <<EOF
 local lsp_installer = require("nvim-lsp-installer")
 local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
 capabilities.textDocument.completion.completionItem.snippetSupport = false
+capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = false
 
 
 
