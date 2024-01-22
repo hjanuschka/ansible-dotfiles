@@ -585,7 +585,7 @@ nnoremap Y :OSCYankVisual<CR>
 inoremap <silent> <F24> <C-\><C-O>:silent doautocmd FocusLost %<CR>
 inoremap <silent> <F25> <C-\><C-O>:silent doautocmd FocusGained %<CR>
 
-nnoremap <C-m> :let @0 = expand('%')<CR>:OSCYankRegister 0<CR>
+nnoremap <C-x> :let @0 = expand('%')<CR>:OSCYankRegister 0<CR>
 
 
 " Apple Keyboard Pasting with OPTION+v 
