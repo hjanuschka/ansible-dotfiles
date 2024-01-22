@@ -1,205 +1,87 @@
-" g         provider = 'GetLspClient',
-"         condition = function()
-"             local tbl = {['dashboard'] = true, [' '] = true}
-"             if tbl[vim.bo.filetype] then return false end
-"             return true
-"         end,
-"         icon = ' ',
-"         highlight = {colors.grey, colors.bg}
-"     }
-" " vim-sublime - A minimal Sublime Text - like vim experience bundle
-"               http://github.com/grigio/vim-sublime
-" Best view with a 256 color terminal and Powerline fonts
-" Updated by Dorian Neto (https://github.com/dorianneto)"
-
-" Enable CTRL
-"
-"
-let g:vimspector_enable_mappings = 'HUMAN'
 let g:loaded_clipboard_provider='1'
 let g:loaded_matchparen = '1'
-"let g:loaded_matchparen=1
 
 call plug#begin('~/.vim/plugged')
 " ------Plugins-------
 Plug 'nelsyeung/twig.vim'
 Plug 'ahmedkhalf/lsp-rooter.nvim'
-Plug 'preservim/nerdtree'
-
-"Plug 'sunjon/shade.nvim'
-"Plug 'karb94/neoscroll.nvim'
-Plug 'jbyuki/venn.nvim'
-
 Plug 'kdheepak/lazygit.nvim'
-Plug 'NTBBloodbath/sweetie.nvim'
-
-
-"Plug 'kyazdani42/nvim-tree.lua'
-
-Plug 'fgsch/vim-varnish'
-
-" Plug 'alexaandru/nvim-lspupdate'
-
-
-
-
-"Plug 'ygm2/rooter.nvim'
-Plug 'szw/vim-maximizer'
-"Plug 'puremourning/vimspector'
-"Plug 'editorconfig/editorconfig-vim'
 Plug 'fatih/vim-go', {'do': ':GoUpdateBinaries'}
 
-"Plug 'junegunn/fzf.vim'
-"
 Plug 'junegunn/fzf', {'do': { -> fzf#install() }}
-Plug 'ibhagwan/fzf-lua'
+Plug 'ibhagwan/fzf-lua', {'branch': 'main'}
 Plug 'vijaymarupudi/nvim-fzf'
-
-Plug 'kyazdani42/nvim-web-devicons'
-"Plug 'mhinz/vim-signify'
+Plug 'nvim-tree/nvim-web-devicons'
+Plug 'el-iot/buffer-tree'
 Plug 'lewis6991/gitsigns.nvim'
-
 Plug 'mhinz/vim-startify'
-Plug 'milch/vim-fastlane'
+Plug 'nvim-tree/nvim-tree.lua'
+
 
 Plug 'ncm2/float-preview.nvim'
-" """ LSP
-" Plug 'neovim/nvim-lspconfig'
-" Plug 'hrsh7th/cmp-nvim-lsp'
-"Plug 'nvim-lua/completion-nvim'
-"Plug 'hrsh7th/nvim-compe' 
+Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/nvim-cmp'
 Plug 'hrsh7th/cmp-buffer'
-
 Plug 'ray-x/lsp_signature.nvim'
 Plug 'onsails/lspkind-nvim'
-
-" Plug 'neovim/nvim-lsp'
-"Plug 'kabouzeid/nvim-lspinstall'
-" Plug 'williamboman/nvim-lsp-installer'
-
 Plug 'nvim-lua/lsp-status.nvim'
 Plug 'folke/trouble.nvim'
-
 Plug 'folke/lsp-colors.nvim'
-
-Plug 'karb94/neoscroll.nvim'
-
-
-"Plug 'liuchengxu/vista.vim'
-"Plug 'simrat39/symbols-outline.nvim'
-
-
-Plug 'sainnhe/sonokai'
-
-"Plug 'folke/todo-comments.nvim'
-
-
-"
-Plug 'rktjmp/lush.nvim'
 Plug 'ellisonleao/gruvbox.nvim'
-
-"Plug 'folke/which-key.nvim'
-
-
-
-
-
+Plug 'L3MON4D3/LuaSnip', {'tag': 'v2.*', 'do': 'make install_jsregexp'} " Replace <CurrentMajor> by the latest released major (first number of latest release)
 
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
 Plug 'ojroques/vim-oscyank'
-Plug 'patstockwell/vim-monokai-tasty'
-Plug 'phanviet/vim-monokai-pro'
 Plug 'rust-lang/rust.vim'
 Plug 'tpope/vim-eunuch'
 Plug 'romainl/vim-qf'
 Plug 'tpope/vim-surround'
-
-Plug 'VonHeikemen/lsp-zero.nvim', {'branch': 'v1.x'}
+Plug 'VonHeikemen/lsp-zero.nvim', {'branch': 'v3.x'}
 Plug 'neovim/nvim-lspconfig'
-Plug 'hrsh7th/nvim-cmp'
-Plug 'hrsh7th/cmp-nvim-lsp'
-Plug 'L3MON4D3/LuaSnip'
 Plug 'williamboman/mason.nvim'
 Plug 'williamboman/mason-lspconfig.nvim'
-
-
-Plug 'glepnir/galaxyline.nvim' , {'branch': 'main'}
+Plug 'nvim-lualine/lualine.nvim'
 Plug 'akinsho/nvim-bufferline.lua'
-
-
-
-
-
-
-Plug 'sindrets/diffview.nvim'
-
-
-
-"Plug 'mg979/vim-visual-multi', {'branch': 'master'}
-
-
-
-"Plug 'vim-scripts/auto-pairs-gentle'
-"Plug 'Raimondi/delimitMate'
-"Plug 'voldikss/vim-floaterm'
-
-" Plug 'tpope/vim-fugitive'
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'ThePrimeagen/harpoon'
 Plug 'NTBBloodbath/rest.nvim'
 Plug 'nvim-telescope/telescope.nvim'
-"Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
 Plug 'tpope/vim-commentary'
-"Plug 'morhetz/gruvbox'
-
 Plug 'RishabhRD/popfix'
 Plug 'RishabhRD/nvim-cheat.sh'
-
-
 Plug 'terryma/vim-multiple-cursors'
 
 call plug#end()
 
 
 
-function! PHPCsFixer()
-    silent !vendor/bin/php-cs-fixer --using-cache=no fix %
-    let view = winsaveview()
-    silent edit
-    call winrestview(view)
-    redraw!
-endfunction
-
-augroup phpcsfix
-    autocmd!
-    autocmd BufWritePost * if &filetype ==# 'php' | call PHPCsFixer() | endif
-augroup END
-
-
-
-
-
-
-" Harpoon
-"
-" These functions are stored in harpoon.  A plugn that I am developing
-nnoremap <leader>a :lua require("harpoon.mark").add_file()<CR>
-nnoremap <C-h> :lua require("harpoon.ui").toggle_quick_menu()<CR>
-
-nnoremap <leader>1 :lua require("harpoon.ui").nav_file(1)<CR>
-nnoremap <leader>2 :lua require("harpoon.ui").nav_file(2)<CR>
-nnoremap <leader>3 :lua require("harpoon.ui").nav_file(3)<CR>
-nnoremap <leader>4 :lua require("harpoon.ui").nav_file(4)<CR>
-
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-
 
 
 " Disable gopls in vim-go / it is in the native lsp
 let g:go_gopls_enabled = 0
 
+lua <<EOF
+require("gruvbox").setup()
+
+-- OR setup with some options
+require("nvim-tree").setup({
+  sort = {
+    sorter = "case_sensitive",
+  },
+  view = {
+    width = 30,
+  },
+  renderer = {
+    group_empty = true,
+  },
+  filters = {
+    dotfiles = true,
+  },
+})
+
+EOF
 
 let g:gruvbox_contrast_dark = 'hard'
 if exists("+termguicolors")
@@ -208,6 +90,7 @@ if exists("+termguicolors")
 endif
 set background=dark
 colorscheme gruvbox 
+
 
 
 
@@ -297,11 +180,6 @@ set guicursor+=n-v:block-Cursor
 
 
 
-
-
-" Highlight Yanked things
-" 
-
 augroup highlight_yank
     autocmd!
     au TextYankPost * silent! lua vim.highlight.on_yank { higroup='Visual', timeout=300 }
@@ -357,26 +235,6 @@ augroup FastEscape
 augroup END
 
 lua <<EOF
-require('neoscroll').setup()
-EOF
-
-" PLUGIN CONFIG
-"" SHADE
-"lua <<EOF
-"require'shade'.setup({
-"  overlay_opacity = 50,
-"  opacity_step = 1,
-"  keys = {
-"    brightness_up    = '<C-Up>',
-"    brightness_down  = '<C-Down>',
-"    toggle           = '<Leader>s',
-"  }
-"})
-"EOF
-
-" GITSIGNS
-
-lua <<EOF
 require('gitsigns').setup({
   signs = {
     add          = {hl = 'GitSignsAdd'   , text = '+', numhl='GitSignsAddNr'   , linehl='GitSignsAddLn'},
@@ -388,9 +246,6 @@ require('gitsigns').setup({
 })
 EOF
 
-
-
-" WILDER
 
 
 " DEV ICONS
@@ -406,82 +261,63 @@ require'nvim-web-devicons'.setup {
     name = "Zsh"
   }
  };
- -- globally enable default icons (default to false)
- -- will get overriden by `get_icons` option
  default = true;
 }
 EOF
 
-" 'file_command' : for ripgrep : ['rg', '--files']
-"                : for fd      : ['fd', '-tf']
-" 'dir_command'  : for fd      : ['fd', '-td']
-" 'filters'      : use ['cpsm_filter'] for performance, needs cpsm to be installed
-
-
-" TODO
-
-" lua << EOF
-"   require("todo-comments").setup {
-"     -- your configuration comes here
-"     -- or leave it empty to use the default settings
-"     -- refer to the configuration section below
-"   }
-" EOF
-
-
 
 " LSP Colors
 "
-let g:lsp_zero =  1
-if g:lsp_zero == 1
 lua <<EOF
-  local lsp = require('lsp-zero').preset({
-  name = 'minimal',
-  set_lsp_keymaps = true,
-  manage_nvim_cmp = true,
-  suggest_lsp_servers = true,
-})
 
--- (Optional) Configure lua language server for neovim
-lsp.nvim_workspace()
+local lsp_zero = require('lsp-zero')
 
-lsp.setup()
-
-lsp.on_attach(function(client, bufnr)
-  local map = function(mode, lhs, rhs)
-    local opts = {remap = false, buffer = bufnr}
-    vim.keymap.set(mode, lhs, rhs, opts)
-  end
-
-  -- LSP actions
-  map('n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>')
-  map('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>')
-  map('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>')
-  map('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<cr>')
-  map('n', 'go', '<cmd>lua vim.lsp.buf.type_definition()<cr>')
-  map('n', 'gr', '<cmd>lua vim.lsp.buf.references()<cr>')
-  map('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<cr>')
-  map('n', '<F2>', '<cmd>lua vim.lsp.buf.rename()<cr>')
-  map('n', '<F4>', '<cmd>lua vim.lsp.buf.code_action()<cr>')
-  map('x', '<F4>', '<cmd>lua vim.lsp.buf.range_code_action()<cr>')
-
-  -- Diagnostics
-  map('n', 'gl', '<cmd>lua vim.diagnostic.open_float()<cr>')
-  map('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<cr>')
-  map('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<cr>')
-  client.server_capabilities.semanticTokensProvider = nil
+lsp_zero.on_attach(function(client, bufnr)
+  -- see :help lsp-zero-keybindings
+  -- to learn the available actions
+  lsp_zero.default_keymaps({buffer = bufnr})
 end)
 
+-- to learn how to use mason.nvim with lsp-zero
+-- read this: https://github.com/VonHeikemen/lsp-zero.nvim/blob/v3.x/doc/md/guides/integrate-with-mason-nvim.md
+require('mason').setup({})
+require('mason-lspconfig').setup({
+  ensure_installed = {},
+  handlers = {
+    lsp_zero.default_setup,
+  },
+})
+
+local cmp = require('cmp')
+local cmp_action = require('lsp-zero').cmp_action()
+local cmp_format = require('lsp-zero').cmp_format()
+
+
+cmp.setup({
+ sources = {
+    {name = 'nvim_lsp'},
+    {name = 'buffer'},
+  },
+  --- (Optional) Show source name in completion menu
+  formatting = cmp_format,
+  mapping = cmp.mapping.preset.insert({
+    -- `Enter` key to confirm completion
+    ['<CR>'] = cmp.mapping.confirm({select = false}),
+    -- Ctrl+Space to trigger completion menu
+    ['<C-Space>'] = cmp.mapping.complete(),
+    -- Scroll up and down in the completion documentation
+    ['<C-u>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-d>'] = cmp.mapping.scroll_docs(4),
+  })
+})
 
 require "lsp_signature".setup()
 
 
 EOF
-endif
 
 
 lua <<EOF
-
 -- Lua
 require("lsp-colors").setup({
   Error = "#db4b4b",
@@ -489,214 +325,14 @@ require("lsp-colors").setup({
   Information = "#0db9d7",
   Hint = "#10B981"
 })
-
 EOF
-
-
-"
-
-" NVIM-COMPE
-"
-"
-let g:nvim_compe = 0
-let g:nvim_cmp = 0
-
-
-if g:nvim_cmp == 1
-lua << EOF
-local cmp = require 'cmp'
-cmp.setup {
-snippet = {
-    },
-formatting = {
-  format = function(entry, vim_item)
-    vim_item.menu = ({
-      nvim_lsp = '',
-      buffer   = '',
-    })[entry.source.name]
-    vim_item.kind = ({
-      Text          = '',
-      Method        = '',
-      Function      = '',
-      Constructor   = '',
-      Field         = '',
-      Variable      = '',
-      Class         = '',
-      Interface     = 'ﰮ',
-      Module        = '',
-      Property      = '',
-      Unit          = '',
-      Value         = '',
-      Enum          = '',
-      Keyword       = '',
-      Snippet       = '﬌',
-      Color         = '',
-      File          = '',
-      Reference     = '',
-      Folder        = '',
-      EnumMember    = '',
-      Constant      = '',
-      Struct        = '',
-      Event         = '',
-      Operator      = 'ﬦ',
-      TypeParameter = '',
-    })[vim_item.kind]
-    return vim_item
-  end
-},
-  mapping = cmp.mapping.preset.insert({
-    ['<C-p>'] = cmp.mapping.select_prev_item(),
-    ['<C-n>'] = cmp.mapping.select_next_item(),
-    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
-    ['<C-f>'] = cmp.mapping.scroll_docs(4),
-    ['<C-Space>'] = cmp.mapping.complete(),
-    ['<C-e>'] = cmp.mapping.close(),
-    ['<CR>'] = cmp.mapping.confirm {
-      behavior = cmp.ConfirmBehavior.Replace,
-      select = true,
-    },
-    ['<Tab>'] = function(fallback)
-      if cmp.visible() then
-        cmp.select_next_item()
-      else
-        fallback()
-      end
-    end
-  }),
-  sources = {
-    { name = 'nvim_lsp' },
-  },
-}
-EOF
-
-endif
-
-" RightMouse Click
-" lua << EOF
-" vim.api.nvim_set_keymap('n', '<LeftMouse>', '<LeftMouse><cmd>lua vim.lsp.buf.hover({border = "single"})<CR>', { noremap=true, silent=true })
-" vim.api.nvim_set_keymap('n', '<RightMouse>', '<LeftMouse><cmd>lua vim.lsp.buf.definition()<CR>', { noremap=true, silent=true })
-
-" EOF
-"
-"
-let NERDTreeShowHidden=1
-let NERDTreeMinimalUI=1
-let NERDTreeShowBookmarks=1
-" let NERDTreeShowLineNumbers=1
-let g:NERDTreeChDirMode=2
-let NERDTreeWinPos="right"
-let NERDTreeWinSize=30
-let g:NERDTreeDirArrowExpandable = ' '
-let g:NERDTreeDirArrowCollapsible = ' '
-" Hide the current working directory in NERDTree
-augroup nerdtreehidecwd
-	autocmd!
-	autocmd FileType nerdtree setlocal conceallevel=3
-				\ | syntax match NERDTreeHideCWD #^[</].*$# conceal
-				\ | setlocal concealcursor=n
-augroup end
-map <C-a> :NERDTreeToggle<CR>
-nnoremap <leader>n :NERDTreeFocus<CR>
-nnoremap <C-n> :NERDTree<CR>
-nnoremap <C-t> :NERDTreeToggle<CR>
-nnoremap <C-f> :NERDTreeFind<CR>
-" Exit Vim if NERDTree is the only window remaining in the only tab.
-autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
-" Open the existing NERDTree on each new tab.
-autocmd BufWinEnter * if getcmdwintype() == '' | silent NERDTreeMirror | endif
 
 
 lua <<EOF
-
 require('lspkind').init();
 EOF
 
-if g:nvim_compe == 1
-lua << EOF
 
-
-
-
-
-vim.cmd [[set shortmess+=c]]
-
-require'compe'.setup {
-    enabled = true;
-    autocomplete = true;
-    debug = false;
-    min_length = 3;
-    preselect = 'enable';
-    throttle_time = 160;
-    source_timeout = 200;
-    incomplete_delay = 800;
-    allow_prefix_unmatch = false;
-    max_abbr_width = 1000;
-    max_kind_width = 1000;
-    max_menu_width = 1000000;
-    documentation = true;
-
-
-    source = {
-        path = true;
-        buffer = true;
-        calc = true;
-        vsnip = false;
-        nvim_lsp = true;
-        nvim_lua = true;
-        spell = true;
-        tags = true;
-        snippets_nvim = false;
-        treesitter = true;
-  };
-}
-
-local t = function(str)
-  return vim.api.nvim_replace_termcodes(str, true, true, true)
-end
-
-local check_back_space = function()
-    local col = vim.fn.col('.') - 1
-    if col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') then
-        return true
-    else
-        return false
-    end
-end
-
--- Use (s-)tab to:
---- move to prev/next item in completion menuone
---- jump to prev/next snippet's placeholder
-" _G.tab_complete = function()
-"   if vim.fn.pumvisible() == 1 then
-"     return t "<C-n>"
-"   elseif vim.fn.call("vsnip#available", {1}) == 1 then
-"     return t "<Plug>(vsnip-expand-or-jump)"
-"   elseif check_back_space() then
-"     return t "<Tab>"
-"   else
-"     return vim.fn['compe#complete']()
-"   end
-" end
-" _G.s_tab_complete = function()
-"   if vim.fn.pumvisible() == 1 then
-"     return t "<C-p>"
-"   elseif vim.fn.call("vsnip#jumpable", {-1}) == 1 then
-"     return t "<Plug>(vsnip-jump-prev)"
-"   else
-"     return t "<S-Tab>"
-"   end
-" end
-
-
-
-
-EOF
-endif
-
-" VIMSPECTOR
-"
-
-map <Leader>db 	<Plug>VimspectorToggleBreakpoint
 
 " BUFFERLINE
 lua << EOF
@@ -714,19 +350,12 @@ require'bufferline'.setup{
 }
 EOF
 
-"REST PLUGIN
-"autocmd FileType http nnoremap <buffer> <Leader>r gg
-autocmd FileType http map <buffer> <Leader>r <ESC>gg<Plug>RestNvim
-autocmd FileType http map <buffer> <Leader>R <ESC><Plug>RestNvim
-
-
 
 
 "
 "
 " DELIMIATE
 "
-
 
 
 let g:delimitMate_autoclose = 1
@@ -736,666 +365,87 @@ let g:delimitMate_expand_space = 1
 let g:delimitMate_expand_cr = 2
 let g:delimitMate_expand_inside_quotes = 1
 
-"inoremap {<CR> {<CR>} <C-o>O
 
 
 
 
-
-" LIGHTLINE
+" lualine
 "
-let g:enable_lightline = 0
-if g:enable_lightline == 1 
-function! LLMode()
-  let fname = expand('%:t')
-  return fname == '__Tagbar__' ? 'Tagbar' :
-        \ fname == 'ControlP' ? 'CtrlP' :
-        \ lightline#mode() == 'NORMAL' ? 'N' :
-        \ lightline#mode() == 'INSERT' ? 'I' :
-        \ lightline#mode() == 'VISUAL' ? 'V' :
-        \ lightline#mode() == 'V-LINE' ? 'V' :
-        \ lightline#mode() == 'V-BLOCK' ? 'V' :
-        \ lightline#mode() == 'REPLACE' ? 'R' : lightline#mode()
-endfunction
-
-let g:lightline = {
-  \   'active': {
-  \     'left': [[ 'mode', 'paste', 'coc_info', 'coc_hints', 'coc_errors', 'coc_warnings', 'coc_ok' ],
-  \              [ 'gitbranch','readonly', 'absolutepath', 'coc_status'  ]],
-  \     'right': [['gitdiff'],['lineinfo'], ['fileformat', 'fileencoding', 'filetype']]
-  \   },
-  \ 'inactive': {
-  \   'left': [ [ 'filename', 'gitversion' ] ],
-  \ },
-  \ 'component_function': {
-  \   'gitbranch': 'FugitiveHead',
-  \   'mode': 'LLMode'
-  \ },
-  \ 'component_expand': {
-  \   'gitdiff': 'lightline#gitdiff#get',
-  \ },
-  \ 'component_type': {
-  \   'gitdiff': 'middle',
-  \ },
-  \ }
-
-" register compoments:
-call lightline#coc#register()
-
-
-let g:lightline#gitdiff#indicator_added = '+'
-let g:lightline#gitdiff#indicator_deleted = '-'
-let g:lightline#gitdiff#indicator_modified = '~'
-
-endif
-
-let g:use_feline = 0
-if g:use_feline == 1 
-
+let g:use_lualine = 1
+if g:use_lualine == 1
 lua <<EOF
-require('feline').setup()
-require('feline').winbar.setup()
-EOF
-
-endif
-
-" GALAXYLINE
-"
-let g:use_galaxyline = 1
-if g:use_galaxyline == 1 
-lua <<EOF
---   ____       _                  _     _
---  / ___| __ _| | __ ___  ___   _| |   (_)_ __   ___
--- | |  _ / _` | |/ _` \ \/ | | | | |   | | '_ \ / _ \
--- | |_| | (_| | | (_| |>  <| |_| | |___| | | | |  __/
---  \____|\__,_|_|\__,_/_/\_\\__, |_____|_|_| |_|\___|
---                           |___/
--- See: https://github.com/glepnir/galaxyline.nvim
-
--- Settings {{{1
-local gl = require('galaxyline')
-
+-- stylua: ignore
 local colors = {
-    bg              = '#1d2021',
-
-    giticon         = '#FF8800',
-    gitbg           = '#5C2C2E',
-    gittext         = '#C5C5C5',
-
-    diagerror       = '#F44747',
-    diagwarn        = '#FF8800',
-    diaghint        = '#4FC1FF',
-    diaginfo        = '#FFCC66',
-
-    lspicon         = '#68AF00',
-    lspbg           = '#304B2E',
-    lsptext         = '#C5C5C5',
-
-    typeicon        = '#FF8800',
-    typebg          = '#5C2C2E',
-    typetext        = '#C5C5C5',
-
-    statsicon       = '#9CDCFE',
-    statsbg         = '#5080A0',
-    statstext       = '#000000',
-
-    lineokfg        = '#000000',
-    lineokbg        = '#5080A0',
-    linelongfg      = '#990000',
-    linelongwarnfg  = '#664400',
-    linelongbg      = '#5080A0',
-
-    shortbg         = '#DCDCAA',
-    shorttext       = '#000000',
-
-    shortrightbg    = '#3F3F3F',
-    shortrighttext  = '#7C4C4E',
-
-    red             = '#D16969',
-    yellow          = '#DCDCAA',
-    magenta         = '#D16D9E',
-    green           = '#608B4E',
-    orange          = '#FF8800',
-    purple          = '#C586C0',
-    blue            = '#569CD6',
-    cyan            = '#4EC9B0'
+  blue   = '#80a0ff',
+  cyan   = '#79dac8',
+  black  = '#262626',
+  white  = '#c6c6c6',
+  red    = '#ff5189',
+  violet = '#d183e8',
+  grey   = '#303030',
 }
 
-local lineLengthWarning = 80
-local lineLengthError = 120
-local leftbracket = ""
-local rightbracket = ""
-gl.short_line_list = {'NvimTree', 'vista', 'dbui', 'packer', 'tagbar'}
-local gls = gl.section
-local condition = require('galaxyline.condition')
--- }}}1
+local bubbles_theme = {
+  normal = {
+    a = { fg = colors.black, bg = colors.violet },
+    b = { fg = colors.white, bg = colors.grey },
+    c = { fg = colors.black, bg = colors.black },
+  },
 
--- Left {{{1
-local c = 1
+  insert = { a = { fg = colors.black, bg = colors.blue } },
+  visual = { a = { fg = colors.black, bg = colors.cyan } },
+  replace = { a = { fg = colors.black, bg = colors.red } },
 
--- Edit mode {{{2
-gls.left[c] = {
-    ViModeSpace = {
-        provider = function() return " " end,
-        highlight = {colors.giticon, colors.bg}
-    }
+  inactive = {
+    a = { fg = colors.white, bg = colors.black },
+    b = { fg = colors.white, bg = colors.black },
+    c = { fg = colors.black, bg = colors.black },
+  },
 }
 
-c = c+1
-gls.left[c] = {
-    ViMode = {
-        provider = function()
-            -- auto change color according the vim mode
-            local mode_color = {
-                n = colors.blue,
-                i = colors.red,
-                v = colors.purple,
-                [''] = colors.purple,
-                V = colors.purple,
-                c = colors.magenta,
-                no = colors.blue,
-                s = colors.orange,
-                S = colors.orange,
-                [''] = colors.orange,
-                ic = colors.yellow,
-                R = colors.red,
-                Rv = colors.red,
-                cv = colors.blue,
-                ce = colors.blue,
-                r = colors.cyan,
-                rm = colors.cyan,
-                ['r?'] = colors.cyan,
-                ['!'] = colors.blue,
-                t = colors.blue
-            }
-            vim.api.nvim_command('hi GalaxyViMode guifg=' .. mode_color[vim.fn.mode()])
-            return ""
-        end,
-        separator = " ",
-        separator_highlight = {colors.red, colors.bg},
-        highlight = {colors.red, colors.bg}
-    }
+require('lualine').setup {
+  options = {
+    theme = bubbles_theme,
+    component_separators = '|',
+    section_separators = { left = '', right = '' },
+  },
+  sections = {
+    lualine_a = {
+      { 'mode', separator = { left = '' }, right_padding = 2 },
+    },
+    lualine_b = { 'filename', 'branch' },
+    lualine_c = { 'fileformat' },
+    lualine_x = {},
+    lualine_y = { 'filetype', 'progress', 'diff' },
+    lualine_z = {
+      { 'location', separator = { right = '' }, left_padding = 2 },
+    },
+  },
+  inactive_sections = {
+    lualine_a = { 'filename' },
+    lualine_b = {},
+    lualine_c = {},
+    lualine_x = {},
+    lualine_y = {},
+    lualine_z = { 'location' },
+  },
+  tabline = {},
+  extensions = {},
 }
-
-print(vim.fn.getbufvar(0, 'ts'))
-vim.fn.getbufvar(0, 'ts')
--- }}}2
-
--- Git info {{{2
-
--- Git Branch Name {{{3
-c = c+1
-gls.left[c] = {
-    GitStart = {
-        provider = function() return leftbracket end,
-        condition = condition.check_git_workspace,
-        highlight = {colors.giticon, colors.bg}
-    }
-}
-c = c+1
-gls.left[c] = {
-    GitIcon = {
-        provider = function()
-            return ' '
-        end,
-        condition = condition.check_git_workspace,
-        separator = '',
-        separator_highlight = {'NONE', colors.giticon},
-        highlight = {colors.gitbg, colors.giticon}
-    }
-}
-c = c+1
-gls.left[c] = {
-    GitMid = {
-        provider = function() return rightbracket .. ' ' end,
-        condition = condition.check_git_workspace,
-        highlight = {colors.giticon, colors.gitbg}
-    }
-}
-
-c = c+1
-gls.left[c] = {
-    GitBranch = {
-        provider = 'GitBranch',
-        condition = condition.check_git_workspace,
-        separator = ' ',
-        separator_highlight = {'NONE', colors.gitbg},
-        highlight = {colors.gittext, colors.gitbg}
-    }
-}
--- }}}3
--- Git Changes {{{3
-c = c+1
-gls.left[c] = {
-    DiffAdd = {
-        provider = 'DiffAdd',
-        -- condition = condition.hide_in_width,
-        condition = condition.check_git_workspace,
-        icon = '  ',
-        -- icon = '  ',
-        highlight = {colors.green, colors.gitbg}
-    }
-}
-c = c+1
-gls.left[c] = {
-    DiffModified = {
-        provider = 'DiffModified',
-        -- condition = condition.hide_in_width,
-        condition = condition.check_git_workspace,
-        icon = '  ',
-        -- icon = ' 柳',
-        highlight = {colors.blue, colors.gitbg}
-    }
-}
-
-c = c+1
-gls.left[c] = {
-    DiffRemove = {
-        provider = 'DiffRemove',
-        -- condition = condition.hide_in_width,
-        condition = condition.check_git_workspace,
-        icon = '  ',
-        -- icon = '  ',
-        highlight = {colors.red, colors.gitbg}
-    }
-}
-
-c = c+1
-gls.left[c] = {
-    EndGit = {
-        provider = function() return rightbracket end,
-        condition = condition.check_git_workspace,
-        separator = " ",
-        separator_highlight = {colors.gitbg, colors.bg},
-        highlight = {colors.gitbg, colors.bg}
-    }
-}
--- }}}3
-
--- }}}2
-
--- Lsp Section {{{2
-
--- Lsp Client {{{3
-c = c+1
-gls.left[c] = {
-    LspStart = {
-        provider = function() return leftbracket end,
-        -- condition = condition.check_active_lsp,
-        highlight = {colors.lspicon, colors.bg}
-    }
-}
-
-c = c+1
-gls.left[c] = {
-    LspIcon = {
-        provider = function()
-            local name = ""
-
-            if gl.lspclient ~= nil then
-                name = gl.lspclient()
-            end
-
-            return '' .. name
-        end,
-        -- condition = condition.check_active_lsp,
-        highlight = {colors.lspbg, colors.lspicon}
-    }
-}
-
-c = c+1
-gls.left[c] = {
-    LspMid = {
-        provider = function() return rightbracket .. ' ' end,
-        -- condition = condition.check_active_lsp,
-        highlight = {colors.lspicon, colors.lspbg}
-    }
-}
-
-c = c+1
-gls.left[c] = {
-    ShowLspClient = {
-        provider = 'GetLspClient',
-        -- condition = condition.check_active_lsp,
-        -- condition = function()
-            -- local tbl = {['dashboard'] = true, [' '] = true}
-            -- if tbl[vim.bo.filetype] then return false end
-            -- return true
-        -- end,
-        highlight = {colors.textbg, colors.lspbg}
-    }
-}
-
-c = c+1
-gls.left[c] = {
-    LspSpace4 = {
-        provider = function() return ' ' end,
-        -- condition = condition.check_active_lsp,
-        highlight = {colors.lspicon, colors.lspbg}
-,    }
-}
--- }}}
--- Diagnostics {{{3
-c = c+1
-gls.left[c] = {
-    DiagnosticError = {
-        provider = 'DiagnosticError',
-        -- condition = condition.check_active_lsp,
-        icon = '  ',
-        separator_highlight = {colors.gitbg, colors.bg},
-        highlight = {colors.diagerror, colors.lspbg}
-    }
-}
-
-c = c+1
-gls.left[c] = {
-    DiagnosticWarn = {
-        provider = 'DiagnosticWarn',
-        -- condition = condition.check_active_lsp,
-        icon = '  ',
-        highlight = {colors.diagwarn, colors.lspbg}
-    }
-}
-
-c = c+1
-gls.left[c] = {
-    DiagnosticHint = {
-        provider = 'DiagnosticHint',
-        -- condition = condition.check_active_lsp,
-        icon = '  ',
-        highlight = {colors.diaghint, colors.lspbg}
-    }
-}
-
-c = c+1
-gls.left[c] = {
-    DiagnosticInfo = {
-        provider = 'DiagnosticInfo',
-        -- condition = condition.check_active_lsp,
-        icon = '  ',
-        highlight = {colors.diaginfo, colors.lspbg}
-    }
-}
-
-c = c+1
-gls.left[c] = {
-    LspSectionEnd = {
-        provider = function() return rightbracket .. " " end,
-        -- condition = condition.check_active_lsp,
-        highlight = {colors.lspbg, colors.bg}
-    }
-}
-
--- }}}3
-
--- }}}2
-
--- }}}1
-
--- Right {{{1
-c = 1
-
--- Type {{{2
-c = c+1
-gls.right[c] = { TypeStart = { provider = function() return leftbracket end, highlight = {colors.typeicon, colors.bg} } }
-c = c+1
-gls.right[c] = {
-    TypeIcon = {
-        provider = function()
-            return ''
-        end,
-        highlight = {colors.typebg, colors.typeicon}
-    }
-}
-c = c+1
-gls.right[c] = { TypeMid = { provider = function() return rightbracket .. ' ' end, highlight = {colors.typeicon, colors.typebg} } }
-
-c = c+1
-gls.right[c] = {
-    FileName = {
-        provider = 'FileName',
-        separator_highlight = {'NONE', colors.typebg},
-        highlight = {colors.typetext, colors.typebg}
-    }
-}
-
--- c = c+1
--- gls.right[c] = {
-    -- FileName = {
-        -- provider = file_readonly(),
-        -- highlight = {colors.typetext, colors.typebg}
-    -- }
--- }
-
-c = c+1
-gls.right[c] = {
-    FileSize = {
-        provider = 'FileSize',
-        separator = ' ',
-        separator_highlight = {colors.typeicon, colors.typebg},
-        highlight = {colors.typetext, colors.typebg}
-    }
-}
-
-c = c+1
-gls.right[c] = { FileIcon = { provider = 'FileIcon', highlight = {colors.typeicon, colors.typebg} } }
-
-c = c+1
-gls.right[c] = {
-    BufferType = {
-        provider = 'FileTypeName',
-        highlight = {colors.typetext, colors.typebg}
-    }
-}
-
-c = c+1
-gls.right[c] = {
-    FileFormat = {
-        provider = 'FileFormat',
-        separator = ' ⏎ ',
-        separator_highlight = {colors.typeicon, colors.typebg},
-        highlight = {colors.typetext, colors.typebg}
-    }
-}
-
-c = c+1
-gls.right[c] = {
-    FileEncode = {
-        provider = 'FileEncode',
-        separator = ' ',
-        separator_highlight = {colors.typeicon, colors.typebg},
-        highlight = {colors.typetext, colors.typebg}
-    }
-}
-c = c+1
-gls.right[c] = { TypeSectionEnd = { provider = function() return rightbracket end, highlight = {colors.typebg, colors.bg} } }
-
-c = c+1
-gls.right[c] = { Space = { provider = function() return ' ' end, highlight = {colors.typebg, colors.bg} } }
-
--- }}}2
-
--- File Position Section {{{2
-c = c+1
-gls.right[c] = { StatsSectionStart = { provider = function() return leftbracket end, highlight = {colors.statsicon, colors.bg} } }
-c = c+1
-gls.right[c] = {
-    StatsIcon = {
-        provider = function()
-            return '⅑'
-        end,
-        highlight = {colors.statsbg, colors.statsicon}
-    }
-}
-c = c+1
-gls.right[c] = { StatsMid = { provider = function() return rightbracket .. ' ' end, highlight = {colors.statsicon, colors.statsbg} } }
-
-c = c+1
-gls.right[c] = {
-    PerCent = {
-        provider = 'LinePercent',
-        highlight = {colors.statstext, colors.statsbg}
-    }
-}
-
-c = c+1
-gls.right[c] = {
-    VerticalPosAndSize = {
-        provider = function()
-            return vim.fn.line('.') .. "/" .. vim.fn.col('.')
-        end,
-        separator = '⇕ ',
-        separator_highlight = {colors.statsicon, colors.statsbg},
-        highlight = {colors.statstext, colors.statsbg}
-    }
-}
-
-
-
-
-c = c+1
-gls.right[c] = { StatsSpcSectionEnd = { provider = function() return rightbracket .. " " end, highlight = {colors.statsbg, colors.bg} } }
-
--- }}}2
-
--- }}}1
-
--- Left Short {{{1
-c = 1
-gls.short_line_left[c] = { ShortSectionStart = { provider = function() return leftbracket  end, highlight = {colors.shortbg, colors.bg} } }
-
-c = c+1
-gls.short_line_left[c] = { ShortSectionSpace = { provider = function() return " "  end, highlight = {colors.shorttext, colors.shortbg} } }
-
-c = c+1
-gls.short_line_left[c] = {
-    LeftShortName = {
-        provider = 'FileTypeName',
-        highlight = {colors.shorttext, colors.shortbg},
-    }
-}
-
-c = c+1
-gls.short_line_left[c] = { ShortSectionMid = { provider = function() return " " end, highlight = {colors.shortbg, colors.shortbg} } }
-
-c = c+1
-gls.short_line_left[c] = {
-    LeftShortFileName = {
-        provider = 'SFileName',
-        condition = condition.buffer_not_empty,
-        separator_highlight = {colors.shorttext, colors.shortbg},
-        highlight = {colors.shorttext, colors.shortbg},
-    }
-}
-
-c = c+1
-gls.short_line_left[c] = {
-    ShortSectionEnd = {
-        provider = function() return rightbracket end,
-        highlight = {colors.shortbg, colors.bg}
-    }
-}
-
--- }}}1
-
--- Right Short {{{1
-c = 1
-gls.short_line_right[c] = {
-    BufferIcon = {
-        provider = 'BufferIcon',
-        separator_highlight = {colors.shorttext, colors.bg},
-        highlight = {colors.shortrighttext, colors.bg}
-    }
-}
--- }}}1
 EOF
 
 endif
-
-" lua << EOF
-" require('telescope').setup {
-"   extensions = {
-"     fzf = {
-"       fuzzy = true,                    -- false will only do exact matching
-"       override_generic_sorter = true,  -- override the generic sorter
-"       override_file_sorter = true,     -- override the file sorter
-"       case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
-"                                        -- the default case_mode is "smart_case"
-"     }
-"   }
-" }
-" -- To get fzf loaded and working with telescope, you need to call
-" -- load_extension, somewhere after setup function:
-" require('telescope').load_extension('fzf')
-" EOF
-
-
-" TELESCOPE
-"
-" lua << EOF
-" local actions = require('telescope.actions')
-" require('telescope').setup{
-"   defaults = {
-"     mappings = {
-"       i = {
-"         ["<esc>"] = actions.close
-"       },
-"       n = {
-"         ["<esc>"] = actions.close
-"       }
- 
-"     }
-"   }
-" }
-" EOF
-
 
 " TREESITTER
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
   ensure_installed = "all", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
-  ignore_install = { "javascript" }, -- List of parsers to ignore installing
   highlight = {
     enable = true,              -- false will disable the whole extension
-    disable = { },  -- list of language that will be disabled
   },
 }
 EOF
 
-
-" AIRLINE
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#formatter = 'unique_tail'
-let g:airline#extensions#tabline#left_sep = ''
-let g:airline#extensions#tabline#right_sep = ''
-let g:airline#extensions#tabline#left_alt_sep = ''
-let g:airline#extensions#tabline#right_alt_sep = ''
-let airline#extensions#tabline#show_buffers = 0
-let g:airline_theme='powerlineish'
-
-" ALE
-let g:ale_linters = {
-\   'javascript': ['eslint'],
-\   'haml': ['hamllint'],
-\   'php': ['phpcs'],
-\   'go': ['gofmt'],
-\   'rust': ['rls']
-\}
-let g:ale_fixers = {
-\   'javascript': ['prettier', 'eslint', 'remove_trailing_lines', 'trim_whitespace'],
-\   'javascript.jsx': ['prettier', 'eslint', 'remove_trailing_lines', 'trim_whitespace'],
-\   'ruby': ['rubocop', 'remove_trailing_lines', 'trim_whitespace'],
-\   'haml': ['hamllint', 'remove_trailing_lines', 'trim_whitespace'],
-\   'php': ['php_cs_fixer', 'phpcbf'],
-\   'rust': ['rustfmt'],
-\   'go': ['gofmt'],
-\   'sh': ['shmft', 'remove_trailing_lines', 'trim_whitespace'],
-\   'c': ['clang-format', 'remove_trailing_lines', 'trim_whitespace'],
-\}
-let g:ale_set_highlights = 0
-let g:ale_lint_on_text_changed = 0
-let g:ale_lint_on_enter = 0
-let g:ale_lint_on_save = 1
 
 
 " FZF
@@ -1411,25 +461,33 @@ nnoremap <C-p> :FzfLua git_files <CR>
 inoremap <C-p> <ESC>:FzfLua git_files <CR>
 
 
+
+nnoremap <C-x> :FzfLua buffers <CR>
+inoremap <C-x> <ESC>:FzfLua buffers <CR>
+
+nnoremap <Leader>r :FzfLua resume <CR>
+inoremap <Leader>r <ESC>:FzfLua resume <CR>
+
+
 nnoremap <C-o> :Rgr <CR>
 inoremap <C-o> <ESC>:Rgr <CR>
 
 lua <<EOF
-local actions = require'fzf-lua.actions'
-require 'fzf-lua'.setup({
-  actions = {
-    files = {
-      -- instead of the default action 'actions.file_edit_or_qf'
-      -- it's important to define all other actions here as this
-      -- table does not get merged with the global defaults
-      ["default"]       = actions.file_edit,
-      ["ctrl-s"]        = actions.file_split,
-      ["ctrl-v"]        = actions.file_vsplit,
-      ["ctrl-t"]        = actions.file_tabedit,
-      ["ctrl-q"]         = actions.file_sel_to_qf,
-    },
-  },
-})
+ local actions = require'fzf-lua.actions'
+ require 'fzf-lua'.setup({'default',
+   actions = {
+     files = {
+       -- instead of the default action 'actions.file_edit_or_qf'
+       -- it's important to define all other actions here as this
+       -- table does not get merged with the global defaults
+       ["default"]       = actions.file_edit,
+       ["ctrl-s"]        = actions.file_split,
+       ["ctrl-v"]        = actions.file_vsplit,
+       ["ctrl-t"]        = actions.file_tabedit,
+       ["ctrl-q"]         = actions.file_sel_to_qf,
+     },
+   },
+ })
 EOF
 
 
@@ -1441,23 +499,9 @@ let g:fzf_action = {
   \ 'ctrl-v': 'vsplit'}
 
 
-" FUGITIVE
-"
-nmap <Leader>gs :G<CR>
-imap <Leader>gs <ESC>:G<CR>
-nmap <Leader>gf :diffget //2
-nmap <Leader>gh :diffget //3
 
-let g:native_lsp = 1
 let g:float_preview#docked = 0
 
-" NATIVE LSP
-if g:native_lsp == 1 
-
-" NO DIAG WHILE TYPING
-
-
-""LSP SNIPPETS
 
 
 " PHP LSP inserts double $$
@@ -1466,40 +510,6 @@ autocmd FileType php setlocal iskeyword+=$
 let b:PHP_default_indenting = 1
 
 
-
-" Fixes delimitmate's 'delimitMate_expand_cr' option
-if g:nvim_compe == 0
-"let g:completion_confirm_key = ""
-"imap <expr> <cr>  pumvisible() ? complete_info()["selected"] != "-1" ?
-"               \ "\<Plug>(completion_confirm_completion)" : "\<c-e>\<CR>" : "\<Plug>delimitMateCR"
-let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
-
-" ['exact', 'substring', 'fuzzy', 'all']
-"let g:completion_matching_smart_case = 1
-"let g:completion_trigger_keyword_length = 2
-"let g:completion_enable_snippet = 'Neosnippet'
-"let g:completion_auto_change_source = 1
-
-let g:completion_chain_complete_list = {
-             \'default' :[
-            \   {'complete_items': ['lsp',  'ts']},
-            \]
-             \}
-
-let g:completion_customize_lsp_label = {
-      \ 'Function': '',
-      \ 'Reference': '',
-      \ 'Keyword': '',
-      \ 'Variable': '',
-      \ 'Folder': '',
-      \ 'Snippet': '',
-      \ 'Operator': '',
-      \ 'Module': '',
-      \ 'Text': '',
-      \ 'Class': '',
-      \ 'Interface': '',
-      \}
-endif
 
 
 
@@ -1515,7 +525,7 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
     source = "always",  -- Or "if_many"
   },
     virtual_text = false,
-    signs = true,
+    signs = false,
     update_in_insert = false,
     underline = false,
   }
@@ -1538,99 +548,6 @@ vim.fn.sign_define("DiagnosticSignHint",
   }
 EOF
 
-if g:lsp_zero == 0
-lua <<EOF
-local lsp_installer = require("nvim-lsp-installer")
-local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
-capabilities.textDocument.completion.completionItem.snippetSupport = false
-capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = false
-
-
-
-
--- Use an on_attach function to only map the following keys
--- after the language server attaches to the current buffer
-local on_attach = function(client, bufnr)
-  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
-
-  -- Enable completion triggered by <c-x><c-o>
-  buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
-
-  -- Mappings.
-  local opts = { noremap=true, silent=true }
-
-  -- See `:help vim.lsp.*` for documentation on any of the below functions
-  buf_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-  buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
-  buf_set_keymap('n', 'gh', '<cmd>Gitsigns next_hunk<CR>', opts)
-  buf_set_keymap('n', 'gH', '<cmd>Gitsigns prev_hunk<CR>', opts)
-  buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-  buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-  buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-  buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
-  buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
-  buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
-  buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-  buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-  buf_set_keymap('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-  buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-  buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
-  buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
-  buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-  buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
-  buf_set_keymap('n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
-
-end
-
-lsp_installer.on_server_ready(function(server)
-    local opts = {
-    on_attach = on_attach,
-      flags = {
-
-        debounce_did_change_notify = 1000, 
-        debounce_text_changes = 1500, 
-        },
-      capabilities = capabilities,
-    }
-
-    -- (optional) Customize the options passed to the server
-    -- if server.name == "tsserver" then
-    --     opts.root_dir = function() ... end
-    -- end
-
-    -- This setup() function is exactly the same as lspconfig's setup function.
-    -- Refer to https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
-    server:setup(opts)
-end)
-
-
-EOF
-endif
-endif
-
-
-
-
-
-" FUNCTIONS
-
-function! TabCloseRight(bang)
-    let cur=tabpagenr()
-    while cur < tabpagenr('$')
-        exe 'tabclose' . a:bang . ' ' . (cur + 1)
-    endwhile
-endfunction
-
-function! TabCloseLeft(bang)
-    while tabpagenr() > 1
-        exe 'tabclose' . a:bang . ' 1'
-    endwhile
-endfunction
-
-command! -bang Tabcloseright call TabCloseRight('<bang>')
-command! -bang Tabcloseleft call TabCloseLeft('<bang>')
-
 
 " KEY MAPS
 "
@@ -1649,18 +566,11 @@ inoremap <silent> <M-Down>  <C-O>m`<C-O>:move +1<CR><C-O>``
 vnoremap <silent> <M-Up>    :<C-U>exec "'<,'>move '<-" . (1+v:count1)<CR>gv
 vnoremap <silent> <M-Down>  :<C-U>exec "'<,'>move '>+" . (0+v:count1)<CR>gv
 
-" Maximizer Toggle
-nnoremap <leader>m :MaximizerToggle!<CR>
 
 
 " Close All Buffers
 noremap <leader>bd :%bd\|e#\|bd#<cr>\|'"
 
-
-" Cycle last 2 files -
-nmap - <C-^>
-
-""" COMMENT UNCOMMENT
 
 """ SHOW NETRW 
 let g:netrw_browse_split=4
@@ -1675,23 +585,12 @@ nnoremap Y :OSCYankVisual<CR>
 inoremap <silent> <F24> <C-\><C-O>:silent doautocmd FocusLost %<CR>
 inoremap <silent> <F25> <C-\><C-O>:silent doautocmd FocusGained %<CR>
 
+nnoremap <C-m> :let @0 = expand('%')<CR>:OSCYankRegister 0<CR>
 
-
-" OPTION+SHIFT+F - Search in Project (RIPGREP)
-map <C-S-F> :Rg<CR>
 
 " Apple Keyboard Pasting with OPTION+v 
 imap <C-v> <C-R>+
 cmap <C-v> <C-R>+
-
-
-
-
-" TIG status
-nnoremap <Leader>ag :FloatermNew --name=git_status --title="Git-Status" tig status<CR>
-tnoremap <Leader>ag <C-\><C-n>:FloatermKill git_status <CR>
-
-
 
 
 
@@ -1726,28 +625,6 @@ inoremap <C-y>  <Esc>:redo<CR>
 
 
 
-" Mark ALL
-nnoremap <C-A> <ESC>ggVG<CR>
-inoremap <C-A> <ESC>ggVG<CR>
-
-
-
-" OPTION+M Terminal
-nnoremap <C-S-m> :FloatermToggle<CR>
-inoremap <C-S-m> :FloatermToggle<CR>
-tnoremap <C-S-m> <C-\><C-n>:FloatermToggle<CR>
-
-
-
-
-
-
-" OPTION + e -> GoDef
-nmap <silent> <C-e> <Plug>(coc-definition)
-imap <silent> <C-e> <ESC><Plug>(coc-definition)
-
-
-
 
 
 set synmaxcol=240
@@ -1765,17 +642,8 @@ inoremap <C-Left>  <Esc>:BufferLineCyclePrev<CR>i
 nnoremap <C-Right>  :BufferLineCycleNext<CR>
 inoremap <C-Right>  <Esc>:BufferLineCycleNext<CR>i
 
-" OPTION + t  -> new TAB
-nnoremap <C-t>  :tabnew<CR>
-inoremap <C-t>  <Esc>:tabnew<CR>i
-" OPTION + w -> close tab
-inoremap <D-w>  <Esc>:tabclose<CR>i
 
-" lazy ':'
 
-nnoremap <Leader>p :set paste<CR>
-nnoremap <Leader>f :Format<CR>
-nnoremap <Leader>o :set nopaste<CR>
 
 
 hi Visual		 guibg=#303731 gui=none ctermfg=15 ctermbg=67
@@ -1788,8 +656,6 @@ hi Error  gui=none
 if filereadable(expand("~/.vimrc.local"))
   source ~/.vimrc.local
 endif
-
-
 
 set laststatus=3
 highlight WinSeperator guibg=None
