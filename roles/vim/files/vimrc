@@ -485,6 +485,8 @@ command Buffers FzfLua buffers
 nnoremap <C-p> :FzfLua git_files <CR>
 inoremap <C-p> <ESC>:FzfLua git_files <CR>
 
+nnoremap - :b#<CR>
+
 
 
 nnoremap <C-x> :FzfLua buffers <CR>
