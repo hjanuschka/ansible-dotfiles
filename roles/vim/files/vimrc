@@ -54,6 +54,7 @@ Plug 'terryma/vim-multiple-cursors'
 
 call plug#end()
 
+nnoremap - :b#<CR>
 
 
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
@@ -374,23 +375,6 @@ require'bufferline'.setup{
   }
 }
 EOF
-
-
-
-"
-"
-" DELIMIATE
-"
-
-
-let g:delimitMate_autoclose = 1
-let g:delimitMate_matchpairs = "(:),[:],{:},<:>"
-let g:delimitMate_jump_expansion = 1
-let g:delimitMate_expand_space = 1
-let g:delimitMate_expand_cr = 2
-let g:delimitMate_expand_inside_quotes = 1
-
-
 
 
 
