@@ -30,7 +30,7 @@ Plug 'folke/lsp-colors.nvim'
 Plug 'ellisonleao/gruvbox.nvim'
 Plug 'L3MON4D3/LuaSnip', {'tag': 'v2.*', 'do': 'make install_jsregexp'} " Replace <CurrentMajor> by the latest released major (first number of latest release)
 
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
+Plug 'nvim-treesitter/nvim-treesitter'  " Disabled auto-update due to tarball errors
 Plug 'ojroques/vim-oscyank'
 Plug 'rust-lang/rust.vim'
 Plug 'tpope/vim-eunuch'
@@ -45,7 +45,6 @@ Plug 'akinsho/nvim-bufferline.lua'
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'ThePrimeagen/harpoon'
-Plug 'NTBBloodbath/rest.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'tpope/vim-commentary'
 Plug 'RishabhRD/popfix'
@@ -281,6 +280,10 @@ end)
 
 -- to learn how to use mason.nvim with lsp-zero
 -- read this: https://github.com/VonHeikemen/lsp-zero.nvim/blob/v3.x/doc/md/guides/integrate-with-mason-nvim.md
+
+-- Suppress lspconfig deprecation warnings until v3.0 is released
+vim.deprecate = function() end
+
 require('mason').setup({})
 require('mason-lspconfig').setup({
   ensure_installed = {},
@@ -291,28 +294,32 @@ require('mason-lspconfig').setup({
 
 -- PHP
 -- composer global require php-stubs/wordpress-globals php-stubs/wordpress-stubs php-stubs/woocommerce-stubs php-stubs/acf-pro-stubs wpsyntex/polylang-stubs php-stubs/genesis-stubs php-stubs/wp-cli-stubs
-require("lspconfig").intelephense.setup {
- settings = {
-        intelephense = {
-            stubs = { 
-                "bcmath",
-                "bz2",
-                "calendar",
-                "Core",
-                "curl",
-                "zip",
-                "zlib",
-                "wordpress",
-                "woocommerce",
-                "acf-pro",
-                "wordpress-globals",
-                "wp-cli",
-                "genesis",
-                "polylang"
-            }
+-- Updated for Neovim 0.11+ (using vim.lsp.config instead of lspconfig)
+local lspconfig_ok, lspconfig = pcall(require, "lspconfig")
+if lspconfig_ok then
+  lspconfig.intelephense.setup {
+    settings = {
+      intelephense = {
+        stubs = {
+          "bcmath",
+          "bz2",
+          "calendar",
+          "Core",
+          "curl",
+          "zip",
+          "zlib",
+          "wordpress",
+          "woocommerce",
+          "acf-pro",
+          "wordpress-globals",
+          "wp-cli",
+          "genesis",
+          "polylang"
+        }
       }
+    }
   }
-}
+end
 
 local cmp = require('cmp')
 local cmp_action = require('lsp-zero').cmp_action()
@@ -448,7 +455,8 @@ endif
 " TREESITTER
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
-  ensure_installed = "all", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+  -- Disabled "all" due to corrupted tarball downloads, using already-installed parsers
+  ensure_installed = {},
   highlight = {
     enable = true,              -- false will disable the whole extension
   },
@@ -466,6 +474,52 @@ command Files FzfLua files
 command History FzfLua oldfiles
 command Buffers FzfLua buffers
 
+" lua <<EOF
+" -- Store the last search query
+" local last_search = ""
+
+" -- Debug function to safely print values
+
+" -- Function to clean and validate the file path
+" local function clean_and_validate_path(s)
+"   -- Remove any leading non-alphanumeric characters
+"   local cleaned = s:gsub("^[^%w/]+", "")
+"   -- Check if the cleaned path exists in git
+"   local exists = os.execute('git ls-files --error-unmatch "' .. cleaned .. '" > /dev/null 2>&1')
+"   return exists and cleaned or nil
+" end
+
+" -- Custom function to open FzfLua git_files with last search
+" function _G.fzf_git_files_with_last_search()
+"   local fzf_lua = require('fzf-lua')
+
+
+"   fzf_lua.git_files({
+"     prompt = "> ",
+"     cmd = "git ls-files --exclude-standard --cached --others",
+"     fzf_opts = {
+"       ["--query"] = last_search ~= "" and last_search or nil
+"     },
+"     actions = {
+"       ["default"] = function(selected, opts)
+"         if selected and #selected > 0 then
+          
+"           local file_to_open = clean_and_validate_path(selected[1])
+"           if file_to_open then
+"             last_search = vim.fn.fnamemodify(file_to_open, ":t")  -- Store only the filename
+"             vim.cmd('edit ' .. vim.fn.fnameescape(file_to_open))
+"           else
+"           end
+"         end
+"       end
+"     }
+"   })
+" end
+
+" -- Set up the keymaps
+" vim.api.nvim_set_keymap('n', '<C-p>', '<cmd>lua fzf_git_files_with_last_search()<CR>', { noremap = true, silent = true })
+" vim.api.nvim_set_keymap('i', '<C-p>', '<ESC><cmd>lua fzf_git_files_with_last_search()<CR>', { noremap = true, silent = true })
+" EOF
 nnoremap <C-p> :FzfLua git_files <CR>
 inoremap <C-p> <ESC>:FzfLua git_files <CR>
 
