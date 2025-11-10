@@ -1,10 +1,8 @@
-let g:loaded_clipboard_provider='1'
 let g:loaded_matchparen = '1'
 
 call plug#begin('~/.vim/plugged')
 " ------Plugins-------
 Plug 'nelsyeung/twig.vim'
-Plug 'ahmedkhalf/lsp-rooter.nvim'
 Plug 'kdheepak/lazygit.nvim'
 Plug 'fatih/vim-go', {'do': ':GoUpdateBinaries'}
 
@@ -56,9 +54,6 @@ call plug#end()
 nnoremap - :b#<CR>
 
 
-let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-
-
 " Disable gopls in vim-go / it is in the native lsp
 let g:go_gopls_enabled = 0
 
@@ -84,29 +79,45 @@ require("nvim-tree").setup({
 EOF
 
 let g:gruvbox_contrast_dark = 'hard'
-if exists("+termguicolors")
-  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum]"
-  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum]"
-endif
+set termguicolors
 set background=dark
-colorscheme gruvbox 
+colorscheme gruvbox
 
+" Visual enhancements
+set conceallevel=0
+set pumheight=15
+set pumblend=10
+set winblend=0
 
+" Better diff colors
+highlight DiffAdd    guifg=#00ff00 guibg=#005500
+highlight DiffChange guifg=#cccccc guibg=#333333
+highlight DiffDelete guifg=#ff0000 guibg=#550000
 
-
-
-"colorscheme monokai_pro 
 filetype off
 set autoindent
 set autoread
 set backspace=indent,eol,start
+" Create backup/undo directories if they don't exist
+if !isdirectory($HOME . "/tmp/hjvim")
+  call mkdir($HOME . "/tmp/hjvim", "p", 0700)
+endif
+if !isdirectory($HOME . "/tmp/hjvim/undo")
+  call mkdir($HOME . "/tmp/hjvim/undo", "p", 0700)
+endif
+
 set backupdir^=$HOME/tmp/hjvim
 set belloff=all
 set clipboard=unnamedplus
 set cmdheight=2
-set completeopt-=preview
+set completeopt=menu,menuone,noselect
 set cursorline
+set cursorlineopt=number
 set directory^=$HOME/tmp/hjvim
+set undofile
+set undodir=$HOME/tmp/hjvim/undo
+set undolevels=10000
+set undoreload=10000
 set encoding=utf-8  " The encoding displayed.
 set fileencoding=utf-8  " The encoding written to file.
 set fileformats=unix,dos,mac
@@ -118,9 +129,8 @@ set hidden
 set hlsearch
 set ignorecase
 set incsearch
-set indentexpr=
+set inccommand=nosplit
 set laststatus=2
-set lazyredraw
 set nobackup
 set nocindent
 set nocompatible
@@ -131,15 +141,19 @@ set noswapfile
 set nowritebackup
 set nrformats-=octal
 set number
-set re=1
 set ruler
+set scrolloff=8
+set sidescrolloff=8
+set splitbelow
+set splitright
+set equalalways
 set shiftround
 set shortmess+=c
 set showcmd
 set noshowmatch
 set showmode
-set showtabline=3
-set signcolumn=auto:2
+set showtabline=2
+set signcolumn=no
 set smartcase
 set tabstop=2 shiftwidth=2 expandtab shiftwidth=2
 set termguicolors
@@ -149,8 +163,16 @@ set ttimeoutlen=50
 set ttyfast
 set updatetime=300
 set wildmenu
+set wildmode=longest:full,full
+set wildoptions=pum
 set nowrap!
 set wrapmargin=0
+set linebreak
+set breakindent
+set showbreak=↪\
+set formatoptions-=cro
+set list
+set listchars=tab:→\ ,trail:·,nbsp:␣,extends:⟩,precedes:⟨
 set relativenumber
 syntax on
 
@@ -227,13 +249,6 @@ augroup myvimrc
 augroup END
 
 
-" make Esc happen without waiting for timeoutlen
-augroup FastEscape
-  autocmd!
-  au InsertEnter * set timeoutlen=0
-  au InsertLeave * set timeoutlen=1000
-augroup END
-
 lua <<EOF
 require('gitsigns').setup({
   signs = {
@@ -276,13 +291,15 @@ lsp_zero.on_attach(function(client, bufnr)
   -- see :help lsp-zero-keybindings
   -- to learn the available actions
   lsp_zero.default_keymaps({buffer = bufnr})
+
+  -- Additional useful keybindings
+  vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, {buffer = bufnr, desc = 'Code Action'})
+  vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, {buffer = bufnr, desc = 'Rename'})
+  vim.keymap.set('n', 'gl', vim.diagnostic.open_float, {buffer = bufnr, desc = 'Line Diagnostics'})
 end)
 
 -- to learn how to use mason.nvim with lsp-zero
 -- read this: https://github.com/VonHeikemen/lsp-zero.nvim/blob/v3.x/doc/md/guides/integrate-with-mason-nvim.md
-
--- Suppress lspconfig deprecation warnings until v3.0 is released
-vim.deprecate = function() end
 
 require('mason').setup({})
 require('mason-lspconfig').setup({
@@ -294,7 +311,24 @@ require('mason-lspconfig').setup({
 
 -- PHP
 -- composer global require php-stubs/wordpress-globals php-stubs/wordpress-stubs php-stubs/woocommerce-stubs php-stubs/acf-pro-stubs wpsyntex/polylang-stubs php-stubs/genesis-stubs php-stubs/wp-cli-stubs
--- Updated for Neovim 0.11+ (using vim.lsp.config instead of lspconfig)
+-- Temporarily suppress lspconfig deprecation warnings until v3.0 is released
+local notify = vim.notify
+local deprecate = vim.deprecate
+
+vim.notify = function(msg, ...)
+  if msg:match("lspconfig") or msg:match("buf_get_clients") then
+    return
+  end
+  notify(msg, ...)
+end
+
+vim.deprecate = function(name, alternative, version, plugin, backtrace)
+  if name and (name:match("buf_get_clients") or name:match("lspconfig") or name == "vim.lsp.buf_get_clients") then
+    return
+  end
+  deprecate(name, alternative, version, plugin, backtrace)
+end
+
 local lspconfig_ok, lspconfig = pcall(require, "lspconfig")
 if lspconfig_ok then
   lspconfig.intelephense.setup {
@@ -321,6 +355,10 @@ if lspconfig_ok then
   }
 end
 
+-- Restore normal notifications and deprecation warnings
+vim.notify = notify
+vim.deprecate = deprecate
+
 local cmp = require('cmp')
 local cmp_action = require('lsp-zero').cmp_action()
 local cmp_format = require('lsp-zero').cmp_format()
@@ -328,8 +366,10 @@ local cmp_format = require('lsp-zero').cmp_format()
 
 cmp.setup({
  sources = {
-    {name = 'nvim_lsp'},
-    {name = 'buffer'},
+    {name = 'nvim_lsp', priority = 1000},
+    {name = 'luasnip', priority = 750},
+    {name = 'buffer', priority = 500},
+    {name = 'path', priority = 250},
   },
   --- (Optional) Show source name in completion menu
   formatting = cmp_format,
@@ -375,12 +415,24 @@ require'bufferline'.setup{
     diagnostics = "nvim_lsp",
     show_buffer_icon = true,
     show_buffer_close_icon = true,
+    offsets = {
+      {
+        filetype = "NvimTree",
+        text = "File Explorer",
+        highlight = "Directory",
+        separator = true
+      }
+    },
     diagnostics_indicator = function(count, level, diagnostics_dict)
       local icon = level:match("error") and " " or " "
       return " " .. icon .. count
     end
   }
 }
+
+-- Bufferline keybindings
+vim.keymap.set('n', '<leader>bp', '<cmd>BufferLinePick<CR>', {desc = 'Pick Buffer'})
+vim.keymap.set('n', '<leader>bc', '<cmd>BufferLinePickClose<CR>', {desc = 'Close Buffer'})
 EOF
 
 
@@ -429,10 +481,24 @@ require('lualine').setup {
     lualine_a = {
       { 'mode', separator = { left = '' }, right_padding = 2 },
     },
-    lualine_b = { 'filename', 'branch' },
-    lualine_c = { 'fileformat' },
+    lualine_b = {
+      'filename',
+      'branch',
+      {
+        'diagnostics',
+        sources = {'nvim_lsp'},
+        symbols = {error = ' ', warn = ' ', info = ' ', hint = ' '},
+      }
+    },
+    lualine_c = {
+      'fileformat',
+      {
+        'diff',
+        symbols = {added = ' ', modified = ' ', removed = ' '},
+      }
+    },
     lualine_x = {},
-    lualine_y = { 'filetype', 'progress', 'diff' },
+    lualine_y = { 'filetype', 'progress' },
     lualine_z = {
       { 'location', separator = { right = '' }, left_padding = 2 },
     },
@@ -523,10 +589,6 @@ command Buffers FzfLua buffers
 nnoremap <C-p> :FzfLua git_files <CR>
 inoremap <C-p> <ESC>:FzfLua git_files <CR>
 
-nnoremap - :b#<CR>
-
-
-
 nnoremap <C-x> :FzfLua buffers <CR>
 inoremap <C-x> <ESC>:FzfLua buffers <CR>
 
@@ -576,11 +638,8 @@ let b:PHP_default_indenting = 1
 
 
 
-
-
 " DIAG
 lua << EOF
-vim.o.updatetime = 1000
 vim.cmd [[autocmd CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false})]]
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
@@ -631,7 +690,17 @@ inoremap <silent> <M-Down>  <C-O>m`<C-O>:move +1<CR><C-O>``
 vnoremap <silent> <M-Up>    :<C-U>exec "'<,'>move '<-" . (1+v:count1)<CR>gv
 vnoremap <silent> <M-Down>  :<C-U>exec "'<,'>move '>+" . (0+v:count1)<CR>gv
 
+" Better window navigation
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
 
+" Quickfix navigation
+nnoremap ]q :cnext<CR>
+nnoremap [q :cprevious<CR>
+nnoremap ]Q :clast<CR>
+nnoremap [Q :cfirst<CR>
 
 " Close All Buffers
 noremap <leader>bd :%bd\|e#\|bd#<cr>\|'"

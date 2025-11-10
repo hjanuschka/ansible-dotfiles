@@ -33,6 +33,19 @@
     dest: "{{dotfiles_user_home}}/.vimrc"
     state: link
 
+# Neovim configuration
+- name: Create neovim config directory
+  file:
+    path: "{{dotfiles_user_home}}/.config/nvim"
+    state: directory
+
+- name: Symlink neovim config
+  file:
+    src: "{{ dotfiles_home }}/roles/vim/files/nvim"
+    dest: "{{dotfiles_user_home}}/.config/nvim"
+    state: link
+    force: yes
+
 - name: Install plugins
   command: nvim +PlugInstall +qall
   when: vim_install_plugins
