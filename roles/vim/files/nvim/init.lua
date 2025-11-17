@@ -25,19 +25,27 @@ require("core.autocmds")
 require("lazy").setup("plugins", {
   defaults = {
     lazy = true,
+    version = false, -- Use HEAD for latest features
   },
   install = {
     colorscheme = { "gruvbox" },
   },
   checker = {
-    enabled = true,
+    enabled = false, -- Disable auto-checking for updates (performance)
     notify = false,
   },
   change_detection = {
+    enabled = true,
     notify = false,
   },
   performance = {
+    cache = {
+      enabled = true,
+    },
+    reset_packpath = true,
     rtp = {
+      reset = true,
+      paths = {},
       disabled_plugins = {
         "gzip",
         "matchit",
@@ -47,7 +55,16 @@ require("lazy").setup("plugins", {
         "tohtml",
         "tutor",
         "zipPlugin",
+        "rplugin",
+        "bugreport",
+        "compiler",
+        "ftplugin",
+        "optwin",
+        "synmenu",
       },
     },
+  },
+  ui = {
+    border = "rounded",
   },
 })

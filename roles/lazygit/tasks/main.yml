@@ -1,0 +1,12 @@
+---
+- name: Create lazygit config directory
+  file:
+    path: "{{dotfiles_user_home}}/.config/lazygit"
+    state: directory
+
+- name: Symlink lazygit config
+  file:
+    src: "{{ dotfiles_home }}/roles/lazygit/files/config.yml"
+    dest: "{{dotfiles_user_home}}/.config/lazygit/config.yml"
+    state: link
+    force: yes

@@ -1,0 +1,138 @@
+gui:
+  # Gruvbox Hard Dark theme matching Neovim
+  theme:
+    activeBorderColor:
+      - '#83a598' # Gruvbox blue (matches your vim status bar)
+      - bold
+    inactiveBorderColor:
+      - '#504945' # Gruvbox gray
+    optionsTextColor:
+      - '#83a598' # Gruvbox blue
+    selectedLineBgColor:
+      - '#3c3836' # Gruvbox bg1 (matches your vim selection)
+    selectedRangeBgColor:
+      - '#3c3836' # Gruvbox bg1
+    cherryPickedCommitBgColor:
+      - '#b8bb26' # Gruvbox green
+    cherryPickedCommitFgColor:
+      - '#83a598' # Gruvbox blue
+    unstagedChangesColor:
+      - '#fb4934' # Gruvbox red (matches git delete)
+    defaultFgColor:
+      - '#ebdbb2' # Gruvbox fg
+  scrollbar:
+    enableScrollbar: true
+    style:
+      thumb: '│'
+      track: '·'
+  nerdFontsVersion: '3'
+  showFileTree: true
+  showListFooter: true
+  showCommandLog: false # Disable for performance in huge repos
+  showBottomLine: true
+  showPanelJumps: true
+  showRandomTip: false
+  commandLogSize: 3 # Reduced from 8 for performance
+  splitDiff: 'auto'
+git:
+  pagers:
+    - colorArg: always
+      pager: delta --dark --paging=never
+  commit:
+    signOff: false
+  merging:
+    manualCommit: false
+    args: ''
+  log:
+    order: 'topo-order'
+    showGraph: 'when-maximised' # Only show graph when panel is maximised (faster)
+  skipHookPrefix: WIP
+  autoFetch: false # Disable auto-fetch in massive repos like Chromium
+  autoRefresh: false # Disable auto-refresh for performance (manual refresh with 'R')
+  branchLogCmd: 'git log --graph --color=always --abbrev-commit --decorate --date=relative --pretty=medium {{branchName}} --'
+  overrideGpg: false
+  disableForcePushing: false
+  parseEmoji: false # Disable emoji parsing for performance
+  mainBranches: ['master', 'main'] # Define main branches for faster branch operations
+  commitPrefix:
+    - pattern: ''
+      replace: ''
+  allBranchesLogCmds:
+    - git log --graph --all --color=always --abbrev-commit --decorate --date=relative --pretty=medium
+os:
+  editPreset: 'nvim'
+  edit: 'nvim {{filename}}'
+  editAtLine: 'nvim +{{line}} {{filename}}'
+  openDirInEditor: 'nvim {{dir}}'
+refresher:
+  refreshInterval: 0 # Disable auto-refresh (use 'R' to manually refresh in Chromium)
+  fetchInterval: 0 # Disable auto-fetch completely
+update:
+  method: never
+confirmOnQuit: false
+quitOnTopLevelReturn: false
+notARepository: 'prompt'
+keybinding:
+  universal:
+    quit: 'q'
+    quit-alt1: '<c-c>'
+    return: '<esc>'
+    quitWithoutChangingDirectory: 'Q'
+    togglePanel: '<tab>'
+    prevItem: '<up>'
+    nextItem: '<down>'
+    prevItem-alt: 'k'
+    nextItem-alt: 'j'
+    prevPage: ','
+    nextPage: '.'
+    scrollLeft: 'H'
+    scrollRight: 'L'
+    gotoTop: '<'
+    gotoBottom: '>'
+    toggleRangeSelect: 'v'
+    rangeSelectDown: '<s-down>'
+    rangeSelectUp: '<s-up>'
+    prevBlock: '<left>'
+    nextBlock: '<right>'
+    prevBlock-alt: 'h'
+    nextBlock-alt: 'l'
+    nextMatch: 'n'
+    prevMatch: 'N'
+    startSearch: '/'
+    optionMenu: 'x'
+    optionMenu-alt1: '?'
+    select: '<space>'
+    goInto: '<enter>'
+    confirm: '<enter>'
+    remove: 'd'
+    new: 'n'
+    edit: 'e'
+    openFile: 'o'
+    scrollUpMain: '<c-u>'
+    scrollDownMain: '<c-d>'
+    scrollUpMain-alt1: 'K'
+    scrollDownMain-alt1: 'J'
+    scrollUpMain-alt2: '<c-k>'
+    scrollDownMain-alt2: '<c-j>'
+    executeShellCommand: ':'
+    createRebaseOptionsMenu: 'm'
+    pushFiles: 'P'
+    pullFiles: 'p'
+    refresh: 'R'
+    createPatchOptionsMenu: '<c-p>'
+    nextTab: ']'
+    prevTab: '['
+    nextScreenMode: '+'
+    prevScreenMode: '_'
+    undo: 'z'
+    redo: '<c-z>'
+    filteringMenu: '<c-s>'
+    diffingMenu: 'W'
+    diffingMenu-alt: '<c-e>'
+    copyToClipboard: '<c-o>'
+    openRecentRepos: '<c-r>'
+    submitEditorText: '<enter>'
+    extrasMenu: '@'
+    toggleWhitespaceInDiffView: '<c-w>'
+    increaseContextInDiffView: '}'
+    decreaseContextInDiffView: '{'

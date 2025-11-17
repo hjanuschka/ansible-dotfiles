@@ -1,0 +1,12 @@
+---
+- name: Create zellij config directory
+  file:
+    path: "{{dotfiles_user_home}}/.config/zellij"
+    state: directory
+
+- name: Symlink zellij config
+  file:
+    src: "{{ dotfiles_home }}/roles/zellij/files/config.kdl"
+    dest: "{{dotfiles_user_home}}/.config/zellij/config.kdl"
+    state: link
+    force: yes

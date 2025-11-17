@@ -85,3 +85,11 @@ keymap("i", "<C-o>", "<ESC>:Rgr<CR>", opts)
 -- Focus events (F24/F25 for terminal focus)
 keymap("i", "<F24>", "<C-\\><C-O>:silent doautocmd FocusLost %<CR>", opts)
 keymap("i", "<F25>", "<C-\\><C-O>:silent doautocmd FocusGained %<CR>", opts)
+
+-- Incremental selection (from treesitter)
+-- Ctrl+Space to expand selection, Backspace to shrink
+-- Note: Keymaps are defined in treesitter config
+
+-- Navigate between highlighted references (from illuminate)
+-- ]] - Next reference, [[ - Previous reference
+-- Note: Keymaps are defined in illuminate config
